@@ -1,4 +1,4 @@
-# title: "Calculate iHS, Rsb, and xpEHH with rehh and Fst with custom function"
+# title: "Calculate iHH, iES, inES"
 # author: "Sajal Sthapit"
 
 start.time <- Sys.time()
@@ -65,15 +65,32 @@ map(.x = chrm, .f = ~ filter(geno$nuc[1:6], Chrom == .x) %>%
       select(SNPid, Chrom, pos) %>% 
       write_delim(file = str_c("rehh_files/map/", .x, ".inp"), col_names = FALSE, delim = " ") )
 
-g <- map(.x = pop, .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
-
-# run scan_hh for all populations to calculate iHH, iES, and inES
+# Run scan_hh on in chunks to prevent memory overflow and combine the results later.
+names(pop)
 # used the map2 with .y for population names in order to track progress in the output.
-res <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+g <- map(.x = pop[1:20], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res1 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[21:40], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res2 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[41:60], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res3 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[61:80], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res4 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[81:100], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res5 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[101:113], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res6 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
 
 # combine the both, spring, and winter results as well as run parameters ----
-res <- c(res, list(pop = pop, chr.pos = chr.pos,
-                   snp.gap.percentile = percentiles, snp.gap.quantile = snp.gap, scan_hh.parameters = param))
+res <- c(res1, res2, res3, res4, res5, res6,
+         list(pop = pop, chr.pos = chr.pos,
+              snp.gap.percentile = percentiles, snp.gap.quantile = snp.gap, scan_hh.parameters = param))
 scan_hh.param <- paste0("_pol",  res$scan_hh.parameters$polarized.value, # paste0 converts NA to character
                         "_sgap", res$scan_hh.parameters$scale.gap.value/1e6, "MB",
                         "_mgap", res$scan_hh.parameters$max.gap.value/1e6, "MB",

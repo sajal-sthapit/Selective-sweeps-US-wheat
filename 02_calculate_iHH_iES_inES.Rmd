@@ -1,5 +1,5 @@
 ---
-title: "Calculate iHS, Rsb, and xpEHH with rehh and Fst with custom function"
+title: "Calculate iHH, iES, inES"
 author: "Sajal Sthapit"
 date: "4/27/2022"
 output:
@@ -7,14 +7,9 @@ output:
   pdf_document: default
 ---
 
-# Start Here (for reanalysis - not create rehh format. The portion to create rehh format can be put into a different script file)
-From this portion, we will start by loading the g.poly output from the previous chunk to run our analysis
-
-# Load genotypes, varieties, and SNP types
-In this chunk we create a new tibble snp.order with information on allele types for each SNP.
-```{r load libraries, genotypes, and populations}
-rm(list = ls())
-gc()
+```{r}
+start.time <- Sys.time()
+# load libraries, genotypes, and populations ----
 source("functions/functions_for_selection_sweep_analysis.R") # load custom functions for the analysis
 library(tidyverse)
 library(rehh)
@@ -26,18 +21,16 @@ sum(names(geno$nuc) != names(geno$ab)) # check if all samples are in the same or
 
 # populations
 pop <- readRDS("data/populations.rds")
-```
-# Calculate appropriate parameters for maxgap
-vignette(rehh) recommends setting maxgap and scalegap settings in scan_hh() based on your dataset. In this chuck, we will generate plot of gaps between consecutive markers to determine the appropriate gap size and window size.
-```{r snp.gap}
+
+# Calculate appropriate parameters for maxgap ----
+# vignette(rehh) recommends setting maxgap and scalegap settings in scan_hh() based on your dataset. In this chuck, we will generate plot of gaps between consecutive markers to determine the appropriate gap size and window size.
 # calculate gap between consecutive markers on the same chromosome.
 chr.pos <- group_by(geno$nuc[c("Chrom", "pos")], Chrom) %>% 
   # grouping means that the following commands are conducted on a per chromosome basis, i.e., the value for the last marker should be NA
   mutate(next.pos = lead(pos)) %>% 
   mutate(gap = next.pos-pos)
 
-# check should be 21
-(is.na(chr.pos$gap)) %>% sum()
+(is.na(chr.pos$gap)) %>% sum() # check should be 21
 
 # summary
 quantile(chr.pos$gap/1e6, na.rm = TRUE) # overall summary
@@ -58,49 +51,62 @@ chr.pos %>% filter(!is.na(gap)) %>% mutate(gap = gap/1e6) %>% group_by(Chrom) %>
             q85 = quantile(gap, nam.rm = TRUE, 0.85),
             q90 = quantile(gap, na.rm = TRUE, 0.9),
             q95 = quantile(gap, na.rm = TRUE, 0.95))
-```
 
-# Scan population function to calculate EHH and iHS
-Changes have been made from the scan_populations functions in previous run where we did not specify ancestral allele
-1) in data2haplohh() function, allele_coding set to "map" from "none",
-  allele_coding = "none" means we don't know which is the ancestral allele.
-  allele_coding = "map" means allele in the 4 column of the map.inp file is the ancestral allele.
-2) in scan_hh() function, polarized = TRUE to use ancestral allele information,
-  added scalegap, maxgap, and discard_integration_at_border parameters
+# Scan population function to calculate iHH, iES, and inES ----
+# Changes have been made from the scan_populations functions in previous run where we did not specify ancestral allele
+# 1) in data2haplohh() function, allele_coding set to "map" from "none",
+# allele_coding = "none" means we don't know which is the ancestral allele.
+# allele_coding = "map" means allele in the 4 column of the map.inp file is the ancestral allele.
+# 2) in scan_hh() function, polarized = TRUE to use ancestral allele information,
+# added scalegap, maxgap, and discard_integration_at_border parameters
 
-# Calcuate genome wide iHS and scans for the entire panel, spring, and winter populations.
-This chunk has one code set repeated 3 times for populations based on habit: both, spring, and winter as each sub-population has different sets of ancestral populations. If we were to use major/minor alleles then we can run the same code set for all the populations.
-
-```{r write input files and run scan_hh to calculate iHH, iES, and inES}
+# r write input files and run scan_hh to calculate iHH, iES, and inES
 # Define parameters for scan_hh within scan_populations
 param <- list(polarized.value = FALSE, scale.gap.value = 2.5e6, max.gap.value = NA, 
               discard.integration.at.border = TRUE)
 
-g <- map(.x = pop[35:79], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x]))
-
 # create map.inp files, which is used as input for rehh analysis
 # map.inp file has 5 columns: marker name|chrom|pos|Ancestral Allele|Derived Allele. Columns 4 & 5 are not needed when data is unpolarized
 # Create and save map files. Needs to be done only once
-map(.x = chrm,
-    .f = ~ filter(geno$nuc[1:6], Chrom == .x) %>% 
-                 select(SNPid, Chrom, pos) %>% 
-                 write_delim(path = str_c("rehh_files/map/", .x, ".inp"), col_names = FALSE, delim = " ") )
+map(.x = chrm, .f = ~ filter(geno$nuc[1:6], Chrom == .x) %>% 
+      select(SNPid, Chrom, pos) %>% 
+      write_delim(file = str_c("rehh_files/map/", .x, ".inp"), col_names = FALSE, delim = " ") )
 
-# run scan_hh for all populations to calcuate iHH, iES, and inES
-res <- map(.x = g, .f = ~ scan_populations(inp = .x, chrm = chrm, param = param))
+# Run scan_hh on in chunks to prevent memory overflow and combine the results later.
+names(pop)
+# used the map2 with .y for population names in order to track progress in the output.
+g <- map(.x = pop[1:20], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res1 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[21:40], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res2 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[41:60], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res3 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[61:80], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res4 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[81:100], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res5 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
+g <- map(.x = pop[101:113], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+res6 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
+rm(g)
 
 # combine the both, spring, and winter results as well as run parameters ----
-res <- c(res, list(pop = pop, chr.pos = chr.pos,
-                   snp.gap.percentile = percentiles, snp.gap.quantile = snp.gap, scan_hh.parameters = param))
+res <- c(res1, res2, res3, res4, res5, res6,
+         list(pop = pop, chr.pos = chr.pos,
+              snp.gap.percentile = percentiles, snp.gap.quantile = snp.gap, scan_hh.parameters = param))
 scan_hh.param <- paste0("_pol",  res$scan_hh.parameters$polarized.value, # paste0 converts NA to character
                         "_sgap", res$scan_hh.parameters$scale.gap.value/1e6, "MB",
                         "_mgap", res$scan_hh.parameters$max.gap.value/1e6, "MB",
                         "_discardBorder", res$scan_hh.parameters$discard.integration.at.border)
-#saveRDS(res, str_c("output/scan_hh_ihs_results", scan_hh.param, ".rds"))
-```
+saveRDS(res, str_c("output/scan_hh_ihs_results", scan_hh.param, ".rds"))
 
-Operating environment and session information
-```{r Print context}
-getwd()
+# Operating environment and session information
 sessionInfo()
+getwd()
+gc()
+Sys.time() - start.time
 ```
