@@ -18,15 +18,20 @@ library(tidyverse)
 library(rehh)
 geno <- list(nuc = read_tsv("data/genotype_nucleotide_format_10391_loci_imputed.txt"),
              ab  = read_tsv("data/genotype_AB_format_10391_loci_imputed.txt"))
+res <- readRDS("output/scan_hh_ihs_results_polFALSE_sgap2.5MB_mgapNAMB_discardBorderTRUE.rds")
 ```
 
 ```{r}
 # define pop.pairs in script
+pop <- res$pop
 names(pop) %>% sort()
 # calculate iHS
-pop.ihs <- c("both.all", "spr.all", "win.all")
+pop.ihs <- c("both.all", "both.eas", "both.gpl", "both.nor", "both.pac", "both.pnw",
+             "spr.all", "spr.gpl", "spr.nor", "spr.pac", "spr.pnw",
+             "win.all", "win.eas", "win.gpl", "win.nor", "win.pnw")
 ihs <- map(.x = pop.ihs,
-            .f = ~ ihh2ihs(res[[.x]][["scan"]], min_maf = 0, freqbin = 1 ) ) 
+            .f = ~ ihh2ihs(res[[.x]][["scan"]], min_maf = 0, freqbin = 1 ) )
+names(ihs) <- pop.ihs
 # Vignette for rehh (7.6) says to set freqbin = 1 for function ihh2ihs when using unpolarized alleles
 names(ihs) <- pop.ihs
 
@@ -72,11 +77,6 @@ names(xpe) <- pop.pairs$pop1
 ```
 
 # Calculate Fst, Fst candidate regions, and PIC ----
-For Fst calculations we are loading data that are in AA/BB format
-```{r load data}
-g.10k <- read_tsv("data/genotype_AB_format_10391_loci_imputed.txt")
-```
-
 # Calculate Fst and PIC
 Total population (allele frequency) used for Fst calculations:
 For sub-populations of spring + winter (both): N = 753 (entire panel)
@@ -85,15 +85,15 @@ For sub-populations of winter varieties: N = 517 (all winter varieties)
 ```{r}
 names(pop) # unsorted names make it easier to select below
 names(pop[c(2:19,22,58:71)])
-Fst.sub.both <- calc_Fst(inp = g.10k, save.cols = 6, Total.pop = pop$both.all,
+Fst.sub.both <- calc_Fst(inp = geno$ab, save.cols = 6, Total.pop = pop$both.all,
                          Sub.pop = pop[c(2:19,22,58:71)])
 names(pop[c(20:21,25:34,86:90)])
-Fst.sub.spr  <- calc_Fst(inp = g.10k, save.cols = 6, Total.pop = pop$spr.all,
+Fst.sub.spr  <- calc_Fst(inp = geno$ab, save.cols = 6, Total.pop = pop$spr.all,
                          Sub.pop = pop[c(20:21,25:34,86:90)])
 names(pop[c(23:24,35:44,91:99)])
-Fst.sub.win  <- calc_Fst(inp = g.10k, save.cols = 6, Total.pop = pop$win.all,
+Fst.sub.win  <- calc_Fst(inp = geno$ab, save.cols = 6, Total.pop = pop$win.all,
                          Sub.pop = pop[c(23:24,35:44,91:99)])
-pic.sub <- calc_PIC(inp = g.10k, save.cols = 6, Sub.pop = pop)
+pic.sub <- calc_PIC(inp = geno$ab, save.cols = 6, Sub.pop = pop)
 
 fst.sub <- cbind(Fst.sub.both, Fst.sub.spr[7:ncol(Fst.sub.spr)], Fst.sub.win[7:ncol(Fst.sub.win)])
 rm(Fst.sub.both, Fst.sub.spr, Fst.sub.win)
@@ -118,8 +118,7 @@ g.pos <- res$g.pos
 res$scan_hh.parameters %>% as.character()
 res$snp.gap.percentile
 res$snp.gap.quantile
-param <- c(param, # add to the existing parameters
-           list(thres = 2, min.mrk = 6, min.perc = 80, ws = 2.5e6, ovr = 0.2, top = 6))
+param <- list(thres = 2, min.mrk = 6, min.perc = 80, ws = 2.5e6, ovr = 0.2, top = 6)
 ```
 
 Not all markers are included in the iHS, Rsb, and xpEHH results. Hence, when we combine marker names and cM from g.pos, we end up with more markers than N_MRK value in some cases.
@@ -129,12 +128,11 @@ Not all markers are included in the iHS, Rsb, and xpEHH results. Hence, when we 
 names(res)
 # clean the output by removing populations I do not need ----
 # Since I was constantly filtering out populations I do not want to plot in Excel, I decided to filter them here. If you do not want to exclude any populations, ignore the following 2 lines and activate the next 2 lines.
-(pop.ihs    <- names(res)[-c(45:57,72:85,100:122)])
 (pop.rsbxpe <- names(rsb))
 
 # scan for iHS candidate regions ----
-cr.ihs <- map(.x = pop.ihs,
-              .f = ~ calc_candidate_regions(res[[.x]][["ihs"]],
+cr.ihs <- map(.x = names(ihs),
+              .f = ~ calc_candidate_regions(ihs[[.x]][["ihs"]],
                                             threshold = param$thres,
                                             ignore_sign = TRUE, #FALSE means only takes +ve values
                                             window_size = param$ws, overlap = param$ws*param$ovr,
@@ -142,14 +140,11 @@ cr.ihs <- map(.x = pop.ihs,
                                             min_perc_extr_mrk = param$min.perc) )
 # gross sum of candidate regions
 map_dbl(.x = cr.ihs, .f = ~ nrow(.x)) %>% sum(.)
-names(cr.ihs) <- pop.ihs
+names(cr.ihs) <- names(ihs)
 cr.ihs$both.all
-#TOP filter commented out
-#cr.ihs.top <- map(.x = cr.ihs, .f = ~arrange(.x, desc(N_MRK), desc(PERC_EXTR_MRK), desc(MAX_MRK)) %>% .[1:(param$top*2), ])
-#cr.ihs.top.df <- conv_names_to_labels(inp = cr.ihs.top, sep = "\\.") %>% filter(!is.na(CHR))
 cr.ihs.df <- conv_names_to_labels(inp = cr.ihs, sep = "\\.")
 table(cr.ihs.df$Category, cr.ihs.df$CHR)
-
+table(cr.ihs.df$Habit, cr.ihs.df$CHR)
 # Identify candidate regions for Rsb ----
 cr.rsb <- map(.x = rsb[pop.rsbxpe], # if you want to scan all pops, use rsb
               .f = ~ calc_candidate_regions(scan = .x, threshold = param$thres,
@@ -198,8 +193,9 @@ table(cr.fst.df$Category)
 # Add SNPid, cM, and other info to the iHS, Rsb, xpEHH, Fst outputs.
 The iHS, Rsb, and xpEHH outputs include CHR and POSITION but no marker names. By adding marker names direclty to these results, it will be easier to identify SNP with highest values in a candidate region to then look for patterns across population to write the discussion.
 ```{r}
-g.pos <- mutate(g.pos, chr.pos = str_c(Chrom, "_", pos))
+g.pos <- mutate(geno$nuc[1:6], chr.pos = str_c(Chrom, "_", pos))
 
+# this iHS is different
 ihs <- map(.x = names(res[1:45]),
            .f = ~ res[[.x]][["ihs"]][["ihs"]] %>% 
              mutate(chr.pos = str_c(CHR, "_", POSITION)) %>% 

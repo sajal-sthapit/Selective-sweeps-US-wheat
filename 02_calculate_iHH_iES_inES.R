@@ -63,7 +63,7 @@ param <- list(polarized.value = FALSE, scale.gap.value = 2.5e6, max.gap.value = 
 # Create and save map files. Needs to be done only once
 map(.x = chrm, .f = ~ filter(geno$nuc[1:6], Chrom == .x) %>% 
       select(SNPid, Chrom, pos) %>% 
-      write_delim(file = str_c("rehh_files/map/", .x, ".inp"), col_names = FALSE, delim = " ") )
+      write_delim(path = str_c("rehh_files/map/", .x, ".inp"), col_names = FALSE, delim = " ") )
 
 # Run scan_hh on in chunks to prevent memory overflow and combine the results later.
 names(pop)

@@ -71,7 +71,7 @@ scan_populations <- function(inp, pop.name, chrm, param = param){
   message(str_c("Writing .thap genotype files for ", pop.name))
   map(.x = chrm,
       .f = ~ filter(inp, Chrom == .x) %>% dplyr::select(7:ncol(inp)) %>% 
-        write_delim(file = str_c("rehh_files/genotype/", .x, ".thap"), 
+        write_delim(path = str_c("rehh_files/genotype/", .x, ".thap"), 
                     col_names = FALSE, delim = " "))    
   
   # READ
