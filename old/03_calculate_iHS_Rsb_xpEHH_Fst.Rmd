@@ -1,0 +1,288 @@
+---
+title: "Calculations of iHS, Rsb, xpEHH, Fst"
+author: "Sajal Sthapit"
+date: "6/21/2022"
+output: html_document
+---
+# iHS, RSB and XP-EHH calculations
+This part can be put to another place
+The scans for RSB and XP-EHH are already in the res object. These metric are for population wise comparisons. Hence, I will first need to define the pair of populations to compare and then pass them to the map2 function to run the calculations.
+06/03/2021
+Rsb is the natural log of the ratio of integrated EHHS of pop1 over pop2. If there is selection in pop1 then inES(pop1)>inES(pop2) and therefore Rsb value is extreme +ve. Selection in pop2 will be extreme -ve value. Same applies for xpEHH (even stated in Sabeti 2007).
+Ignore sign in calc_candidate_regions allows you to select only +ve values, hence my target population should be set as pop1 not pop2 as I had done previously.
+
+```{r}
+rm(list = ls())
+source("functions/functions_for_selection_sweep_analysis.R") # load custom functions for the analysis
+library(tidyverse)
+library(rehh)
+geno <- list(nuc = read_tsv("data/genotype_nucleotide_format_10391_loci_imputed.txt"),
+             ab  = read_tsv("data/genotype_AB_format_10391_loci_imputed.txt"))
+res <- readRDS("output/scan_hh_ihs_results_polFALSE_sgap2.5MB_mgapNAMB_discardBorderTRUE.rds")
+```
+
+```{r}
+# define pop.pairs in script
+pop <- res$pop
+names(pop) %>% sort()
+# calculate iHS
+pop.ihs <- c("both.all", "both.eas", "both.gpl", "both.nor", "both.pac", "both.pnw",
+             "spr.all", 
+             "win.all")
+ihs <- map(.x = pop.ihs,
+            .f = ~ ihh2ihs(res[[.x]][["scan"]], min_maf = 0, freqbin = 1 ) )
+names(ihs) <- pop.ihs
+# Vignette for rehh (7.6) says to set freqbin = 1 for function ihh2ihs when using unpolarized alleles
+
+pop.pairs <- tibble(pop1 = c("both.all2", "both.CA", "both.CO", "both.eas", "both.eas2", 
+                             "both.gpl", "both.gpl2", "both.ID", "both.IN", "both.KS",
+                             "both.MN", "both.MT", "both.ND", "both.NE", "both.nor", 
+                             "both.nor2", "both.pac", "both.pac2", "both.pnw",
+                             "both.pnw2", "both.SC", "both.TX", "both.WA",
+                             #spring
+                             "spr.all", "spr.CA", "spr.gpl", "spr.ID", "spr.MN", 
+                             "spr.ND", "spr.nor", "spr.nor2", "spr.pac",
+                             "spr.pac2", "spr.pnw", "spr.pnw2", "spr.spr2", "spr.WA",
+                             #winter
+                             "win.all", "win.CO", "win.eas", "win.eas2", "win.gpl", 
+                             "win.gpl2", "win.ID", "win.IN", "win.KS", "win.NE",
+                             "win.nor", "win.NY", "win.OR", "win.pnw", "win.pnw2", 
+                             "win.SC", "win.WA", "win.win2"),
+                    pop2 = c("both.all1", "both.CA_Other", "both.CO_Other", "both.eas_Other", "both.eas1",
+                             "both.gpl_Other", "both.gpl1", "both.ID_Other", "both.IN_Other", "both.KS_Other",
+                             "both.MN_Other", "both.MT_Other", "both.ND_Other", "both.NE_Other", "both.nor_Other",
+                             "both.nor1", "both.pac_Other", "both.pac1", "both.pnw_Other",
+                             "both.pnw1", "both.SC_Other", "both.TX_Other", "both.WA_Other",
+                             #spring
+                             "win.all", "spr.CA_Other", "spr.gpl_Other", "spr.ID_Other", "spr.MN_Other",
+                             "spr.ND_Other", "spr.nor_Other", "spr.nor1", "spr.pac_Other",
+                             "spr.pac1", "spr.pnw_Other", "spr.pnw1", "spr.spr1", "spr.WA_Other",
+                             #winter
+                             "spr.all", "win.CO_Other", "win.eas_Other", "win.eas1", "win.gpl_Other", 
+                             "win.gpl1", "win.ID_Other", "win.IN_Other", "win.KS_Other", "win.NE_Other",
+                             "win.nor_Other", "win.NY_Other", "win.OR_Other", "win.pnw_Other", "win.pnw1", 
+                             "win.SC_Other", "win.WA_Other", "win.win1"))
+
+# Calculate RSB and XP-EHH ----
+rsb <- map2(.x = pop.pairs$pop1, .y = pop.pairs$pop2,
+            .f = ~ ines2rsb(scan_pop1 = res[[.x]][["scan"]],
+                           scan_pop2 = res[[.y]][["scan"]], include_freq = TRUE) )
+xpe <- map2(.x = pop.pairs$pop1, .y = pop.pairs$pop2,
+            .f = ~ ies2xpehh(scan_pop1 = res[[.x]][["scan"]],
+                           scan_pop2 = res[[.y]][["scan"]], include_freq = TRUE) )
+
+names(rsb) <- pop.pairs$pop1
+names(xpe) <- pop.pairs$pop1
+```
+
+# Calculate Fst, Fst candidate regions, and PIC ----
+# Calculate Fst and PIC
+Total population (allele frequency) used for Fst calculations:
+For sub-populations of spring + winter (both): N = 753 (entire panel)
+For sub-populations of spring varieties: N = 236 (all spring varieties)
+For sub-populations of winter varieties: N = 517 (all winter varieties)
+```{r Fst calculation using calc_Fst}
+names(pop) # unsorted names make it easier to select below
+names(pop[c(2:19,22,58:71)])
+Fst.sub.both <- calc_Fst(inp = geno$ab, save.cols = 6, Total.pop = pop$both.all,
+                         Sub.pop = pop[c(2:19,22,58:71)])
+names(pop[c(20:21,25:34,86:90)])
+Fst.sub.spr  <- calc_Fst(inp = geno$ab, save.cols = 6, Total.pop = pop$spr.all,
+                         Sub.pop = pop[c(20:21,25:34,86:90)])
+names(pop[c(23:24,35:44,91:99)])
+Fst.sub.win  <- calc_Fst(inp = geno$ab, save.cols = 6, Total.pop = pop$win.all,
+                         Sub.pop = pop[c(23:24,35:44,91:99)])
+pic.sub <- calc_PIC(inp = geno$ab, save.cols = 6, Sub.pop = pop)
+
+fst.sub <- cbind(Fst.sub.both, Fst.sub.spr[7:ncol(Fst.sub.spr)], Fst.sub.win[7:ncol(Fst.sub.win)])
+rm(Fst.sub.both, Fst.sub.spr, Fst.sub.win)
+```
+
+```{r Fst calculation using calc_Fst_noAB}
+names(pop) %>% sort()
+fst.pop <- list(both = pop[names(pop) %>% sort() %>% .[c(2:51, 52, 87)]],
+                spr  = pop[names(pop) %>% sort() %>% .[c(53:86)]],
+                win  = pop[names(pop) %>% sort() %>% .[c(88:133)]])
+fst <- list(both = map(.x = fst.pop$both, .f = ~ calc_Fst_noAB(inp = geno$ab, total.pop = pop$both.all, sub.pop = .x)),
+            spr  = map(.x = fst.pop$spr , .f = ~ calc_Fst_noAB(inp = geno$ab, total.pop = pop$spr.all , sub.pop = .x)),
+            win  = map(.x = fst.pop$win , .f = ~ calc_Fst_noAB(inp = geno$ab, total.pop = pop$win.all , sub.pop = .x)))
+```
+# START HERE for Candidate Regions
+# Calculate candidate regions
+Moved the script for calc_candidate_regions back as now I feel more comfortable with the script for iHS, Rsb, and xpEHH
+Needs rehh, tidyverse, conv_names_to_labels, and g.pos objects
+
+# Calculate and save candidate regions
+On 10/21/20, I checked the RSB candidate regions and compared with the input for calc_candidate_regions and found that only positive RSB values were selected for candidate regions.
+My previous output only selected for positive threshold values for candidate regions (ignore_sign = TRUE, default is FALSE, even though the the help says otherwise.) For iHS, I need to ignore sign, but doing that increases candidate regions to 2004 from 661. That means, for iHS I may need to use higher thresholds.
+The outputs saved on 10/21/20 include negative IHS candidate regions as well. For RSB and XPEHH, we stuck with positive only as we are only interested in loci selected in the target population and not the reference population. The only change from last version is more candidate regions reported in iHS, which is already higher than Rsb and xpehh. It will also not change the manhattan plots, as I use the raw data for that. But the selection map will need to be updated.
+# 02/11/21: The global parameters led to too few candidate regions in some states. To be useful for breeding programs, it would make sense to have a minimum number of candidate regions to explore. Hence, for the state population, we also searched for candidate regions by lowering the threshold in order to select the top 10 candidate regions for each statistic.
+# To run this chunk, need to have g.pos and conv_names_to_labels() pre-loaded
+# 3/29/21: When I specify maxgap, I lose too many candidate regions. A compromise would be to keep unlimited max gap, but increase window size to 95 percentile of gapsize.
+
+```{r set parameters}
+# Set parameters ----
+res$scan_hh.parameters %>% as.character()
+res$snp.gap.percentile
+res$snp.gap.quantile
+param <- list(thres = 2, min.mrk = 6, min.perc = 80, ws = 2.5e6, ovr = 0.2)
+```
+
+Not all markers are included in the iHS, Rsb, and xpEHH results. Hence, when we combine marker names and cM from g.pos, we end up with more markers than N_MRK value in some cases.
+
+```{r scan for candidate regions with defined parameters}
+# select scan_hh results only ----
+names(res)
+# clean the output by removing populations I do not need ----
+# Since I was constantly filtering out populations I do not want to plot in Excel, I decided to filter them here. If you do not want to exclude any populations, ignore the following 2 lines and activate the next 2 lines.
+(pop.rsbxpe <- names(rsb))
+
+# scan for iHS candidate regions ----
+cr.ihs <- map(.x = names(ihs),
+              .f = ~ calc_candidate_regions(ihs[[.x]][["ihs"]],
+                                            threshold = param$thres,
+                                            ignore_sign = TRUE, #FALSE means only takes +ve values
+                                            window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc) )
+map_dbl(.x = cr.ihs, .f = ~ nrow(.x)) %>% sum(.) # = gross number of iHS candidate regions
+names(cr.ihs) <- names(ihs)
+cr.ihs$both.all
+cr.ihs.df <- conv_names_to_labels(inp = cr.ihs, sep = "\\.")
+table(cr.ihs.df$Category, cr.ihs.df$CHR)
+table(cr.ihs.df$Habit, cr.ihs.df$CHR)
+
+# update iHS with chr and position
+g.pos <- mutate(geno$ab[1:6], chr.pos = str_c(Chrom, "_", pos)) %>% select(., SNPid, cM, chr.pos)
+name.vector <- names(ihs)
+ihs.id <- map(.x = name.vector,
+           .f = ~ ihs[[.x]][["ihs"]] %>% 
+             mutate(chr.pos = str_c(CHR, "_", POSITION)) %>% 
+             left_join(g.pos, ., by = "chr.pos" ) %>% # put the g.pos first to ensure that we have row for all 10391 loci
+             select(., -chr.pos))
+names(ihs.id) <- name.vector
+rm(name.vector)
+
+# Identify candidate regions for Rsb ----
+cr.rsb <- map(.x = rsb[pop.rsbxpe], # if you want to scan all pops, use rsb
+              .f = ~ calc_candidate_regions(scan = .x, threshold = param$thres,
+                                            ignore_sign = FALSE, # for RSB we only want +ve
+                                            window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc))
+map_dbl(.x = cr.rsb, .f = ~ nrow(.x)) %>% sum(.) = # gross number of Rsb candidate regions
+cr.rsb.df <- conv_names_to_labels(inp = cr.rsb, sep = "\\.") # this throws up a warning even though xpe does not
+table(cr.rsb.df$Category)
+
+# Identify candidate regions for xpEHH ----
+cr.xpe <- map(.x = xpe[pop.rsbxpe], # if you want to scan all pops, use xpe
+              .f = ~ calc_candidate_regions(scan = .x, threshold = param$thres,
+                                            ignore_sign = FALSE, # for XPEHH we only want +ve
+                                            window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc))
+map_dbl(.x = cr.xpe, .f = ~ nrow(.x)) %>% sum(.) # = gross number of xpEHH candidate regions
+cr.xpe.df <- conv_names_to_labels(inp = cr.xpe, sep = "\\.")
+table(cr.xpe.df$Category)
+
+# Identify candidate regions for Fst ----
+thres.fst <- # Define 95th percentile as the Fst threshold for each population
+  map_dbl(.x = c(fst$both, fst$spr, fst$win), .f = ~ quantile(.x[["FST"]], .95, na.rm = TRUE) %>% .[[1]])
+thres.fst
+cr.fst <- map2(.x = c(fst$both, fst$spr, fst$win), .y = thres.fst,
+              .f = ~ calc_candidate_regions(scan = .x, threshold = .y,
+                                          ignore_sign = TRUE, # all values are +ve for Fst
+                                          window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc))
+map_dbl(.x = cr.fst, .f = ~ nrow(.x)) %>% sum(.) # = gross number of Fst candidate regions
+cr.fst.df <- conv_names_to_labels(inp = cr.fst, sep = "\\.")
+table(cr.fst.df$Category)
+
+```
+
+# Add SNPid, cM, and other info to the iHS, Rsb, xpEHH, Fst outputs.
+The iHS, Rsb, and xpEHH outputs include CHR and POSITION but no marker names. By adding marker names direclty to these results, it will be easier to identify SNP with highest values in a candidate region to then look for patterns across population to write the discussion.
+combine both scan and ihs, rsb, xpe results
+Instead of calculating Fst, I can just calculate changes in allele frequencies and compare the outliers.
+```{r}
+g.pos <- mutate(geno$ab[1:6], chr.pos = str_c(Chrom, "_", pos)) %>% select(., SNPid, cM, chr.pos)
+
+# update iHS with chr and position
+name.vector <- names(ihs)
+ihs.id <- map(.x = name.vector,
+           .f = ~ ihs[[.x]][["ihs"]] %>% 
+             mutate(chr.pos = str_c(CHR, "_", POSITION)) %>% 
+             left_join(g.pos, ., by = "chr.pos" ) %>% # put the g.pos first to ensure that we have row for all 10391 loci
+             select(., -chr.pos))
+names(ihs.id) <- name.vector
+rm(name.vector)
+
+# update Rsb with chr and position
+name.vector <- names(rsb)
+rsb.id <- map(.x = rsb,
+            .f = ~ mutate(.x, chr.pos = str_c(CHR, "_", POSITION)) %>% 
+              left_join(., select(g.pos, chr.pos, SNPid, cM), by = "chr.pos" ) %>% 
+             select(., -chr.pos))
+
+# update Xpe with chr and position
+xpe.id <- map(.x = xpe,
+            .f = ~ mutate(.x, chr.pos = str_c(CHR, "_", POSITION)) %>% 
+              left_join(., select(g.pos, chr.pos, SNPid, cM), by = "chr.pos" ) %>% 
+             select(., -chr.pos))
+head(xpe$both.all2)
+
+#update Fst with chr and position
+```
+
+# Combine and preprocess candidate regions ----
+Start this chunk by loading the raw outputs of candidate region search from the chunk above
+```{r combine and save candidate regions}
+rm(df)
+
+cr.ihs.df <- mutate(cr.ihs.df, Stat = "iHS") 
+cr.rsb.df <- mutate(cr.rsb.df, Stat = "Rsb") 
+cr.xpe.df <- mutate(cr.xpe.df, Stat = "xpEHH")
+cr.fst.df <- mutate(cr.fst.df, Stat = "Fst")
+
+# Merge the ihs, rsb and xpehh candidate regions files ----
+names(cr.ihs.df)
+df <- rbind(cr.ihs.df, cr.rsb.df, cr.xpe.df, cr.fst.df) %>% 
+  mutate(Genome = str_sub(CHR, 2, 2), 
+         KB = (END - START)/1000,
+         POP = str_c(Pops, " (", Stat, " ", 
+                      sprintf("%.2f", round(MAX_MRK, digits = 2)), ", ", 
+                      # sprintf is to prevent R from dropping trailing zeroes
+                      N_EXTR_MRK, "/", N_MRK, ")")) %>% 
+  # Select and order the columns
+  select(., Genome, CHR, START, END, KB, POP, Stat, Category, Habit, Pops, 
+         N_MRK, N_EXTR_MRK, PERC_EXTR_MRK, MEAN_MRK, MAX_MRK, MEAN_EXTR_MRK) %>% # removed cM, SNP and Name
+  arrange(., CHR, START, POP)
+# divide physical position by a million
+df <- mutate(df, START = START/1e6)
+df <- mutate(df, END = END/1e6)
+# add lines to add Genome (str_sub) and Percentage Extremal Markers.
+table(df$Category)
+table(df$CHR)
+median(df$KB)
+group_by(df, Stat) %>% 
+  summarise(mean = mean(KB), median = median(KB), min = min(KB), max = max(KB))
+
+cr.param <- str_c("cr-thres", param$thres, 
+                  "-mrk", param$min.mrk, 
+                  "-per", param$min.perc,
+                  "-ws", param$ws/1000, "Kb",
+                  "-ovr", param$ovr*100, "per")
+scan_hh.param <- paste0("-pol-",  res$scan_hh.parameters$polarized.value, # paste0 converts NA to character
+                        "-sgap-", res$scan_hh.parameters$scale.gap.value,
+                        "-mgap-", res$scan_hh.parameters$max.gap.value,
+                        "-discardBorder-", res$scan_hh.parameters$discard.integration.at.border, "-")
+raw.results <- list(ihs = ihs, rsb = rsb, xpe = xpe, fst = fst, 
+                    cr.consolidated = df, pic.sub = pic.sub)
+saveRDS(raw.results, str_c("rehh-files/images/raw_results_for_cr_search_", Sys.Date(), ".RDS"))
+write_csv(df, str_c("rehh-files/images/", cr.param, scan_hh.param, Sys.Date(), ".csv"))
+save.image(file = "rehh_completed_analysis.RData")
+```
+
+# Manhattan plots were here
+# END of the script

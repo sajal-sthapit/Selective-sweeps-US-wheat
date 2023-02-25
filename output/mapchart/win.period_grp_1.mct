@@ -1,0 +1,25 @@
+group 1A  
+F 1.235801  C1
+28_pnw2_win_Rsb_11/12 23.5  C3
+1RS_1AL*** 251.589418  C1
+489.5_eas2_win_xpEHH_32/33 478.5 S12 C4
+510_eas2_win_xpEHH_47/47 497.5 S16 C4
+510_eas2_win_Rsb_32/36 503 S12 C3
+Glu_A1*** 508.726018  C1
+516_eas2_win_Rsb_10/10 511.5  C3
+516_eas2_win_xpEHH_9/10 511.5  C4
+L 593.550634  C1
+group 1B  
+F 1.252322  C1
+1RS_1BL*** 145.453219  C1
+Glu_B1*** 555.767198  C1
+L 688.7686  C1
+group 1D  
+F 0.578891  C1
+50.5_eas2_win_Fst_15/16 45.5  C2
+53_gpl2_win_Fst_8/8 50  C2
+53_win2_win_Fst_8/8 50  C2
+418.5_gpl2_win_Fst_37/38 406 S16 C2
+418.5_win2_win_Fst_24/27 408.5 S12 C2
+Glu_D1*** 412.16293  C1
+L 495.229621  C1

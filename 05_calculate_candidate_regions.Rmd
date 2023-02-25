@@ -1,0 +1,252 @@
+---
+title: "Calculations of Rsb and xpEHH"
+author: "Sajal Sthapit"
+date: "6/21/2022"
+output: html_document
+---
+
+```{r message=FALSE, warning=FALSE}
+rm(list = ls())
+source("functions/functions_for_selection_sweep_analysis.R") # load custom functions for the analysis
+library(tidyverse)
+library(rehh)
+geno <- list(nuc = read_tsv("data/genotype_nucleotide_format_10391_loci_imputed.txt"),
+             ab  = read_tsv("data/genotype_AB_format_10391_loci_imputed.txt"))
+res <- readRDS("output/allele_freq_Fst_Rsb_xpEHH.Rds")
+```
+
+# Calculate and save candidate regions
+On 10/21/20, I checked the RSB candidate regions and compared with the input for calc_candidate_regions and found that only positive RSB values were selected for candidate regions.
+My previous output only selected for positive threshold values for candidate regions (ignore_sign = TRUE, default is FALSE, even though the the help says otherwise.) For iHS, I need to ignore sign, but doing that increases candidate regions to 2004 from 661. That means, for iHS I may need to use higher thresholds.
+The outputs saved on 10/21/20 include negative IHS candidate regions as well. For RSB and XPEHH, we stuck with positive only as we are only interested in loci selected in the target population and not the reference population. The only change from last version is more candidate regions reported in iHS, which is already higher than Rsb and xpehh. It will also not change the manhattan plots, as I use the raw data for that. But the selection map will need to be updated.
+# 02/11/21: The global parameters led to too few candidate regions in some states. To be useful for breeding programs, it would make sense to have a minimum number of candidate regions to explore. Hence, for the state population, we also searched for candidate regions by lowering the threshold in order to select the top 10 candidate regions for each statistic.
+# To run this chunk, need to have g.pos and conv_names_to_labels() pre-loaded
+# 3/29/21: When I specify maxgap, I lose too many candidate regions. A compromise would be to keep unlimited max gap, but increase window size to 95 percentile of gapsize.
+
+```{r set parameters}
+# Set parameters ----
+res$scan_hh.parameters %>% as.character()
+res$snp.gap.percentile
+res$snp.gap.quantile
+param <- list(thres = 2, min.mrk = 6, min.perc = 80, ws = 2.5e6, ovr = 0.2)
+```
+The rehh::calc_candidate_regions() outputs a data frame with candidate regions for each population. Then chunk below combines the different population-specific data frames into one dataframe.
+
+```{r scan for candidate regions with defined parameters}
+# select scan_hh results only ----
+names(res)
+# clean the output by removing populations I do not need ----
+# Since I was constantly filtering out populations I do not want to plot in Excel, I decided to filter them here. If you do not want to exclude any populations, ignore the following 2 lines and activate the next 2 lines.
+rsb <- res$rsb
+(pop.rsbxpe <- names(rsb))
+
+# Identify candidate regions for Rsb ----
+cr.rsb <- map(.x = rsb[pop.rsbxpe], # if you want to scan all pops, use rsb
+              .f = ~ calc_candidate_regions(scan = .x, threshold = param$thres,
+                                              ignore_sign = TRUE, # for RSB we only want +ve
+                                            window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc))
+rsb$both.all2 %>% nrow()
+map_dbl(.x = cr.rsb, .f = ~ nrow(.x)) %>% sum(.) # gross number of Rsb candidate regions
+cr.rsb.df <- conv_names_to_labels(inp = cr.rsb, sep = "\\.") # this throws up a warning even though xpe does not
+table(cr.rsb.df$Category)
+
+# Identify candidate regions for xpEHH ----
+xpe <- res$xpe
+cr.xpe <- map(.x = xpe[pop.rsbxpe], # if you want to scan all pops, use xpe
+              .f = ~ calc_candidate_regions(scan = .x, threshold = param$thres,
+                                            ignore_sign = TRUE, # FALSE if you only want +ve
+                                            window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc))
+map_dbl(.x = cr.xpe, .f = ~ nrow(.x)) %>% sum(.) # = gross number of xpEHH candidate regions
+cr.xpe.df <- conv_names_to_labels(inp = cr.xpe, sep = "\\.")
+table(cr.xpe.df$Category)
+
+# Identify candidate regions for Fst ----
+# Fst filtered for the 5% outliers for each pair wise comparison
+fst <- res$fst
+quantile.threshold <- map_dbl(.x = names(fst), .f = ~ quantile(fst[[.x]][["FST"]], 0.975, na.rm = TRUE))
+names(quantile.threshold) <- names(fst)
+cr.fst <- map(.x = names(fst), # if you want to scan all pops, use rsb
+              .f = ~ calc_candidate_regions(scan = data.frame(CHR = fst[[.x]][["CHR"]],
+                                                              POSITION = fst[[.x]][["POSITION"]],
+                                                              RSB = fst[[.x]][["FST"]]), 
+                                            # the input for calc_candidate_regions needs to be a data.frame and needs to have a column named IHS, RSB, or XPEHH. If such a column is not found, it uses the third column, but generates warning messages in the console. Hence, I just renamed the column to RSB within this map function to avoid the warning messages.
+                                            threshold = quantile.threshold[[.x]],
+                                            ignore_sign = TRUE, 
+                                            window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc))
+names(cr.fst) <- names(fst)
+map_dbl(.x = cr.fst, .f = ~nrow(.x)) %>% sum(.)
+cr.fst.df <- conv_names_to_labels(inp = cr.fst, sep = "\\.")
+```
+
+# Add SNPid, cM, other info, allele frequencies to Rsb, xpEHH, Fst outputs.
+The Rsb, and xpEHH outputs include CHR and POSITION but no marker names. By adding marker names directly to these results, it will be easier to identify SNP with highest values in a candidate region to then look for patterns across population to write the discussion.
+```{r}
+g.pos <- mutate(geno$ab[1:6], chr.pos = str_c(Chrom, "_", pos)) %>% select(., SNPid, cM, chr.pos)
+
+# update Rsb with chr and position
+rsb.id <- map(.x = rsb,
+            .f = ~ mutate(.x, chr.pos = str_c(CHR, "_", POSITION)) %>% 
+              left_join(select(g.pos, chr.pos, SNPid, cM), ., by = "chr.pos" ) %>% 
+              select(., -chr.pos) %>% 
+              select(., SNPid, cM, RSB, LOGPVALUE, everything()) )
+
+# update Xpe with chr and position
+xpe.id <- map(.x = xpe,
+            .f = ~ mutate(.x, chr.pos = str_c(CHR, "_", POSITION)) %>% 
+              left_join(select(g.pos, chr.pos, SNPid, cM), ., by = "chr.pos" ) %>%
+              select(., -chr.pos) %>% 
+              select(., SNPid, cM, XPEHH, LOGPVALUE, everything()) )
+head(xpe$both.all2)
+head(xpe.id$both.all2)
+
+# update fst with chr and position
+fst.id <- map(.x = fst,
+            .f = ~ mutate(.x, chr.pos = str_c(CHR, "_", POSITION)) %>% 
+              left_join(select(g.pos, chr.pos, SNPid, cM), ., by = "chr.pos" ) %>%
+              select(., -chr.pos) %>% 
+              select(., SNPid, cM, FST, everything()) )
+
+# consolidate all results ----
+pop.pairs <- res$pop.pairs
+allele.freq <- res$allele.freq
+final <- map2(.x = pop.pairs$pop1, .y = pop.pairs$pop2,
+            .f = ~ consolidate_results(pop1 = .x, pop2 = .y) )
+names(final) <- pop.pairs$pop1
+rm(rsb, xpe, fst, allele.freq)
+
+# correlation between the three stats ----
+cor.res <- list(fst.rsb = map_dbl(.x = final, .f = ~ cor(x = .x[["FST"]], y = .x[["RSB"]] %>% abs(), use = "pairwise.complete.obs", method = "pearson") ),
+                fst.xpe = map_dbl(.x = final, .f = ~ cor(x = .x[["FST"]], y = .x[["XPEHH"]] %>% abs(), use = "pairwise.complete.obs", method = "pearson") ),
+                rsb.xpe = map_dbl(.x = final, .f = ~ cor(x = .x[["RSB"]], y = .x[["XPEHH"]], use = "pairwise.complete.obs", method = "pearson") ) )
+
+```
+
+# Combine and preprocess candidate regions ----
+Start this chunk by loading the raw outputs of candidate region search from the chunk above
+```{r combine and save candidate regions}
+rm(df)
+
+cr.rsb.df <- mutate(cr.rsb.df, Stat = "Rsb") 
+cr.xpe.df <- mutate(cr.xpe.df, Stat = "xpEHH")
+cr.fst.df <- mutate(cr.fst.df, Stat = "Fst")
+
+# Merge the fst, rsb and xpehh candidate regions files ----
+names(cr.rsb.df)
+df <- rbind(cr.rsb.df, cr.xpe.df, cr.fst.df) %>% 
+  mutate(Genome = str_sub(CHR, 2, 2), 
+         KB = (END - START)/1000,
+         POP = str_c(Pops, " (", Stat, " ", 
+                      sprintf("%.2f", round(MAX_MRK, digits = 2)), ", ", 
+                      # sprintf is to prevent R from dropping trailing zeroes
+                      N_EXTR_MRK, "/", N_MRK, ")")) %>% 
+  # Select and order the columns
+  select(., Genome, CHR, START, END, KB, POP, Stat, Category, Habit, Pops, 
+         N_MRK, N_EXTR_MRK, PERC_EXTR_MRK, MEAN_MRK, MAX_MRK, MEAN_EXTR_MRK) %>% # removed cM, SNP and Name
+  arrange(., CHR, START, POP)
+# divide physical position by a million
+df <- mutate(df, START = START/1e6)
+df <- mutate(df, END = END/1e6)
+# add lines to add Genome (str_sub) and Percentage Extremal Markers.
+table(df$Category)
+table(df$CHR)
+median(df$KB)
+group_by(df, Stat) %>% 
+  summarise(mean = mean(KB), median = median(KB), min = min(KB), max = max(KB))
+
+cr.param <- str_c("cr-thres", param$thres, 
+                  "-mrk", param$min.mrk, 
+                  "-per", param$min.perc,
+                  "-ws", param$ws/1000, "Kb",
+                  "-ovr", param$ovr*100, "per")
+scan_hh.param <- paste0("-pol-",  res$scan_hh.parameters$polarized.value, # paste0 converts NA to character
+                        "-sgap-", res$scan_hh.parameters$scale.gap.value,
+                        "-mgap-", res$scan_hh.parameters$max.gap.value,
+                        "-discardBorder-", res$scan_hh.parameters$discard.integration.at.border, "-")
+raw.results <- list(final = final, cr.consolidated = df, corr = cor.res)
+saveRDS(raw.results, "output/raw_results_for_cr_search.RDS")
+write_csv(df, str_c("output/cr_consolidated.csv"))
+```
+
+# Export SNPids within the candidate regions to text files
+The mean_extr_mrk column in the calc_candidate_regions output include mean of absolute values. However, we want to know the sign (+/-) of the statistics in order to ascertain if the selection is happening in population 1 or 2. The chunk below adds the mean_extr_mrk with sign
+```{r Export markers in the candidate regions}
+# candidate region details are CHR, START, END, Category
+ext.rsb <- map(.x = 1:nrow(cr.rsb.df),
+                  .f = ~ rsb.id[[cr.rsb.df[.x,][["Category"]]]] %>% 
+                    filter(., abs(RSB) >= 2.0, 
+                           CHR == cr.rsb.df[.x,][["CHR"]], 
+                           POSITION >= cr.rsb.df[.x,][["START"]], 
+                           POSITION <= cr.rsb.df[.x,][["END"]]))
+
+ext.xpe <- map(.x = 1:nrow(cr.xpe.df),
+                  .f = ~ xpe.id[[cr.xpe.df[.x,][["Category"]]]] %>% 
+                    filter(., abs(XPEHH) >= 2.0, 
+                           CHR == cr.xpe.df[.x,][["CHR"]], 
+                           POSITION >= cr.xpe.df[.x,][["START"]], 
+                           POSITION <= cr.xpe.df[.x,][["END"]]))
+
+# use ext.rsb to add mean_extr_mrk_sign column to cr.rsb.df
+extr.mrk.stats <- list(rsb.mean = map_dbl(.x = 1:nrow(cr.rsb.df), .f = ~ ext.rsb[[.x]][["RSB"]] %>% mean()),
+                       rsb.num  = map_dbl(.x = 1:nrow(cr.rsb.df), .f = ~ ext.rsb[[.x]] %>% nrow()),
+                       xpe.mean = map_dbl(.x = 1:nrow(cr.xpe.df), .f = ~ ext.xpe[[.x]][["XPEHH"]] %>% mean()),
+                       xpe.num  = map_dbl(.x = 1:nrow(cr.xpe.df), .f = ~ ext.xpe[[.x]] %>% nrow()) )
+cr.rsb.df <- mutate(cr.rsb.df, nonABS_mean_extr_mrk = extr.mrk.stats$rsb.mean, stat_sign = if_else(nonABS_mean_extr_mrk > 0, "pos", "neg"))
+cr.rsb.df$MEAN_EXTR_MRK - abs(cr.rsb.df$nonABS_mean_extr_mrk) # check to see the results are identical
+cr.xpe.df <- mutate(cr.xpe.df, nonABS_mean_extr_mrk = extr.mrk.stats$xpe.mean, stat_sign = if_else(nonABS_mean_extr_mrk > 0, "pos", "neg"))
+cr.xpe.df$MEAN_EXTR_MRK - abs(cr.xpe.df$nonABS_mean_extr_mrk) # check to see the results are identical
+
+# updates the names of the ext.rsb and ext.xpe list items indicating whether the stat value is +ve or -ve
+names(ext.rsb) <- str_c(cr.rsb.df$stat_sign, cr.rsb.df$CHR, cr.rsb.df$Category, cr.rsb.df$START/1e6, cr.rsb.df$END/1e6, sep = "_")
+names(ext.xpe) <- str_c(cr.xpe.df$stat_sign, cr.xpe.df$CHR, cr.xpe.df$Category, cr.xpe.df$START/1e6, cr.xpe.df$END/1e6, sep = "_")
+
+# copy to the right folders
+dir.name <- "rsb"
+dir.create(dir.name)
+map_chr(.x = names(ext.rsb), .f = ~ dir.create(str_c(dir.name, "/", .x)) ) # by using map_chr, the warnings will be in one line instead of multiple lines.
+list.of.file.name.vectors <- map(.x = ext.rsb, .f = ~ str_c("./images/", .x[["SNPid"]], ".png")) # create file name vectors to use for copying next
+for(i in 1:length(list.of.file.name.vectors)){
+  file.copy(from = list.of.file.name.vectors[[i]], # double square brackets to get to the vector of characters instead of a list
+            to   = str_c("./", dir.name, "/", names(list.of.file.name.vectors[i]) ) )
+  }
+# repeat for xpehh
+rm(dir.name)
+dir.name <- "xpe"
+dir.create(dir.name)
+map_chr(.x = names(ext.rsb), .f = ~ dir.create(str_c(dir.name, "/", .x)) ) # by using map_chr, the warnings will be in one line instead of multiple lines.
+list.of.file.name.vectors <- map(.x = ext.rsb, .f = ~ str_c("./images/", .x[["SNPid"]], ".png")) # create file name vectors to use for copying next
+for(i in 1:length(list.of.file.name.vectors)){
+  file.copy(from = list.of.file.name.vectors[[i]], # double square brackets to get to the vector of characters instead of a list
+            to   = str_c("./", dir.name, "/", names(list.of.file.name.vectors[i]) ) )
+  }
+```
+
+
+# Manhattan plots were here
+# END of the script
+```{r manhattan plots}
+manhattanplot(rsb$win.win2)
+
+fst.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_fst_snp(pop1 = .x) )
+names(fst.mkr) <- pop.pairs$pop1
+rsb.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_rsb_snp(pop1 = .x) )
+names(rsb.mrk) <- pop.pairs$pop1
+xpe.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_xpehh_snp(pop1 = .x))
+names(xpe.mrk) <- pop.pairs$pop1
+
+manhattanplot(fst.id$both.all2, threshold = quantile.threshold[["both.all2"]], cr = cr.fst$both.all2, mrk = fst.mrk[["both.all2"]])
+
+# write the manhattan plots to a pdf file
+pdf(file = "output/manhattanplots.pdf", width = 10, height = 8)
+map(.x = pop.pairs$pop1, .f = ~ custom_manhattan(pop1 = .x))
+dev.off()
+
+
+
+
+```

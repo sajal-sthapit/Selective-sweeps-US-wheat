@@ -108,23 +108,6 @@ scan_populations <- function(inp, pop.name, chrm, param = param){
   return(output)
 }
 
-calc_Fst <- function(inp, Total.pop, Sub.pop, save.cols = 6){
-  # inp = genotype file with markers as rows, varieties as columns, and genotypes as AA/BB
-  # Total.pop = vector of variety names to consider as members of the whole population
-  # Sub.pop = list of named vectors of variety names for different sub.populations to calculate Fst for
-  # save.cols = number of first columns from the inp to include in the output
-  # names(Sub.pop) <- str_c("Fst.", names(Sub.pop)) 
-  # add informative prefixe to sub-population names, which will get inherited as column names in the Fst tibble
-  # Do not need the prefix if I keep Fst and PIC data separate.
-  p <- rowSums(inp[Total.pop] == "AA")/ncol(inp[Total.pop])
-  p.q <- p * (1 - p)
-  inp.sub <- map(.x = Sub.pop, .f = ~ inp[.x]) # subset tibbles by each sub population
-  p.sub <- map(.x = inp.sub, .f = ~ rowSums(.x == "AA")/ncol(.x))
-  # Fst.sub <- map(.x = p.sub, .f = ~ (.x - p)^2 / p.q ) # outputs as a vector for each sub.pop. useful for testing.
-  Fst.sub <- map_df(.x = p.sub, .f = ~ (.x - p)^2 / p.q ) # output in dataframe
-  return(cbind(inp[1:save.cols], Fst.sub))
-}
-
 calc_PIC <- function(inp, Sub.pop, save.cols = 6){
   # inp = genotype file with markers as rows, varieties as columns, and genotypes as AA/BB
   # Sub.pop = list of names vectors of variety names for different sub.populations to calcuate PIC for
@@ -152,4 +135,164 @@ conv_names_to_labels <- function(inp = inp, sep = "\\."){
   df <- separate(df, col = Category, into = c("Habit", "Pops"), sep = sep, remove = FALSE, 
                  extra = "merge", fill = "right")
   return(df)  
+}
+
+calc_fst <- function(pop1, pop2){
+  # calculates Fst using pegas::fst implementation of Wc 1984.
+  # pop1 and pop2 are used to select the vectors of variety names in res$pop, which are selected out of the geno$diploid dataframe to calculate pairwise Fst.
+  pop1.df <- select(geno$diploid, res[["pop"]][[pop1]]) %>% t() %>% as.data.frame(.) %>% mutate(., population = "pop1")
+  pop2.df <- select(geno$diploid, res[["pop"]][[pop2]]) %>% t() %>% as.data.frame(.) %>% mutate(., population = "pop2")
+  input <- rbind(pop1.df, pop2.df)
+  input <- as.data.frame(unclass(input), stringsAsFactors = TRUE)
+  fst <- Fst(as.loci(input))
+  out <- tibble(CHR = geno$nuc$Chrom, POSITION = geno$nuc$pos, FST = fst[,2])
+  return(out)
+}
+
+calc_allele_freq <- function(pop.name){
+  inp <- select(geno$nuc, res[["pop"]][[pop.name]])
+  out <- select(geno$nuc, SNPid, Chrom, pos) %>% 
+    mutate(N = ncol(inp), # better than length(lines) in cases where not all the lines are genotyped
+           frq.A = rowSums(inp == "A")/N,
+           frq.C = rowSums(inp == "C")/N,
+           frq.G = rowSums(inp == "G")/N,
+           frq.T = rowSums(inp == "T")/N)
+  return(out)
+}
+
+consolidate_results <- function(pop1, pop2){
+  matrix.column.names <- c(str_c("N_", pop1), str_c("N_", pop2),
+                           str_c("A_", pop1), str_c("C_", pop1), str_c("G_", pop1), str_c("T_", pop1),
+                           str_c("A_", pop2), str_c("C_", pop2), str_c("G_", pop2), str_c("T_", pop2),
+                           "FST", "RSB", "XPEHH" )
+  out <- matrix(data = NA, nrow = nrow(geno$nuc), ncol = length(matrix.column.names))
+  out[,1] <- allele.freq[[pop1]][["N"]]
+  out[,2] <- allele.freq[[pop2]][["N"]]
+  out[,3] <- allele.freq[[pop1]][["frq.A"]]
+  out[,4] <- allele.freq[[pop1]][["frq.C"]]
+  out[,5] <- allele.freq[[pop1]][["frq.G"]]
+  out[,6] <- allele.freq[[pop1]][["frq.T"]]
+  out[,7] <- allele.freq[[pop2]][["frq.A"]]
+  out[,8] <- allele.freq[[pop2]][["frq.C"]]
+  out[,9] <- allele.freq[[pop2]][["frq.G"]]
+  out[,10] <- allele.freq[[pop2]][["frq.T"]]
+  out[,11] <- fst.id[[pop1]][["FST"]]
+  out[,12] <- rsb.id[[pop1]][["RSB"]]
+  out[,13] <- xpe.id[[pop1]][["XPEHH"]]
+  colnames(out) <- matrix.column.names
+  out <- as_tibble(out)
+  # add SNPid, cM, Chrm, Position
+  out <- cbind(tibble(SNPid = geno$nuc$SNPid,
+                      cM    = geno$nuc$cM,
+                      CHR   = geno$nuc$Chrom,
+                      POSITION = geno$nuc$pos),
+               out)
+  return(out)
+}
+
+extract_most_extreme_fst_snp <- function(pop1 = NULL, cr.list = cr.fst, scan.list = fst.id){
+  # expects fst, rsb, and xpe results in lists named fst.id, rsb.id, and xpe.id, which also have SNPids
+  num.cr <- nrow(cr.list[[pop1]])
+  out <- matrix(nrow = num.cr, ncol = 3)
+  for(i in 1:num.cr){
+    extremes <- filter(scan.list[[pop1]], 
+                       CHR == cr.list[[pop1]][["CHR"]][[i]],
+                       POSITION >= cr.list[[pop1]][["START"]][[i]],
+                       POSITION <= cr.list[[pop1]][["END"]][[i]] ) %>% arrange(., desc(FST)) %>% .[1,]
+    out[i, ] <- c(extremes$CHR, extremes$POSITION, extremes$SNPid)
+  }
+  out.df <- data.frame(CHR = out[,1], POSITION = as.numeric(out[,2]))
+  row.names(out.df) <- out[,3]
+  return(out.df)
+}
+
+extract_most_extreme_rsb_snp <- function(pop1 = NULL, cr.list = cr.rsb, scan.list = rsb.id){
+  # expects fst, rsb, and xpe results in lists named fst.id, rsb.id, and xpe.id, which also have SNPids
+  num.cr <- nrow(cr.list[[pop1]])
+  out <- matrix(nrow = num.cr, ncol = 3)
+  for(i in 1:num.cr){
+    extremes <- filter(scan.list[[pop1]], 
+                       CHR == cr.list[[pop1]][["CHR"]][[i]],
+                       POSITION >= cr.list[[pop1]][["START"]][[i]],
+                       POSITION <= cr.list[[pop1]][["END"]][[i]] ) %>% arrange(., desc(RSB)) %>% .[1,]
+    out[i, ] <- c(extremes$CHR, extremes$POSITION, extremes$SNPid)
+  }
+  out.df <- data.frame(CHR = out[,1], POSITION = as.numeric(out[,2]))
+  row.names(out.df) <- out[,3]
+  return(out.df)
+}
+
+extract_most_extreme_xpehh_snp <- function(pop1 = NULL, cr.list = cr.xpe, scan.list = xpe.id){
+  num.cr <- nrow(cr.list[[pop1]])
+  out <- matrix(nrow = num.cr, ncol = 3)
+  for(i in 1:num.cr){
+    extremes <- filter(scan.list[[pop1]], 
+                       CHR == cr.list[[pop1]][["CHR"]][[i]],
+                       POSITION >= cr.list[[pop1]][["START"]][[i]],
+                       POSITION <= cr.list[[pop1]][["END"]][[i]] ) %>% arrange(., desc(XPEHH)) %>% .[1,]
+    out[i, ] <- c(extremes$CHR, extremes$POSITION, extremes$SNPid)
+  }
+  out.df <- data.frame(CHR = out[,1], POSITION = as.numeric(out[,2]))
+  row.names(out.df) <- out[,3]
+  return(out.df)
+}
+
+custom_manhattan <- function(pop1 = NULL){
+  # expects that fst, rsb, and xpe results are in lists named fst, rsb, and xpe.
+  # expects that candidate regions are in cr.fst, cr.rsb, and cr.xpe.
+  # expects the fst thresholds are in quantile.threshold named vector
+  # pop1 name provide here is used to extract the right data from the above lists.
+  par(mfrow = c(3,1))
+  manhattanplot(data = fst.id[[pop1]], cr = cr.fst[[pop1]], threshold = quantile.threshold[[pop1]], mrk = fst.mrk[[pop1]])
+  mtext(pop1) # add a label above the first plot
+  manhattanplot(data = rsb.id[[pop1]], cr = cr.rsb[[pop1]], mrk = rsb.mrk[[pop1]])
+  manhattanplot(data = xpe.id[[pop1]], cr = cr.xpe[[pop1]], mrk = xpe.mrk[[pop1]])
+  #out <- plot_grid(p.fst, p.rsb, p.xpe, nrow = 3, ncol = 1)
+  #return(out)
+}
+
+create_map_file_by_category <- function(cr, kim = kim, chr.beg = chr.beg, chr.end = chr.end){
+  # cr is the input candidate region data frame
+  # Font size based on no. of extremal markers
+  #cr <- mutate(cr, Font.size = if_else(N_EXTR_MRK < 17, "S14",
+  #                                     if_else(N_EXTR_MRK >= 17 & N_EXTR_MRK < 39, "S18", # from 75-93rd percentile
+  #                                     if_else(N_EXTR_MRK >= 39 & N_EXTR_MRK < 56, "S22", # from 93-98 percentile
+  #                                             if_else(N_EXTR_MRK >= 56, "S26", "")))))
+  
+  # Font size based on KB size
+  q.75 <- quantile(cr$KB, 0.75)
+  q.9375 <- quantile(cr$KB, 0.9375)
+  q.99 <- quantile(cr$KB, 0.99)
+  map <- mutate(cr, Font.size = if_else(KB >= q.75 & KB < q.9375, "S12", # from 75-93rd percentile
+                                        if_else(KB >= q.9375 & KB < q.99, "S16", # from 93-99 percentile
+                                                if_else(KB >= q.99, "S20", ""))))
+  map <- tibble(Chrom = map$CHR, Tag = map$label, # Use Pop.H if plotting both habit together
+                Pos = map$START, Color = NA, 
+                Habit = map$Habit, Stat = map$Stat, Size = map$Font.size)
+  # Update color based on stat
+  map <- mutate(map, Color = if_else(Stat == "Fst", "C2",
+                                     if_else(Stat == "Rsb", "C3", 
+                                             if_else(Stat == "xpEHH", "C4", ""))))
+  map <- rbind(map, kim, chr.beg, chr.end) %>% arrange(., Chrom, Pos)
+  map <- mutate(map, Genome = substr(Chrom, 2, 2))
+  return(map)
+}
+
+write_mapchart_files <- function(inp, category.name = NULL){
+  grp <- list(one   = c("1A", "1B", "1D"), two  = c("2A", "2B", "2D"), three = c("3A", "3B", "3D"),
+              four  = c("4A", "4B", "4D"), five = c("5A", "5B", "5D"), six   = c("6A", "6B", "6D"),
+              seven = c("7A", "7B", "7D"))
+  for(i in 1:7){
+    # loops through the 7 chromosome groups to generate the output files. I am using loops because it is only 7 iterations.
+    df <- map(.x = grp[[i]], .f = ~filter(inp, Chrom == .x))
+    df.labels <- map(.x = grp[[i]], 
+                     .f = ~ tibble(Chrom = "", 
+                                   # columns exported in the mapchart input
+                                   Tag = "group", Pos = str_c(.x), Size = "", Color = "",
+                                   Habit = "", Stat = "", Genome = ""))
+    # combine the filtered tibbles based on matching column names.
+    out <- map2_df(.x = df.labels, .y = df, .f = ~ rbind(.x, .y))
+    out[2:5] %>% write_delim(str_c("output/mapchart/", category.name, "_grp_", i, ".mct"), delim = " ", col_names = FALSE)
+    rm(df, df.labels, out)
+  }
 }

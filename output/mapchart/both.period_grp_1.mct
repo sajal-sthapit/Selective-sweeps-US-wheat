@@ -1,0 +1,45 @@
+group 1A  
+F 1.235801  C1
+27_gpl2_both_xpEHH_9/10 23.5  C4
+1RS_1AL*** 251.589418  C1
+475_eas2_both_xpEHH_5/6 472.5  C4
+476_all2_both_xpEHH_7/7 472.5  C4
+485_all2_both_xpEHH_22/22 478.5 S12 C4
+489.5_eas2_both_xpEHH_32/33 478.5 S12 C4
+489.5_nor2_both_xpEHH_32/32 478.5 S12 C4
+485_all2_both_Rsb_6/7 482.5  C3
+489.5_all2_both_xpEHH_7/9 485.5  C4
+500_eas2_both_Rsb_6/6 497.5  C3
+508.5_eas2_both_xpEHH_42/42 497.5 S12 C4
+505_gpl2_both_xpEHH_14/15 501  C4
+508.5_eas2_both_Rsb_27/31 503 S12 C3
+Glu_A1*** 508.726018  C1
+516_eas2_both_Rsb_10/10 511.5  C3
+516_eas2_both_xpEHH_9/10 511.5  C4
+L 593.550634  C1
+group 1B  
+F 1.252322  C1
+1RS_1BL*** 145.453219  C1
+319_pnw2_both_xpEHH_12/13 313.5 S12 C4
+331_all2_both_xpEHH_14/16 325 S12 C4
+331_pnw2_both_xpEHH_15/16 325 S12 C4
+328.5_pnw2_both_Rsb_6/7 325.5  C3
+542_pnw2_both_xpEHH_7/7 538.5  C4
+Glu_B1*** 555.767198  C1
+569_pac2_both_Rsb_10/12 566.5  C3
+646_pnw2_both_Fst_7/7 643.5  C2
+L 688.7686  C1
+group 1D  
+F 0.578891  C1
+36_pac2_both_Fst_8/8 33  C2
+39.5_nor2_both_Fst_5/6 36.5  C2
+44_pnw2_both_Fst_7/7 41  C2
+50_nor2_both_Fst_14/14 45.5  C2
+50_pnw2_both_Fst_14/14 45.5  C2
+50.5_eas2_both_Fst_16/16 45.5  C2
+53_all2_both_Fst_22/22 45.5 S12 C2
+53_pac2_both_Fst_15/15 48  C2
+53_gpl2_both_Fst_8/8 50  C2
+418.5_gpl2_both_Fst_37/38 406 S16 C2
+Glu_D1*** 412.16293  C1
+L 495.229621  C1

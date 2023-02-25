@@ -1,0 +1,26 @@
+group 4A  
+F 0.745526  C1
+105_nor_win_xpEHH_7/7 102  C4
+547_nor_win_Rsb_7/7 543.5  C3
+547_nor_win_xpEHH_7/7 543.5  C4
+586.5_nor_win_Fst_8/10 584  C2
+587_nor_win_xpEHH_10/10 584  C4
+716_eas_both_xpEHH_9/11 713  C4
+L 744.310552  C1
+group 4B  
+F 0.622299  C1
+19.5_pnw_win_xpEHH_21/27 12.5 S12 C4
+18_pnw_both_Rsb_5/6 15.5  C3
+Lox_B1*** 27.249814  C1
+Rht_B1*** 30.860705  C1
+Rht_B1*** 30.861544  C1
+63_gpl_spr_Fst_10/10 58.5  C2
+545_nor_spr_Fst_6/6 542.5  C2
+545_pnw_spr_Fst_6/6 542.5  C2
+550.5_gpl_win_Fst_7/8 547  C2
+651.5_nor_spr_xpEHH_10/11 647.5  C4
+L 672.23642  C1
+group 4D  
+F 1.876347  C1
+Rht_D1*** 18.781218  C1
+L 499.108801  C1

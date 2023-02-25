@@ -1,0 +1,193 @@
+---
+title: "Calculations of iHS"
+author: "Sajal Sthapit"
+date: "6/21/2022"
+output: html_document
+---
+
+```{r Load functions, message=TRUE, warning=TRUE}
+rm(list = ls())
+source("functions/functions_for_selection_sweep_analysis.R") # load custom functions for the analysis
+library(tidyverse)
+library(rehh)
+geno <- list(nuc = read_tsv("data/genotype_nucleotide_format_10391_loci_imputed.txt"),
+             ab  = read_tsv("data/genotype_AB_format_10391_loci_imputed.txt"))
+res <- readRDS("output/scan_hh_ihs_results_polFALSE_sgap2.5MB_mgapNAMB_discardBorderTRUE.rds")
+documentation <- list(libraries = "tidyverse, rehh",
+                      functions = "",
+                      geno = "geno is a list with genotype data in nucleotide and A/B format.",
+                      res = "res is the output for scan_hh results from the script 02_calculate_iHH_iES_inES")
+```
+# Calculation of iHS in rehh
+When we do not know ancestral verses derived allele, the uniHS = log(iHHmajor/iHHminor), i.e., if Major allele is in longer haplotype in uniHS is +ve. iHS = (uniHS - mean(uniHS) of the population)/sd(uniHS of the population). Mean(uniIHS) is stored in $frequency.class of the ihh2ihs output. The take away is that if iHS has extreme positive value, then the major allele in the population is selected (in longer haplotypes). If the iHS is extreme negative value, then the minor allele in the population is under selection (in longer haplotypes).
+
+```{r Specify populations to calculate iHS for, message=TRUE, warning=TRUE}
+documentation$pop <- "res$pop"
+pop <- res$pop
+names(pop) %>% sort()
+# calculate iHS
+pop.ihs <- c("both.all", "both.eas", "both.gpl", "both.nor", "both.pac", "both.pnw",
+             "spr.all", 
+             "win.all")
+ihs <- map(.x = pop.ihs,
+            .f = ~ ihh2ihs(res[[.x]][["scan"]], min_maf = 0, freqbin = 1 ) )
+names(ihs) <- pop.ihs
+# Vignette for rehh (7.6) says to set freqbin = 1 for function ihh2ihs when using unpolarized alleles
+
+documentation$pop.ihs <-  "populations (vector of variety names in the population) to use for iHS calculation."
+documentation$ihs <- "raw outputs from ihh2ihs are stored here."
+```
+
+# START HERE for Candidate Regions
+
+# Calculate and save candidate regions
+On 10/21/20, I checked the RSB candidate regions and compared with the input for calc_candidate_regions and found that only positive RSB values were selected for candidate regions.
+My previous output only selected for positive threshold values for candidate regions (ignore_sign = TRUE, default is FALSE, even though the the help says otherwise.) For iHS, I need to ignore sign, but doing that increases candidate regions to 2004 from 661. That means, for iHS I may need to use higher thresholds.
+The outputs saved on 10/21/20 include negative IHS candidate regions as well. For RSB and XPEHH, we stuck with positive only as we are only interested in loci selected in the target population and not the reference population. The only change from last version is more candidate regions reported in iHS, which is already higher than Rsb and xpehh. It will also not change the manhattan plots, as I use the raw data for that. But the selection map will need to be updated.
+# 02/11/21: The global parameters led to too few candidate regions in some states. To be useful for breeding programs, it would make sense to have a minimum number of candidate regions to explore. Hence, for the state population, we also searched for candidate regions by lowering the threshold in order to select the top 10 candidate regions for each statistic.
+# To run this chunk, need to have g.pos and conv_names_to_labels() pre-loaded
+# 3/29/21: When I specify maxgap, I lose too many candidate regions. A compromise would be to keep unlimited max gap, but increase window size to 95 percentile of gapsize.
+
+```{r Set parameters, message=TRUE, warning=TRUE}
+# Set parameters ----
+res$scan_hh.parameters %>% as.character()
+res$snp.gap.percentile
+res$snp.gap.quantile
+param <- list(thres = 2, min.mrk = 6, min.perc = 80, ws = 2.5e6, ovr = 0.2)
+documentation$param <- "Parameters to use for scanning for candidate regions"
+```
+
+Not all markers are included in the iHS, Rsb, and xpEHH results. Hence, when we combine marker names and cM from g.pos, we end up with more markers than N_MRK value in some cases.
+
+```{r scan for candidate regions with defined parameters}
+# select scan_hh results only ----
+names(res)
+# clean the output by removing populations I do not need ----
+
+# scan for iHS candidate regions ----
+cr.ihs <- map(.x = names(ihs),
+              .f = ~ calc_candidate_regions(ihs[[.x]][["ihs"]],
+                                            threshold = param$thres,
+                                            ignore_sign = TRUE, #FALSE means only takes +ve values
+                                            window_size = param$ws, overlap = param$ws*param$ovr,
+                                            min_n_mrk = param$min.mrk,
+                                            min_perc_extr_mrk = param$min.perc) )
+map_dbl(.x = cr.ihs, .f = ~ nrow(.x)) %>% sum(.) # = gross number of iHS candidate regions
+names(cr.ihs) <- names(ihs)
+documentation$cr.ihs <- "population by population candidate region"
+cr.ihs$both.all
+cr.ihs.df <- conv_names_to_labels(inp = cr.ihs, sep = "\\.")
+documentation$cr.ihs.df <- "tables from cr.ihs combined into one table"
+table(cr.ihs.df$Category, cr.ihs.df$CHR)
+table(cr.ihs.df$Habit, cr.ihs.df$CHR)
+
+# update iHS with chr and position, and then with the major/minor freq, IHH values, etc.
+g.pos <- mutate(geno$ab[1:6], chr.pos = str_c(Chrom, "_", pos)) %>% select(., SNPid, cM, chr.pos)
+name.vector <- names(ihs)
+ihs.id <- map(.x = name.vector,
+           .f = ~ ihs[[.x]][["ihs"]] %>% 
+             mutate(chr.pos = str_c(CHR, "_", POSITION)) %>% 
+             left_join(g.pos, ., by = "chr.pos" ) %>% # put the g.pos first to ensure that we have row for all 10391 loci
+             select(., -chr.pos) %>% 
+             left_join(., res[[.x]][["scan"]][-c(2,3)], by = "SNPid"))
+names(ihs.id) <- name.vector
+rm(name.vector, g.pos)
+documentation$ihs.id <- "ihs.id is a list of tibbles. Each tibble is named after a population and has iHS calculated for all markers for a given population."
+
+ext <- map(.x = 1:nrow(cr.ihs.df),
+                  .f = ~ ihs.id[[cr.ihs.df[.x,][["Category"]]]] %>% 
+                    filter(., abs(IHS) >= 2.0, 
+                           CHR == cr.ihs.df[.x,][["CHR"]], 
+                           POSITION >= cr.ihs.df[.x,][["START"]], 
+                           POSITION <= cr.ihs.df[.x,][["END"]]))
+names(ext) <- str_c(cr.ihs.df$CHR, "_", cr.ihs.df$START/1e6, "-", cr.ihs.df$END/1e6, "_", cr.ihs.df$Category)
+documentation$ext <- "ext is a list of tibbles. Each tibble is the raw data of IHS values, allele frequencies for markers in a given candidate region."
+# copy extremal marker images
+map2(.x = ext, .y = names(ext), .f = ~ str_c(.x[["SNPid"]], ".*") %>% write_lines(., file = str_c(.y, ".txt") ) )
+# in powershell: cat list.txt  | ForEach {cp $_ <destination folder>}
+
+cr.ihs.df$Category
+#vector of all extremal markers found in a population
+ext.ihs <- list(both.all = rbind(ext[[1]], ext[[2]], ext[[3]], ext[[4]]) %>% .[["SNPid"]],
+                both.eas = rbind(ext[[5]], ext[[6]], ext[[7]], ext[[8]]) %>% .[["SNPid"]],
+                both.gpl = rbind(ext[[9]], ext[[10]]) %>% .[["SNPid"]],
+                both.nor = rbind(ext[[11]], ext[[12]], ext[[13]], ext[[14]]) %>% .[["SNPid"]],
+                both.pac = rbind(ext[[15]], ext[[16]], ext[[17]], ext[[18]], ext[[19]], ext[[20]]) %>% .[["SNPid"]],
+                both.pnw = rbind(ext[[21]], ext[[22]], ext[[23]]) %>% .[["SNPid"]],
+                spr.all  = rbind(ext[[24]], ext[[25]], ext[[26]], ext[[27]], ext[[28]], ext[[29]]) %>% .[["SNPid"]],
+                win.all  = rbind(ext[[30]], ext[[31]], ext[[32]]) %>% .[["SNPid"]])
+documentation$ext.ihs <- "List of vectors of SNPid in all the candidate regions of a population."
+```
+
+# Add SNPid, cM, and other info to the iHS, Rsb, xpEHH, Fst outputs.
+The iHS, Rsb, and xpEHH outputs include CHR and POSITION but no marker names. By adding marker names direclty to these results, it will be easier to identify SNP with highest values in a candidate region to then look for patterns across population to write the discussion.
+combine both scan and ihs, rsb, xpe results
+Instead of calculating Fst, I can just calculate changes in allele frequencies and compare the outliers.
+```{r}
+g.pos <- mutate(geno$ab[1:6], chr.pos = str_c(Chrom, "_", pos)) %>% select(., SNPid, cM, chr.pos)
+
+# update iHS with chr and position
+name.vector <- names(ihs)
+ihs.id <- map(.x = name.vector,
+           .f = ~ ihs[[.x]][["ihs"]] %>% 
+             mutate(chr.pos = str_c(CHR, "_", POSITION)) %>% 
+             left_join(g.pos, ., by = "chr.pos" ) %>% # put the g.pos first to ensure that we have row for all 10391 loci
+             select(., -chr.pos))
+names(ihs.id) <- name.vector
+rm(name.vector)
+```
+
+# Combine and preprocess candidate regions ----
+Start this chunk by loading the raw outputs of candidate region search from the chunk above
+```{r combine and save candidate regions}
+rm(df)
+
+cr.ihs.df <- mutate(cr.ihs.df, Stat = "iHS") 
+cr.rsb.df <- mutate(cr.rsb.df, Stat = "Rsb") 
+cr.xpe.df <- mutate(cr.xpe.df, Stat = "xpEHH")
+cr.fst.df <- mutate(cr.fst.df, Stat = "Fst")
+
+# Merge the ihs, rsb and xpehh candidate regions files ----
+names(cr.ihs.df)
+df <- rbind(cr.ihs.df, cr.rsb.df, cr.xpe.df, cr.fst.df) %>% 
+  mutate(Genome = str_sub(CHR, 2, 2), 
+         KB = (END - START)/1000,
+         POP = str_c(Pops, " (", Stat, " ", 
+                      sprintf("%.2f", round(MAX_MRK, digits = 2)), ", ", 
+                      # sprintf is to prevent R from dropping trailing zeroes
+                      N_EXTR_MRK, "/", N_MRK, ")")) %>% 
+  # Select and order the columns
+  select(., Genome, CHR, START, END, KB, POP, Stat, Category, Habit, Pops, 
+         N_MRK, N_EXTR_MRK, PERC_EXTR_MRK, MEAN_MRK, MAX_MRK, MEAN_EXTR_MRK) %>% # removed cM, SNP and Name
+  arrange(., CHR, START, POP)
+# divide physical position by a million
+df <- mutate(df, START = START/1e6)
+df <- mutate(df, END = END/1e6)
+# add lines to add Genome (str_sub) and Percentage Extremal Markers.
+table(df$Category)
+table(df$CHR)
+median(df$KB)
+group_by(df, Stat) %>% 
+  summarise(mean = mean(KB), median = median(KB), min = min(KB), max = max(KB))
+
+cr.param <- str_c("cr-thres", param$thres, 
+                  "-mrk", param$min.mrk, 
+                  "-per", param$min.perc,
+                  "-ws", param$ws/1000, "Kb",
+                  "-ovr", param$ovr*100, "per")
+scan_hh.param <- paste0("-pol-",  res$scan_hh.parameters$polarized.value, # paste0 converts NA to character
+                        "-sgap-", res$scan_hh.parameters$scale.gap.value,
+                        "-mgap-", res$scan_hh.parameters$max.gap.value,
+                        "-discardBorder-", res$scan_hh.parameters$discard.integration.at.border, "-")
+raw.results <- list(ihs = ihs, rsb = rsb, xpe = xpe, fst = fst, 
+                    cr.consolidated = df, pic.sub = pic.sub)
+saveRDS(raw.results, str_c("rehh-files/images/raw_results_for_cr_search_", Sys.Date(), ".RDS"))
+write_csv(df, str_c("rehh-files/images/", cr.param, scan_hh.param, Sys.Date(), ".csv"))
+save.image(file = "rehh_completed_analysis.RData")
+```
+
+# for examination for R&D
+> ihs.id$both.nor %>% filter(., SNPid %in% ext.ihs$both.nor, CHR == "7B")
+> filter(geno$nuc, SNPid %in% ext.ihs$both.pnw, Chrom == "6B") %>% select(., SNPid, pop$both.pnw) %>% write.csv("6B_both_pnw.csv")
+# Manhattan plots were here
+# END of the script

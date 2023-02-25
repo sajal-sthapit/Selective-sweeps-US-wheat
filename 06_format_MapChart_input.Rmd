@@ -1,0 +1,101 @@
+---
+title: "MapChart input"
+author: "Sajal Sthapit"
+output: html_document
+---
+<style type="text/css">
+.main-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+# Revision 01/07/2021
+
+
+```{r, cols.print = 20}
+rm(list = ls())
+source("functions/functions_for_selection_sweep_analysis.R") # load custom functions for the analysis
+library(tidyverse)
+cr <- read_csv("output/cr_consolidated.csv")
+names(cr)
+head(cr, 2)
+cr <- cr %>% select(Habit, CHR, START, END, KB, N_MRK, N_EXTR_MRK, Stat, Pops, Category) %>% 
+  mutate(., Pop.H = str_c(Pops, "_", Habit),
+         label = str_c(END, "_", Pops, "_", Habit, "_", Stat, "_", N_EXTR_MRK, "/", N_MRK))
+
+# categories
+unique(cr$Category) %>% sort()
+cr <- filter(cr, !Category %in% c("spr.all", "win.all")) # remove categories I am not going to analyze
+categories <- list(both.state = c("both.CA", "both.CO", "both.ID", "both.IN", "both.KS", "both.MN", "both.MT", "both.ND", "both.NE", "both.SC", "both.TX", "both.WA"),
+                   spr.state = c("spr.CA", "spr.ID", "spr.MN", "spr.ND", "spr.WA"),
+                   win.state = c("win.CO", "win.ID", "win.IN", "win.KS", "win.NE", "win.NY", "win.OR", "win.SC", "win.WA"),
+                   both.regional = c("both.eas", "both.gpl", "both.nor", "both.pac", "both.pnw"),
+                   spr.regional = c("spr.gpl", "spr.nor", "spr.pac", "spr.pnw"),
+                   win.regional = c("win.eas", "win.gpl", "win.nor", "win.pnw"),
+                   both.period = c("both.all2", "both.eas2", "both.gpl2", "both.nor2", "both.pac2", "both.pnw2"),
+                   spr.period = c("spr.spr2", "spr.nor2", "spr.pac2", "spr.pnw2"),
+                   win.period = c("win.win2", "win.eas2", "win.gpl2", "win.pnw2"),
+                   everything = cr$Category %>% unique %>% sort)
+map_chr(.x = categories, .f = ~ length(.x)) # number of populations in each category
+
+unique(cr$Pops) %>% unique %>% sort()
+unique(cr$Pop.H) %>% unique %>% sort()
+cr <- arrange(cr, CHR, START, END, Stat, Pop.H)
+head(cr, 2)
+# Generate summaries
+map(.x = categories, 
+    .f = ~ filter(cr, Category %in% .x) %>% 
+      group_by(., Stat) %>% 
+      summarize(minKB = min(KB), maxKB = max(KB), medKB = median(KB), meanKB = mean(KB),
+                                 minMrk = min(N_MRK), maxMrk = max(N_MRK), 
+                                 meanMrk = mean(N_MRK), medMrk = median(N_MRK),
+                                 minExMrk = min(N_EXTR_MRK), maxExMrk = max(N_EXTR_MRK), 
+                                 meanExMrk = mean(N_EXTR_MRK), medExMrk = median(N_EXTR_MRK)) %>% as.data.frame )
+# Quantiles of candidate region sizes in KB
+map(.x = categories, .f = ~ filter(cr, Category %in% .x) %>% .[["KB"]] %>% quantile(c(.5, .75, .875, .9375, .96875, .984375, .9921875 )))
+# Quantiles of number of extremal markers in the candidate regions
+map(.x = categories, .f = ~ filter(cr, Category %in% .x) %>% .[["N_EXTR_MRK"]] %>% quantile(c(.5, .75, .875, .9375, .96875, .984375, .9921875 )))
+```
+
+
+```{r create Mapchart files by categories}
+# Create Known Informative Markers data frame ----
+kim <- read.delim("data/KIM-positions-simplified-051721.txt", header = TRUE, sep = "\t")
+kim <- filter(kim, Prop >= 0.95) %>%  mutate(., Pos = Start/1000000) %>% select(., Chromosome, Marker, Pos)
+names(kim) <- c("Chrom", "Tag", "Pos")
+head(kim, 2)
+kim <- mutate(kim, Color = "C1")
+kim <- mutate(kim, Habit = "inc")
+kim <- mutate(kim, Stat = "inc")
+kim <- mutate(kim, Size = "")
+# KIMs don't have stat or habit assigned to them, but we want them in the map. hence, we designate them as "inc" for include to use in filtering downstream.
+kim$Tag <- str_c(kim$Tag, "***")
+head(kim, 2)
+
+# Create labels for the first and last marker of each chromosome ----
+#add the beginning and end of chromosome positions.
+g.pos <- read_delim("data/genotype_AB_format_10391_loci_imputed.txt") %>% select(., SNPid, Chrom, pos)
+head(map)
+chr.beg <- g.pos %>% group_by(Chrom) %>% 
+  summarize(Tag = "F", Pos = min(pos)/1000000, 
+            Color = "C1", Habit = "inc", Stat = "inc", Size = "")
+chr.end <- g.pos %>% group_by(Chrom) %>% 
+  summarize(Tag = "L", Pos = max(pos)/1000000, 
+            Color = "C1", Habit = "inc", Stat = "inc", Size = "")
+rm(g.pos)
+# Create input map files for each category for Mapchart plotting ----
+map.inputs <- map(.x = categories, 
+                  .f = ~ create_map_file_by_category(cr = filter(cr, Category %in% .x), kim = kim, chr.beg = chr.beg, chr.end = chr.end) )
+names(map.inputs) <- names(categories)
+```
+
+# Generate output by Chromosome Group
+1A, 1B, 1D will be in one file and so on for total 7 files for 7 groups. Then, I can adjust the heights specifically for the groups. Still testing
+```{r}
+map2(.x = map.inputs, .y = names(map.inputs),
+    .f = ~ write_mapchart_files(inp = .x, category.name = .y))
+```
+
+

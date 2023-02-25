@@ -1,26 +1,14 @@
 ---
 title: "Define populations"
 author: "Sajal Sthapit"
-date: "6/21/2022"
 output: html_document
 ---
-# How to define subpopulations
-RsB and XP-EHH compare two populations at a time.
-In Rsb and xpEHH calculations, Pop1 is used as the reference, and Pop2 is the population in which selection is happening. Therefore, a positive RSB or XPEHH value indicates selection in pop2 wrt reference. Negative values indicate selection in reference population (pop1) wrt to pop2.
 
-3/25/21:
-population name convention: habit . population type/name
-
-iHS - run on all populations
-Rsb (ratio of EHHS between populations) and xpEHH:
-a) run all spring populations with spr.anc as reference and so on for winter
-Does (a) give a meaningful answer or new information compared to iHS?
-b) split spring and winter into pre61 and pos61 populations and compare selection between the two. For habit/regionals and market classes, split the population into two equal halves and then compare selection before and after. Rsb and xpEHH calculations do not utilize ancestral allele designation information. For state populations, use the previous approach of comparing a state populations with varieties from other regions and not adjacent states.
-For methods and results:
-Intra population statistic (iHS) was run on all populations. For inter-population statistic (Rsb and xpEHH) we wanted to examine directional selection with progress of plant breeding, i.e., what regions had been selected with respect to older populations. This applies to market classes and regionals. For state populations, we looked at selection in state with respect to varieties from other regions and states.
-The drawback of doing different populations for large populations is that if regions are selected in one population, then corresponding regions may be reported as selected in another population just because they are different.
-
+# Define populations
+Populations were named with the convention of: {habit=both,spring,winter}.{population name}. To identify selective sweeps resulting from cumulative selection over time, we divided the population into two halves of older and newer varieties using the functions first_half() and second_half()
 ```{r Define subpopulations}
+rm(list = ls())
+start.time <- Sys.time()
 library(tidyverse)
 source("functions/functions_for_selection_sweep_analysis.R") # load custom functions for the analysis
 samples <- read_tsv("data/variety_details.txt") 
@@ -32,16 +20,16 @@ vars <- samples %>% arrange(Year, ACNO)
 pop[["both.all"]] <- vars[[1]]
 pop$both.all1 <- vars[[1]] %>% first_half
 pop$both.all2 <- vars[[1]] %>% second_half
-pop$both.eas <- vars %>% filter(Region == "Eastern") %>% .[[1]]
+pop$both.eas <- vars %>% filter(Region == "EAS") %>% .[[1]]
 pop$both.eas1 <- pop$both.eas %>% first_half
 pop$both.eas2 <- pop$both.eas %>% second_half
-pop$both.gpl <- vars %>% filter(Region == "Great Plains") %>% .[[1]]
+pop$both.gpl <- vars %>% filter(Region == "GPL") %>% .[[1]]
 pop$both.gpl1 <- pop$both.gpl %>% first_half
 pop$both.gpl2 <- pop$both.gpl %>% second_half
-pop$both.nor <- vars %>% filter(Region == "Northern") %>% .[[1]]
+pop$both.nor <- vars %>% filter(Region == "NOR") %>% .[[1]]
 pop$both.nor1 <- pop$both.nor %>% first_half
 pop$both.nor2 <- pop$both.nor %>% second_half
-pop$both.pac <- vars %>% filter(Region == "Pacific") %>% .[[1]]
+pop$both.pac <- vars %>% filter(Region == "PAC") %>% .[[1]]
 pop$both.pac1 <- pop$both.pac %>% first_half
 pop$both.pac2 <- pop$both.pac %>% second_half
 pop$both.pnw <- vars %>% filter(Region == "PNW") %>% .[[1]]
@@ -55,42 +43,42 @@ pop$win.win1 <- pop$win.all %>% first_half
 pop$win.win2 <- pop$win.all %>% second_half
 
 # regional populations ----
-pop$spr.gpl <- vars %>% filter(Habit == "spring", Region == "Great Plains") %>% .[[1]]
+pop$spr.gpl <- vars %>% filter(Habit == "spring", Region == "GPL") %>% .[[1]]
 # spr.gpl only has 26 varieties, so did not split it
-pop$spr.nor <- vars %>% filter(Habit == "spring", Region == "Northern") %>% .[[1]]
+pop$spr.nor <- vars %>% filter(Habit == "spring", Region == "NOR") %>% .[[1]]
 pop$spr.nor1 <- pop$spr.nor %>% first_half
 pop$spr.nor2 <- pop$spr.nor %>% second_half
-pop$spr.pac <- vars %>% filter(Habit == "spring", Region == "Pacific")  %>% .[[1]]
+pop$spr.pac <- vars %>% filter(Habit == "spring", Region == "PAC") %>% .[[1]]
 pop$spr.pac1 <- pop$spr.pac %>% first_half
 pop$spr.pac2 <- pop$spr.pac %>% second_half
-pop$spr.pnw <- vars %>% filter(Habit == "spring", Region == "PNW")      %>% .[[1]]
+pop$spr.pnw <- vars %>% filter(Habit == "spring", Region == "PNW") %>% .[[1]]
 pop$spr.pnw1 <- pop$spr.pnw %>% first_half
 pop$spr.pnw2 <- pop$spr.pnw %>% second_half
-pop$win.eas <- vars %>% filter(Habit == "winter", Region == "Eastern")  %>% .[[1]]
+pop$win.eas <- vars %>% filter(Habit == "winter", Region == "EAS") %>% .[[1]]
 pop$win.eas1 <- pop$win.eas %>% first_half
 pop$win.eas2 <- pop$win.eas %>% second_half
-pop$win.gpl <- vars %>% filter(Habit == "winter", Region == "Great Plains") %>% .[[1]]
+pop$win.gpl <- vars %>% filter(Habit == "winter", Region == "GPL") %>% .[[1]]
 pop$win.gpl1 <- pop$win.gpl %>% first_half
 pop$win.gpl2 <- pop$win.gpl %>% second_half
-pop$win.nor <- vars %>% filter(Habit == "winter", Region == "Northern") %>% .[[1]]
+pop$win.nor <- vars %>% filter(Habit == "winter", Region == "NOR") %>% .[[1]]
 # win.nor only had 35 varieties, so did not split it
-pop$win.pnw <- vars %>% filter(Habit == "winter", Region == "PNW")      %>% .[[1]]
+pop$win.pnw <- vars %>% filter(Habit == "winter", Region == "PNW") %>% .[[1]]
 pop$win.pnw1 <- pop$win.pnw %>% first_half
 pop$win.pnw2 <- pop$win.pnw %>% second_half
 
 # Other regional populations ----
-pop$both.eas_Other <- vars %>% filter(Region != "Eastern") %>% .[[1]]
-pop$both.gpl_Other <- vars %>% filter(Region != "Great Plains") %>% .[[1]]
-pop$both.nor_Other <- vars %>% filter(Region != "Northern") %>% .[[1]]
-pop$both.pac_Other <- vars %>% filter(Region != "Pacific") %>% .[[1]]
+pop$both.eas_Other <- vars %>% filter(Region != "EAS") %>% .[[1]]
+pop$both.gpl_Other <- vars %>% filter(Region != "GPL") %>% .[[1]]
+pop$both.nor_Other <- vars %>% filter(Region != "NOR") %>% .[[1]]
+pop$both.pac_Other <- vars %>% filter(Region != "PAC") %>% .[[1]]
 pop$both.pnw_Other <- vars %>% filter(Region != "PNW") %>% .[[1]]
-pop$spr.gpl_Other <- vars %>% filter(Habit == "spring", Region != "Great Plains") %>% .[[1]]
-pop$spr.nor_Other <- vars %>% filter(Habit == "spring", Region != "Northern") %>% .[[1]]
-pop$spr.pac_Other <- vars %>% filter(Habit == "spring", Region != "Pacific") %>% .[[1]]
+pop$spr.gpl_Other <- vars %>% filter(Habit == "spring", Region != "GPL") %>% .[[1]]
+pop$spr.nor_Other <- vars %>% filter(Habit == "spring", Region != "NOR") %>% .[[1]]
+pop$spr.pac_Other <- vars %>% filter(Habit == "spring", Region != "PAC") %>% .[[1]]
 pop$spr.pnw_Other <- vars %>% filter(Habit == "spring", Region != "PNW") %>% .[[1]]
-pop$win.eas_Other <- vars %>% filter(Habit == "winter", Region != "Eastern") %>% .[[1]]
-pop$win.gpl_Other <- vars %>% filter(Habit == "winter", Region != "Great Plains") %>% .[[1]]
-pop$win.nor_Other <- vars %>% filter(Habit == "winter", Region != "Northern") %>% .[[1]]
+pop$win.eas_Other <- vars %>% filter(Habit == "winter", Region != "EAS") %>% .[[1]]
+pop$win.gpl_Other <- vars %>% filter(Habit == "winter", Region != "GPL") %>% .[[1]]
+pop$win.nor_Other <- vars %>% filter(Habit == "winter", Region != "NOR") %>% .[[1]]
 pop$win.pnw_Other <- vars %>% filter(Habit == "winter", Region != "PNW") %>% .[[1]]
 
 # Add States with >=20 spring AND winter (both) varieties ----
@@ -99,85 +87,85 @@ states <- map(.x = unique(vars$State), .f = ~ filter(vars, State == .x) %>% .[[1
 names(states) <- unique(vars$State)
 (sel.states <- names(states)[lengths(states) >= 20] %>% sort(.))
 # use manual population definition for better code readability
-pop$both.CA <- vars %>% filter(State == "California") %>% .[[1]]
-pop$both.CO <- vars %>% filter(State == "Colorado") %>% .[[1]]
-pop$both.ID <- vars %>% filter(State == "Idaho") %>% .[[1]]
-pop$both.IN <- vars %>% filter(State == "Indiana") %>% .[[1]]
-pop$both.KS <- vars %>% filter(State == "Kansas") %>% .[[1]]
-pop$both.MN <- vars %>% filter(State == "Minnesota") %>% .[[1]]
-pop$both.MT <- vars %>% filter(State == "Montana") %>% .[[1]]
-pop$both.NE <- vars %>% filter(State == "Nebraska") %>% .[[1]]
-pop$both.NY <- vars %>% filter(State == "New York") %>% .[[1]]
-pop$both.ND <- vars %>% filter(State == "North Dakota") %>% .[[1]]
-pop$both.OR <- vars %>% filter(State == "Oregon") %>% .[[1]]
-pop$both.SC <- vars %>% filter(State == "South Carolina") %>% .[[1]]
-pop$both.TX <- vars %>% filter(State == "Texas") %>% .[[1]]
-pop$both.WA <- vars %>% filter(State == "Washington") %>% .[[1]]
+pop$both.CA <- vars %>% filter(State == "CA") %>% .[[1]]
+pop$both.CO <- vars %>% filter(State == "CO") %>% .[[1]]
+pop$both.ID <- vars %>% filter(State == "ID") %>% .[[1]]
+pop$both.IN <- vars %>% filter(State == "IN") %>% .[[1]]
+pop$both.KS <- vars %>% filter(State == "KS") %>% .[[1]]
+pop$both.MN <- vars %>% filter(State == "MN") %>% .[[1]]
+pop$both.MT <- vars %>% filter(State == "MT") %>% .[[1]]
+pop$both.NE <- vars %>% filter(State == "NE") %>% .[[1]]
+pop$both.NY <- vars %>% filter(State == "NY") %>% .[[1]]
+pop$both.ND <- vars %>% filter(State == "ND") %>% .[[1]]
+pop$both.OR <- vars %>% filter(State == "OR") %>% .[[1]]
+pop$both.SC <- vars %>% filter(State == "SC") %>% .[[1]]
+pop$both.TX <- vars %>% filter(State == "TX") %>% .[[1]]
+pop$both.WA <- vars %>% filter(State == "WA") %>% .[[1]]
 
 # Manually add other/rest for states based on US production map ----
 # exclude.states excludes neighboring states from a different region.
 # I could have also filtered by State, but by using Category, I can be explicit about the selection
 sel.states[1]
-exclude.region <- filter(vars, State == "California") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Oregon")
+exclude.region <- filter(vars, State == "CA") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("OR")
 pop$both.CA_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states) %>% .[[1]]
 
 sel.states[2]
-(exclude.region <- filter(vars, State == "Colorado") %>% .[["Region"]] %>% unique(.))
-exclude.states <- c("Arizona", "New Mexico", "Utah", "Wyoming")
+(exclude.region <- filter(vars, State == "CO") %>% .[["Region"]] %>% unique(.))
+exclude.states <- c("AZ", "NM", "UT", "WY")
 pop$both.CO_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 sel.states[3]
-(exclude.region <- filter(vars, State == "Idaho") %>% .[["Region"]] %>% unique(.))
-exclude.states <- c("Montana", "Nevada", "Wyoming")
+(exclude.region <- filter(vars, State == "ID") %>% .[["Region"]] %>% unique(.))
+exclude.states <- c("MT", "NV", "WY")
 pop$both.ID_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states) %>% .[[1]]
 
 sel.states[4]
-exclude.region <- filter(vars, State == "Indiana") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, State == "IN") %>% .[["Region"]] %>% unique(.)
 pop$both.IN_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 sel.states[5]
-exclude.region <- filter(vars, State == "Kansas") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Iowa", "Missouri", "Arkansas", "Louisiana")
+exclude.region <- filter(vars, State == "KS") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("IA", "MO", "AR", "LA")
 pop$both.KS_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states) %>% .[[1]]
 
 sel.states[6]
-exclude.region <- filter(vars, State == "Minnesota") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, State == "MN") %>% .[["Region"]] %>% unique(.)
 pop$both.MN_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 sel.states[7]
-exclude.region <- filter(vars, State == "Montana") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Idaho")
+exclude.region <- filter(vars, State == "MT") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("ID")
 pop$both.MT_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states) %>% .[[1]]
 
 sel.states[8]
-exclude.region <- filter(vars, State == "Nebraska") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Iowa", "Missouri", "Wyoming")
+exclude.region <- filter(vars, State == "NE") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("IA", "MO", "WY")
 pop$both.NE_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states) %>% .[[1]]
 
 sel.states[9]
-exclude.region <- filter(vars, State == "New York") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, State == "NY") %>% .[["Region"]] %>% unique(.)
 pop$both.NY_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 sel.states[10]
-exclude.region <- filter(vars, State == "North Dakota") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, State == "ND") %>% .[["Region"]] %>% unique(.)
 pop$both.ND_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 sel.states[11]
-exclude.region <- filter(vars, State == "Oregon") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("California", "Nevada")
+exclude.region <- filter(vars, State == "OR") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("CA", "NV")
 pop$both.OR_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states) %>% .[[1]]
 
 sel.states[12]
-exclude.region <- filter(vars, State == "South Carolina") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, State == "SC") %>% .[["Region"]] %>% unique(.)
 pop$both.SC_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 sel.states[13]
-exclude.region <- filter(vars, State == "Texas") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, State == "TX") %>% .[["Region"]] %>% unique(.)
 pop$both.TX_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 sel.states[14]
-exclude.region <- filter(vars, State == "Washington") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, State == "WA") %>% .[["Region"]] %>% unique(.)
 pop$both.WA_Other <- filter(vars, Region != exclude.region) %>% .[[1]]
 
 # Add States with >= 20 spring or winter varieties ----
@@ -192,89 +180,89 @@ sel.states <- names(states)[lengths(states) >= 20] %>% sort(.) # selection of st
 rm(states)
 # sometimes manual addition improves code readability
 sel.states
-pop$spr.CA <- vars %>% filter(Habit == "spring", State == "California")     %>% .[[1]]
-pop$spr.ID <- vars %>% filter(Habit == "spring", State == "Idaho")          %>% .[[1]]
-pop$spr.MN <- vars %>% filter(Habit == "spring", State == "Minnesota")      %>% .[[1]]
-pop$spr.ND <- vars %>% filter(Habit == "spring", State == "North Dakota")   %>% .[[1]]
-pop$spr.WA <- vars %>% filter(Habit == "spring", State == "Washington")     %>% .[[1]]
-pop$win.CO <- vars %>% filter(Habit == "winter", State == "Colorado")       %>% .[[1]]
-pop$win.ID <- vars %>% filter(Habit == "winter", State == "Idaho")          %>% .[[1]]
-pop$win.IN <- vars %>% filter(Habit == "winter", State == "Indiana")        %>% .[[1]]
-pop$win.KS <- vars %>% filter(Habit == "winter", State == "Kansas")         %>% .[[1]]
-pop$win.NE <- vars %>% filter(Habit == "winter", State == "Nebraska")       %>% .[[1]]
-pop$win.NY <- vars %>% filter(Habit == "winter", State == "New York")       %>% .[[1]]
-pop$win.OR <- vars %>% filter(Habit == "winter", State == "Oregon")         %>% .[[1]]
-pop$win.SC <- vars %>% filter(Habit == "winter", State == "South Carolina") %>% .[[1]]
-pop$win.WA <- vars %>% filter(Habit == "winter", State == "Washington")     %>% .[[1]]
+pop$spr.CA <- vars %>% filter(Habit == "spring", State == "CA") %>% .[[1]]
+pop$spr.ID <- vars %>% filter(Habit == "spring", State == "ID") %>% .[[1]]
+pop$spr.MN <- vars %>% filter(Habit == "spring", State == "MN") %>% .[[1]]
+pop$spr.ND <- vars %>% filter(Habit == "spring", State == "ND") %>% .[[1]]
+pop$spr.WA <- vars %>% filter(Habit == "spring", State == "WA") %>% .[[1]]
+pop$win.CO <- vars %>% filter(Habit == "winter", State == "CO") %>% .[[1]]
+pop$win.ID <- vars %>% filter(Habit == "winter", State == "ID") %>% .[[1]]
+pop$win.IN <- vars %>% filter(Habit == "winter", State == "IN") %>% .[[1]]
+pop$win.KS <- vars %>% filter(Habit == "winter", State == "KS") %>% .[[1]]
+pop$win.NE <- vars %>% filter(Habit == "winter", State == "NE") %>% .[[1]]
+pop$win.NY <- vars %>% filter(Habit == "winter", State == "NY") %>% .[[1]]
+pop$win.OR <- vars %>% filter(Habit == "winter", State == "OR") %>% .[[1]]
+pop$win.SC <- vars %>% filter(Habit == "winter", State == "SC") %>% .[[1]]
+pop$win.WA <- vars %>% filter(Habit == "winter", State == "WA") %>% .[[1]]
 
 # Manually add other/rest for spr/winter states based on US production map ----
 # Spring MN should be compared with Spring from other regions
 # I could have also filtered by State, but by using Category, I can be explicit about the selection
 sel.states[1]
-exclude.region <- filter(vars, Category == "spring California") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Oregon")
+exclude.region <- filter(vars, Category == "spring CA") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("OR")
 pop$spr.CA_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states,
                                  Habit == "spring") %>% .[[1]]
 sel.states[2]
-exclude.region <- filter(vars, Category == "spring Idaho") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Montana", "Nevada", "Wyoming")
+exclude.region <- filter(vars, Category == "spring ID") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("MT", "NV", "WY")
 pop$spr.ID_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states,
                                  Habit == "spring") %>% .[[1]]
 sel.states[3]
-exclude.region <- filter(vars, Category == "spring Minnesota") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, Category == "spring MN") %>% .[["Region"]] %>% unique(.)
 pop$spr.MN_Other <- filter(vars, Region != exclude.region, Habit == "spring") %>% .[[1]]
 
 sel.states[4]
-exclude.region <- filter(vars, Category == "spring North Dakota") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, Category == "spring ND") %>% .[["Region"]] %>% unique(.)
 pop$spr.ND_Other <- filter(vars, Region != exclude.region, Habit == "spring") %>% .[[1]]
 
 sel.states[5]
-exclude.region <- filter(vars, Category == "spring Washington") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, Category == "spring WA") %>% .[["Region"]] %>% unique(.)
 pop$spr.WA_Other <- filter(vars, Region != exclude.region, Habit == "spring") %>% .[[1]]
 
 sel.states[6]
-exclude.region <- filter(vars, Category == "winter Colorado") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Wyoming", "Utah", "Arizona")
+exclude.region <- filter(vars, Category == "winter CO") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("WY", "UT", "AZ")
 pop$win.CO_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states,
                                  Habit == "winter") %>% .[[1]]
 sel.states[7]
-exclude.region <- filter(vars, Category == "winter Idaho") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Montana", "Nevada", "Wyoming")
+exclude.region <- filter(vars, Category == "winter ID") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("MT", "NV", "WY")
 pop$win.ID_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states,
                                  Habit == "winter") %>% .[[1]]
 
 sel.states[8]
-exclude.region <- filter(vars, Category == "winter Indiana") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, Category == "winter IN") %>% .[["Region"]] %>% unique(.)
 pop$win.IN_Other <- filter(vars, Region != exclude.region, Habit == "winter") %>% .[[1]]
 
 sel.states[9]
-exclude.region <- filter(vars, Category == "winter Kansas") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Iowa", "Missouri", "Arkansas", "Louisiana")
+exclude.region <- filter(vars, Category == "winter KS") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("IA", "MO", "AR", "LA")
 pop$win.KS_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states, 
                                  Habit == "winter") %>% .[[1]]
 
 sel.states[10]
-exclude.region <- filter(vars, Category == "winter Nebraska") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("Iowa", "Missouri", "Wyoming")
+exclude.region <- filter(vars, Category == "winter NE") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("IA", "MO", "WY")
 pop$win.NE_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states,
                                  Habit == "winter") %>% .[[1]]
 
 sel.states[11]
-exclude.region <- filter(vars, Category == "winter New York") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, Category == "winter NY") %>% .[["Region"]] %>% unique(.)
 pop$win.NY_Other <- filter(vars, Region != exclude.region, Habit == "winter") %>% .[[1]]
 
 sel.states[12]
-exclude.region <- filter(vars, Category == "winter Oregon") %>% .[["Region"]] %>% unique(.)
-exclude.states <- c("California", "Nevada")
+exclude.region <- filter(vars, Category == "winter OR") %>% .[["Region"]] %>% unique(.)
+exclude.states <- c("CA", "NV")
 pop$win.OR_Other <- filter(vars, Region != exclude.region, !State %in% exclude.states,
                                  Habit == "winter") %>% .[[1]]
 
 sel.states[13]
-exclude.region <- filter(vars, Category == "winter South Carolina") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, Category == "winter SC") %>% .[["Region"]] %>% unique(.)
 pop$win.SC_Other <- filter(vars, Region != exclude.region, Habit == "winter") %>% .[[1]]
 
 sel.states[14]
-exclude.region <- filter(vars, Category == "winter Washington") %>% .[["Region"]] %>% unique(.)
+exclude.region <- filter(vars, Category == "winter WA") %>% .[["Region"]] %>% unique(.)
 pop$win.WA_Other <- filter(vars, Region != exclude.region, Habit == "winter") %>% .[[1]]
 
 # market classes SKIP ----
@@ -305,6 +293,8 @@ pop$win.SRW2 <- second_half(pop$win.SRW)
 pop$win.SWW1 <- first_half(pop$win.SWW)
 pop$win.SWW2 <- second_half(pop$win.SWW)
 
+# sort the population names.
+
 saveRDS(pop, "data/populations.rds")
 ```
 
@@ -322,7 +312,8 @@ fir.las <- rbind(first.var, last.var) %>% arrange(Pop, Year)
 write_csv(fir.las, "output/first_last_varieties.csv")
 ```
 
-```{context}
+```{r context}
 getwd()
 sessionInfo()
+Sys.time() - start.time
 ```

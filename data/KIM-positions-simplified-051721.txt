@@ -1,0 +1,38 @@
+Marker	Chromosome	Start	Prop	SNP_ID	Gene	Function
+1RS_1AL	1A	251589418	1	1RS_1AL	1RS-1AL	Wheat / rye translocation
+Glu_A1	1A	508726018	1	Glu_A1_Ax1	Glu-A1	Glu-A1
+1RS_1BL	1B	145453219	1	1RS_1BL	1RS-1BL	Wheat / rye translocation
+Glu_B1	1B	555767198	1	Bx7oe	Glu-B1	Glu-B1
+Glu_D1	1D	412162930	1	GluD1	Glu-D1	Glu-D1
+Lr37	2A	3965068	1	Lr37_Ins	Lr37	Rust resistant gene
+Ppd_A1	2A	36939686	1	Ppd_A1_1027Del	Ppd-A1	Photoperiod response
+Ppo_A1	2A	712188722	1	Ppo_A1_F2_R2	Ppo-A1	Polyphenol oxidase
+Yr5_IWA4096	2B	696677532	1	IWA4096	Yr5	stripe rust resistance
+Yr5_IWA6121	2B	692461265	1	IWA6121	Yr5	stripe rust resistance
+Phs_TaSdr_B1	2B	200573898	1	Sdr_1B	TaSdr-B1	Pre-harvest sprouting
+Sr36	2B	406277838	1	Sr36	Sr36	Stem rust resistance
+Tgw_TaSus2	2B	171034212	1	Sus2_2B_TGW	TaSus2	Thousand kernel weight
+Ppd_D1	2D	33955434	1	Ppd_D1_Mercia_Del	Ppd-D1	Photoperiod response
+Ppo_D1	2D	572953401	1	Ppo_D1_CF1_CR2	Ppo-D1	Polyphenol oxidase
+Ssc_Tamby10_A1	3A	703906112	1	S_C_C_A_T_SNP	Tamyb10-A1	Seed coat color
+Phs_TaPHS1	3A	7295028	1	TaPHS1_SNP646	TaPHS1	Pre-harvest sprouting
+Fhb_1snp3	3B	8848636	1	Fhb_1snp3	Fhb1	Fusarium head blight resistance
+Scc_Tamby10_B1	3B	757919838	1	SSC_B_alt_DEL	Tamyb10-B1	Seed coat color
+Dr_TaDreb_B1	3B	82053918	1	TaDreb_B1	Dreb1	Drought tolerance
+Scc_Tamyb10_D1	3D	570802111	1	S_C_C_D	Tamyb10-D1	Seed coat color
+Lox_B1	4B	27249814	1	Lox_B1_New	Lox_B1	Lipoxygenase
+Rht_B1	4B	30861544	1	Rht_B1	Rht-B1	Dwarfing gene
+Rht_B1	4B	30860705	1	Rht_B1a_Del	Rht-B1	Dwarfing gene
+Rht_D1	4D	18781218	1	Rht_D1	Rht-D1	Dwarfing gene
+Vrn_A1b	5A	587423377	1	Vrn-A1b	Vrn-A1b	Vernilization requiremnet
+Vrn_B1b	5B	70400386	1	Vrn_B1b	Vrn-B1b	Vernilization requiremnet
+Vrn_B1c	5B	573815126	1	Vrn_B1c	Vrn-B1c	Vernilization requiremnet
+Pina_D1	5D	3591481	1	Pina_D1_Ins_New	Grain Hardness	Grain Hardness
+Vrn_D1	5D	467183503	1	Vrn_D1	Vrn-D1	Vernilization requiremnet
+1_FEH_w3	6B	57283399	1	1_feh_w3	1-FEH-w3	Auxin response element
+Gpc_B1	6B	134592725	1	GPC_B1_Ins_New	Gpc-B1	Grain protein content
+Psy_B1	7B	739444462	1	Psy_B1	Psy-B1	Phytoene synthase
+Lr34	7D	47418406	1	Lr34_new	Lr34	Slow rusting gene
+Pch1	7D	53270879	1	Pch1	Pch1	Eyespot resistant gene
+Psy1_D1	7D	636769750	1	Psy1_D1	Psy-D1	Phytoene synthase
+Tgw_TaGS_D1	7D	6484404	1	TaGS_D1	TaGS-D1	Thousand grain weight

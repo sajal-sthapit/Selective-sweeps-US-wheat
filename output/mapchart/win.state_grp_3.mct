@@ -1,0 +1,61 @@
+group 3A  
+F 1.03109  C1
+Phs_TaPHS1*** 7.295028  C1
+48.5_KS_win_Fst_5/6 46  C2
+48.5_NE_win_Fst_5/6 46  C2
+48.5_NY_win_Rsb_5/6 46  C3
+58.5_NY_win_xpEHH_10/13 55  C4
+60_NY_win_Rsb_6/6 57.5  C3
+60_SC_win_Rsb_6/6 57.5  C3
+513.5_SC_win_xpEHH_9/10 509  C4
+516.5_KS_win_xpEHH_18/18 509 S12 C4
+523.5_KS_win_xpEHH_10/10 520  C4
+537.5_ID_win_xpEHH_21/21 530.5 S12 C4
+537.5_KS_win_xpEHH_21/21 530.5 S12 C4
+563_KS_win_xpEHH_21/23 555 S12 C4
+567_KS_win_xpEHH_5/6 563.5  C4
+Ssc_Tamby10_A1*** 703.906112  C1
+L 749.404642  C1
+group 3B  
+F 0.218952  C1
+Fhb_1snp3*** 8.848636  C1
+42_SC_win_xpEHH_8/8 38  C4
+42.5_KS_win_Rsb_9/10 38  C3
+42_SC_win_Rsb_6/6 39.5  C3
+Dr_TaDreb_B1*** 82.053918  C1
+118.5_ID_win_xpEHH_7/8 115.5  C4
+468.5_ID_win_Rsb_6/6 465  C3
+468.5_WA_win_Rsb_6/6 465  C3
+468.5_OR_win_xpEHH_6/6 465  C4
+468.5_WA_win_xpEHH_6/6 465  C4
+483_OR_win_xpEHH_16/17 478  C4
+482_WA_win_xpEHH_6/6 479.5  C4
+500.5_WA_win_Rsb_6/6 497  C3
+500.5_OR_win_xpEHH_6/6 497  C4
+500.5_WA_win_xpEHH_6/6 497  C4
+516_OR_win_Rsb_13/13 509 S12 C3
+516_WA_win_Rsb_13/13 509 S12 C3
+516_OR_win_xpEHH_13/13 509 S12 C4
+516_WA_win_xpEHH_13/13 509 S12 C4
+516_ID_win_Rsb_6/7 512  C3
+525.5_OR_win_Rsb_8/8 521.5  C3
+525.5_WA_win_Rsb_8/8 521.5  C3
+525.5_OR_win_xpEHH_8/8 521.5  C4
+525.5_WA_win_xpEHH_8/8 521.5  C4
+546_ID_win_Rsb_10/10 541.5  C3
+546_OR_win_xpEHH_10/10 541.5  C4
+546_WA_win_xpEHH_10/10 541.5  C4
+562.5_WA_win_Rsb_8/8 559.5  C3
+562.5_ID_win_xpEHH_7/7 559.5  C4
+562.5_WA_win_xpEHH_8/8 559.5  C4
+584_WA_win_Rsb_11/13 579.5  C3
+584_WA_win_xpEHH_13/13 579.5  C4
+588.5_WA_win_xpEHH_7/7 586  C4
+739.5_OR_win_Rsb_9/11 737  C3
+744_ID_win_Fst_5/6 740  C2
+Scc_Tamby10_B1*** 757.919838  C1
+L 829.197895  C1
+group 3D  
+F 0.773108  C1
+Scc_Tamyb10_D1*** 570.802111  C1
+L 614.691546  C1

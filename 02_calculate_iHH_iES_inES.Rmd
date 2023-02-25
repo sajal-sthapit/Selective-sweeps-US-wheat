@@ -75,22 +75,22 @@ map(.x = chrm, .f = ~ filter(geno$nuc[1:6], Chrom == .x) %>%
 # Run scan_hh on in chunks to prevent memory overflow and combine the results later.
 names(pop)
 # used the map2 with .y for population names in order to track progress in the output.
-g <- map(.x = pop[1:20], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+g <- map(.x = pop[1:25], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
 res1 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
 rm(g)
-g <- map(.x = pop[21:40], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+g <- map(.x = pop[26:50], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
 res2 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
 rm(g)
-g <- map(.x = pop[41:60], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+g <- map(.x = pop[51:75], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
 res3 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
 rm(g)
-g <- map(.x = pop[61:80], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+g <- map(.x = pop[76:100], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
 res4 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
 rm(g)
-g <- map(.x = pop[81:100], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+g <- map(.x = pop[101:125], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
 res5 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
 rm(g)
-g <- map(.x = pop[101:113], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
+g <- map(.x = pop[126:133], .f = ~ cbind(geno$nuc[1:6], geno$nuc[.x])) # create a list of population specific data.frames
 res6 <- map2(.x = g, .y = names(g), .f = ~ scan_populations(inp = .x, pop.name = .y, chrm = chrm, param = param))
 rm(g)
 
