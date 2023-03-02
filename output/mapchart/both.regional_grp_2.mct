@@ -2,22 +2,20 @@ group 2A
 F 2.640509  C1
 Lr37*** 3.965068  C1
 Ppd_A1*** 36.939686  C1
-559_pnw_both_Rsb_10/10 554.5  C3
-559_pnw_both_xpEHH_10/10 554.5  C4
-559_gpl_both_Fst_7/7 556.5  C2
-565_gpl_both_Fst_6/6 562.5  C2
-565_pnw_both_Rsb_6/6 562.5  C3
-565_pnw_both_xpEHH_6/6 562.5  C4
-695.5_pac_both_Rsb_17/20 689 S12 C3
-695.5_pac_both_xpEHH_18/20 689 S12 C4
-694.5_gpl_both_xpEHH_14/16 691  C4
-695.5_gpl_both_Rsb_16/19 691  C3
-707_gpl_both_Rsb_7/8 703.5  C3
-707_pac_both_Rsb_7/8 703.5  C3
-717.5_pac_both_Rsb_30/34 707.5 S12 C3
-720_gpl_both_Rsb_37/41 707.5 S16 C3
+559.0_pnw_B_rsb_2.73_10/10 554.5  C3
+559.0_pnw_B_xpe_2.48_10/10 554.5  C4
+565.0_pnw_B_rsb_2.74_6/6 562.5  C3
+565.0_pnw_B_xpe_2.42_6/6 562.5  C4
+695.5_pac_B_rsb_2.91_17/20 689 S12 C3
+695.5_pac_B_xpe_2.75_18/20 689 S12 C4
+694.5_gpl_B_xpe_2.62_14/16 691  C4
+695.5_gpl_B_rsb_3.03_16/19 691  C3
+707.0_gpl_B_rsb_2.56_7/8 703.5  C3
+707.0_pac_B_rsb_2.41_7/8 703.5  C3
+717.5_pac_B_rsb_2.43_30/34 707.5 S12 C3
+720.0_gpl_B_rsb_2.71_37/41 707.5 S16 C3
 Ppo_A1*** 712.188722  C1
-717.5_gpl_both_xpEHH_12/12 713  C4
+717.5_gpl_B_xpe_2.95_12/12 713  C4
 L 780.714571  C1
 group 2B  
 F 1.272379  C1
@@ -30,8 +28,5 @@ L 801.223269  C1
 group 2D  
 F 1.66902  C1
 Ppd_D1*** 33.955434  C1
-71_pnw_both_xpEHH_16/17 64.5 S12 C4
 Ppo_D1*** 572.953401  C1
-611_pnw_both_Fst_20/24 606.5  C2
-649.5_pac_both_Fst_5/6 646.5  C2
 L 650.328009  C1

@@ -1,0 +1,224 @@
+; This file combines the data from files
+; 1: both.period_grp_1
+; 2: spr.period_grp_1
+; 3: win.period_grp_1
+
+; taken from file both.period_grp_1 :
+group 1A p  
+F 1.235801  C1
+1RS_1AL*** 251.589418  C1
+475.0_eas2_B_xpe_2.07_5/6 472.5  C4
+476.0_all2_B_xpe_2.19_7/7 472.5  C4
+485.0_all2_B_xpe_2.46_22/22 478.5 S12 C4
+489.5_eas2_B_xpe_2.40_32/33 478.5 S16 C4
+489.5_nor2_B_xpe_2.48_32/32 478.5 S16 C4
+485.0_all2_B_rsb_2.48_6/7 482.5  C3
+489.5_all2_B_xpe_2.13_7/9 485.5  C4
+500.0_eas2_B_rsb_2.63_6/6 497.5  C3
+508.5_eas2_B_xpe_3.55_42/42 497.5 S16 C4
+505.0_gpl2_B_xpe_2.34_14/15 501  C4
+508.5_eas2_B_rsb_3.03_27/31 503 S12 C3
+Glu_A1*** 508.726018  C1
+516.0_eas2_B_rsb_3.50_10/10 511.5  C3
+516.0_eas2_B_xpe_2.52_9/10 511.5  C4
+L 593.550634  C1
+
+
+; taken from file spr.period_grp_1 :
+group 1A  
+F 1.235801  C1
+1RS_1AL*** 251.589418  C1
+485.0_spr2_S_xpe_2.17_12/13 481  C4
+Glu_A1*** 508.726018  C1
+L 593.550634  C1
+
+
+; taken from file win.period_grp_1 :
+group 1A  
+F 1.235801  C1
+" 28.0_pnw2_W_rsb_3.02_11/12" 23.5  C3
+1RS_1AL*** 251.589418  C1
+489.5_eas2_W_xpe_2.29_32/33 478.5 S12 C4
+510.0_eas2_W_xpe_3.42_47/47 497.5 S16 C4
+510.0_eas2_W_rsb_2.95_32/36 503 S12 C3
+Glu_A1*** 508.726018  C1
+516.0_eas2_W_rsb_3.52_10/10 511.5  C3
+516.0_eas2_W_xpe_2.59_9/10 511.5  C4
+L 593.550634  C1
+
+
+; taken from file both.period_grp_1 :
+group 1B p  
+F 1.252322  C1
+1RS_1BL*** 145.453219  C1
+Glu_B1*** 555.767198  C1
+569.0_pac2_B_rsb_2.21_10/12 566.5  C3
+L 688.7686  C1
+
+
+; taken from file spr.period_grp_1 :
+group 1B  
+F 1.252322  C1
+1RS_1BL*** 145.453219  C1
+Glu_B1*** 555.767198  C1
+569.0_pac2_S_rsb_2.20_10/12 566.5  C3
+L 688.7686  C1
+
+
+; taken from file win.period_grp_1 :
+group 1B  
+F 1.252322  C1
+1RS_1BL*** 145.453219  C1
+Glu_B1*** 555.767198  C1
+L 688.7686  C1
+
+
+; taken from file both.period_grp_1 :
+group 1D p  
+F 0.578891  C1
+" 36.0_pac2_B_fst_0.45_8/8" 32.5  C2
+" 44.0_pac2_B_fst_0.41_7/7" 41  C2
+" 53.0_pac2_B_fst_0.45_22/22" 45.5 S12 C2
+Glu_D1*** 412.16293  C1
+L 495.229621  C1
+
+
+; taken from file spr.period_grp_1 :
+group 1D  
+F 0.578891  C1
+" 36.0_pac2_S_fst_0.53_8/8" 32.5  C2
+" 39.5_pac2_S_fst_0.45_5/6" 36.5  C2
+" 44.0_pac2_S_fst_0.49_7/7" 41  C2
+" 53.0_pac2_S_fst_0.53_22/22" 45.5 S12 C2
+Glu_D1*** 412.16293  C1
+L 495.229621  C1
+
+
+; taken from file win.period_grp_1 :
+group 1D  
+F 0.578891  C1
+Glu_D1*** 412.16293  C1
+L 495.229621  C1
+
+[Chart Options]
+Version=22
+
+[Page Setup]
+PageSize=3
+PageOrientation=1
+CustomWidth=30000
+CustomHeight=44000
+LeftMargin=1000
+RightMargin=500
+TopMargin=500
+BottomMargin=500
+
+[Title&Footer]
+ChartTitle=
+TitleMethod=1
+TitleFontName=Arial
+TitleFontSize=16
+TitleFontStyle=B
+TitleBottom=500
+FooterMethod=0
+FooterFontName=Arial
+FooterFontSize=8
+FooterFontStyle=B
+[Page layout]
+NamesFontName=Arial
+NamesFontSize=14
+NamesFontStyle=B
+NamesBottom=500
+MultipleBars=1
+ChromSpacing=1000
+ChromWidthMethod=2
+FixChromWidth=13500
+
+[Homologs]
+ShowHomologs=0
+HomAuto=1
+HomUse=0
+HomFirst=0
+HomCharNum=0
+HomIgnCase=0
+HilightStyle=0
+HilightFontStyle=
+HilightSize=0
+HilightFontSize=10
+HilightColor=0
+HilightColorMethod=0
+HilightColorNum=1
+ConnMethod=1
+ConnSelf=0
+ConnSelfRight=0
+ConnSelfWidth=400
+ConnDotSize=150
+ConnColor=1
+ConnLineStyle=1
+ConnLineBold=0
+ConnColorMethod=0
+
+[Bars]
+BarPosAligned=0
+BarCentered=1
+BarTops=0
+FixedScale=0
+MaxBarLength=28000
+MM100perCM=100
+VertShiftUnits=0
+BarWidth=500
+IndBold=1
+IndCol=1
+IndicatorWidth=350
+RoundTips=1
+SplitMapCM=0
+
+[Loci]
+LocusFontName=Arial
+LocusFontSize=10
+LocusFontStyle=
+PositionMethod=1
+PositionTicks=20
+LocusNamePosition=1
+LociPerLine=1
+ShowTexts=1
+TextStyle=0
+Decimals=1
+
+[QTLs&Graphs]
+QTLFontName=Arial
+QTLFontSize=10
+QTLFontStyle=
+QTLBarWidth=300
+QTLSupName=0
+QTLEnds=1
+QTLPosition=1
+YaxisFontName=Arial
+YaxisFontSize=8
+YaxisFontStyle=
+YaxisFixedLength=1
+YaxisLength=5000
+YaxisMMperUnit=2.00000000000E+0002
+RoundGraphPoints=1
+SymbolSize=200
+ShowLegend=1
+LegendFontName=Arial
+LegendFontSize=10
+LegendFontStyle=
+
+[Colors&Lines]
+LineWidth=20
+BoldLineWidth=50
+Transparent=1
+MaxColor=10
+16777215
+0
+255
+32768
+8388608
+65535
+16711935
+65280
+128
+16776960
+32896

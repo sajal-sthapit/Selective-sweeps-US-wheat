@@ -1,0 +1,57 @@
+---
+title: "07_view_details_of_candidate_regions"
+author: "Sajal Sthapit"
+date: '2023-03-01'
+output: html_document
+---
+<style type="text/css">
+.main-container {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+library(tidyverse)
+res <- readRDS("output/raw_results_for_cr_search.RDS")
+final <- res$final
+#cr <- read_csv("output/cr_99_consolidated.csv")
+cr <- read_csv("output/cr_consolidated.csv")
+categories <- readRDS("output/categories.rds")
+
+table(cr$Stat, cr$CHR)
+table(cr$Stat, cr$Category)
+table(cr$Category)
+
+for(i in 1:nrow(cr)){
+  df <- filter(final[[ cr$Category[i] ]],
+         CHR == cr$CHR[i],
+         POS >= cr$START[i]*1e6,
+         POS <= cr$END[i]*1e6)
+  df1 <- df[, c(1,3)]
+  df2 <- df[, c(6:18)]
+  for(j in 1:ncol(df2)){ df2[j] <- round(df2[j], digits = 4)}
+  message(str_c("CR:", cr$CHR[i], cr$START[i], "to", cr$END[i], cr$Category[i], cr$Stat[i], round(cr$MEAN_EXTR_MRK[i], digits = 4), cr$N_EXTR_MRK[i], "/", cr$N_MRK[i], sep = " "))
+  message(str_c(colnames(df[4]), df[[4]][[4]], colnames(df[5]), df[[5]][[1]], sep = " ") )
+  colMeans(df[6:14]) %>% as.data.frame() %>% t() %>% knitr::kable(caption = "Means") %>% print()
+  column.names <- c("SNPid", "POS", "PIC.1", "PIC.2", "A.1", "C.1", "G.1", "T.1", "A.2", "C.2", "G.2", "T.2", "FST", "RSB", "XPE")
+  cbind(df1, df2) %>% knitr::kable(col.names = column.names, caption = "Details") %>% print()
+}
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

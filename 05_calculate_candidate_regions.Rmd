@@ -1,5 +1,5 @@
 ---
-title: "Calculations of Rsb and xpEHH"
+title: "Calculations of Fst, Rsb and xpEHH"
 author: "Sajal Sthapit"
 date: "6/21/2022"
 output: html_document
@@ -43,7 +43,7 @@ rsb <- res$rsb
 # Identify candidate regions for Rsb ----
 cr.rsb <- map(.x = rsb[pop.rsbxpe], # if you want to scan all pops, use rsb
               .f = ~ calc_candidate_regions(scan = .x, threshold = param$thres,
-                                              ignore_sign = TRUE, # for RSB we only want +ve
+                                              ignore_sign = FALSE, # for RSB we only want +ve
                                             window_size = param$ws, overlap = param$ws*param$ovr,
                                             min_n_mrk = param$min.mrk,
                                             min_perc_extr_mrk = param$min.perc))
@@ -56,7 +56,7 @@ table(cr.rsb.df$Category)
 xpe <- res$xpe
 cr.xpe <- map(.x = xpe[pop.rsbxpe], # if you want to scan all pops, use xpe
               .f = ~ calc_candidate_regions(scan = .x, threshold = param$thres,
-                                            ignore_sign = TRUE, # FALSE if you only want +ve
+                                            ignore_sign = FALSE, # FALSE if you only want +ve
                                             window_size = param$ws, overlap = param$ws*param$ovr,
                                             min_n_mrk = param$min.mrk,
                                             min_perc_extr_mrk = param$min.perc))
@@ -67,24 +67,49 @@ table(cr.xpe.df$Category)
 # Identify candidate regions for Fst ----
 # Fst filtered for the 5% outliers for each pair wise comparison
 fst <- res$fst
-quantile.threshold <- map_dbl(.x = names(fst), .f = ~ quantile(fst[[.x]][["FST"]], 0.975, na.rm = TRUE))
-names(quantile.threshold) <- names(fst)
-cr.fst <- map(.x = names(fst), # if you want to scan all pops, use rsb
-              .f = ~ calc_candidate_regions(scan = data.frame(CHR = fst[[.x]][["CHR"]],
-                                                              POSITION = fst[[.x]][["POSITION"]],
-                                                              RSB = fst[[.x]][["FST"]]), 
+quantile.threshold.95 <- map_dbl(.x = names(fst), .f = ~ quantile(fst[[.x]][["FST"]], 0.95, na.rm = TRUE))
+quantile.threshold.99 <- map_dbl(.x = names(fst), .f = ~ quantile(fst[[.x]][["FST"]], 0.99, na.rm = TRUE))
+quantile.threshold.997 <- map_dbl(.x = names(fst), .f = ~ quantile(fst[[.x]][["FST"]], 0.997, na.rm = TRUE))
+names(quantile.threshold.95) <- names(fst)
+names(quantile.threshold.99) <- names(fst)
+names(quantile.threshold.997) <- names(fst)
+quantile.threshold.95
+quantile.threshold.99
+quantile.threshold.997
+par(mfrow = c(1, 3))
+hist(quantile.threshold.95, main = "Quantile threshold of ~2 SD")
+hist(quantile.threshold.99, main = "Quantile threshold of ~2.5 SD")
+hist(quantile.threshold.997, main = "Quantile threshold of ~3 SD")
+# use PIC value to determine what direction the selection is happening in Fst.
+allele.freq <- map(.x = res$allele.freq, .f = ~ mutate(.x, pic = 1 - (frq.A^2 + frq.C^2 + frq.G^2 + frq.T^2) ))
+pop.pairs <- res$pop.pairs
+# delta.pic <- map2(.x = pop.pairs$pop1, .y = pop.pairs$pop2, .f = ~ allele.freq[[.x]][["pic"]] - allele.freq[[.y]][["pic"]] )
+# names(delta.pic) <- pop.pairs$pop1
+# detla.pic will not work when frequency of A/C goes from 0.99/0.01 to 0.01/0.99 because the PIC will remain same.
+# Fst value is a measure of differentiation, which can be great when frequency of A/C goes from 0.7/0.3 to 0.3/0.7. This would mean the PIC will remain the same.
+# For selection in our context, we want high Fst value combined with low diversity in target population. Since Rsb and xpEHH are effective at 0.7-0.9 allele frequency, for Fst, we will require allele frequency to be 0.9:0.1, which is less or equal to a PIC of 0.18
+fst.mod <- map2(.x = fst, .y = names(fst), 
+                .f = ~ cbind(.x, allele.freq[[.y]]["pic"]) %>% 
+                  mutate(., FST.MOD = ifelse(pic < 0.18, FST, NA)))
+# modifies the fst so that we only consider selection in the target population
+cr.fst <- map(.x = names(fst.mod), # if you want to scan all pops, use rsb
+              .f = ~ calc_candidate_regions(scan = data.frame(CHR = fst.mod[[.x]][["CHR"]],
+                                                              POSITION = fst.mod[[.x]][["POSITION"]],
+                                                              RSB = fst.mod[[.x]][["FST.MOD"]]), 
                                             # the input for calc_candidate_regions needs to be a data.frame and needs to have a column named IHS, RSB, or XPEHH. If such a column is not found, it uses the third column, but generates warning messages in the console. Hence, I just renamed the column to RSB within this map function to avoid the warning messages.
-                                            threshold = quantile.threshold[[.x]],
-                                            ignore_sign = TRUE, 
+                                            threshold = quantile.threshold.95[[.x]],
+                                            ignore_sign = FALSE, 
                                             window_size = param$ws, overlap = param$ws*param$ovr,
                                             min_n_mrk = param$min.mrk,
                                             min_perc_extr_mrk = param$min.perc))
-names(cr.fst) <- names(fst)
+names(cr.fst) <- names(fst.mod)
+rm(fst.mod)
 map_dbl(.x = cr.fst, .f = ~nrow(.x)) %>% sum(.)
-cr.fst.df <- conv_names_to_labels(inp = cr.fst, sep = "\\.")
+(num.cr <- map_dbl(.x = cr.fst, .f = ~nrow(.x)))
+cr.fst.df <- conv_names_to_labels(inp = cr.fst[num.cr > 0], sep = "\\.") # added this modifier as some populations did not have any candidate regions.
 ```
 
-# Add SNPid, cM, other info, allele frequencies to Rsb, xpEHH, Fst outputs.
+# Add SNPid, cM, other info, allele frequencies, PIC, to Rsb, xpEHH, Fst outputs
 The Rsb, and xpEHH outputs include CHR and POSITION but no marker names. By adding marker names directly to these results, it will be easier to identify SNP with highest values in a candidate region to then look for patterns across population to write the discussion.
 ```{r}
 g.pos <- mutate(geno$ab[1:6], chr.pos = str_c(Chrom, "_", pos)) %>% select(., SNPid, cM, chr.pos)
@@ -114,24 +139,22 @@ fst.id <- map(.x = fst,
 
 # consolidate all results ----
 pop.pairs <- res$pop.pairs
-allele.freq <- res$allele.freq
+# calculate PIC values will allele frequencies
 final <- map2(.x = pop.pairs$pop1, .y = pop.pairs$pop2,
             .f = ~ consolidate_results(pop1 = .x, pop2 = .y) )
 names(final) <- pop.pairs$pop1
 rm(rsb, xpe, fst, allele.freq)
 
 # correlation between the three stats ----
+# for correlation between FST and RSB/XPEHH, use the absolute values of the EHH based statistics.
 cor.res <- list(fst.rsb = map_dbl(.x = final, .f = ~ cor(x = .x[["FST"]], y = .x[["RSB"]] %>% abs(), use = "pairwise.complete.obs", method = "pearson") ),
                 fst.xpe = map_dbl(.x = final, .f = ~ cor(x = .x[["FST"]], y = .x[["XPEHH"]] %>% abs(), use = "pairwise.complete.obs", method = "pearson") ),
                 rsb.xpe = map_dbl(.x = final, .f = ~ cor(x = .x[["RSB"]], y = .x[["XPEHH"]], use = "pairwise.complete.obs", method = "pearson") ) )
-
 ```
 
-# Combine and preprocess candidate regions ----
+# Combine and preprocess candidate regions
 Start this chunk by loading the raw outputs of candidate region search from the chunk above
 ```{r combine and save candidate regions}
-rm(df)
-
 cr.rsb.df <- mutate(cr.rsb.df, Stat = "Rsb") 
 cr.xpe.df <- mutate(cr.xpe.df, Stat = "xpEHH")
 cr.fst.df <- mutate(cr.fst.df, Stat = "Fst")
@@ -153,8 +176,15 @@ df <- rbind(cr.rsb.df, cr.xpe.df, cr.fst.df) %>%
 df <- mutate(df, START = START/1e6)
 df <- mutate(df, END = END/1e6)
 # add lines to add Genome (str_sub) and Percentage Extremal Markers.
-table(df$Category)
-table(df$CHR)
+table(df$Category) # total candidate regions by population
+table(cr.fst.df$Category) # total FST candidate regions by population
+table(cr.rsb.df$Category) # total RSB candidate regions by population
+table(cr.xpe.df$Category) # total xpEHH candidate regions by population
+table(df$CHR) # total candidate regions by chromosome
+table(cr.fst.df$CHR) # total FST candidate regions by chromosome
+table(cr.rsb.df$CHR) # total RSB candidate regions by chromosome
+table(cr.xpe.df$CHR) # total xpEHH candidate regions by chromosome
+
 median(df$KB)
 group_by(df, Stat) %>% 
   summarise(mean = mean(KB), median = median(KB), min = min(KB), max = max(KB))
@@ -168,85 +198,9 @@ scan_hh.param <- paste0("-pol-",  res$scan_hh.parameters$polarized.value, # past
                         "-sgap-", res$scan_hh.parameters$scale.gap.value,
                         "-mgap-", res$scan_hh.parameters$max.gap.value,
                         "-discardBorder-", res$scan_hh.parameters$discard.integration.at.border, "-")
-raw.results <- list(final = final, cr.consolidated = df, corr = cor.res)
+raw.results <- list(final = final, cr.consolidated = df, corr = cor.res, 
+                    quantile.threshold.95 = quantile.threshold.95, quantile.threshold.99 = quantile.threshold.99, quantile.threshold.997 = quantile.threshold.997)
 saveRDS(raw.results, "output/raw_results_for_cr_search.RDS")
 write_csv(df, str_c("output/cr_consolidated.csv"))
 ```
 
-# Export SNPids within the candidate regions to text files
-The mean_extr_mrk column in the calc_candidate_regions output include mean of absolute values. However, we want to know the sign (+/-) of the statistics in order to ascertain if the selection is happening in population 1 or 2. The chunk below adds the mean_extr_mrk with sign
-```{r Export markers in the candidate regions}
-# candidate region details are CHR, START, END, Category
-ext.rsb <- map(.x = 1:nrow(cr.rsb.df),
-                  .f = ~ rsb.id[[cr.rsb.df[.x,][["Category"]]]] %>% 
-                    filter(., abs(RSB) >= 2.0, 
-                           CHR == cr.rsb.df[.x,][["CHR"]], 
-                           POSITION >= cr.rsb.df[.x,][["START"]], 
-                           POSITION <= cr.rsb.df[.x,][["END"]]))
-
-ext.xpe <- map(.x = 1:nrow(cr.xpe.df),
-                  .f = ~ xpe.id[[cr.xpe.df[.x,][["Category"]]]] %>% 
-                    filter(., abs(XPEHH) >= 2.0, 
-                           CHR == cr.xpe.df[.x,][["CHR"]], 
-                           POSITION >= cr.xpe.df[.x,][["START"]], 
-                           POSITION <= cr.xpe.df[.x,][["END"]]))
-
-# use ext.rsb to add mean_extr_mrk_sign column to cr.rsb.df
-extr.mrk.stats <- list(rsb.mean = map_dbl(.x = 1:nrow(cr.rsb.df), .f = ~ ext.rsb[[.x]][["RSB"]] %>% mean()),
-                       rsb.num  = map_dbl(.x = 1:nrow(cr.rsb.df), .f = ~ ext.rsb[[.x]] %>% nrow()),
-                       xpe.mean = map_dbl(.x = 1:nrow(cr.xpe.df), .f = ~ ext.xpe[[.x]][["XPEHH"]] %>% mean()),
-                       xpe.num  = map_dbl(.x = 1:nrow(cr.xpe.df), .f = ~ ext.xpe[[.x]] %>% nrow()) )
-cr.rsb.df <- mutate(cr.rsb.df, nonABS_mean_extr_mrk = extr.mrk.stats$rsb.mean, stat_sign = if_else(nonABS_mean_extr_mrk > 0, "pos", "neg"))
-cr.rsb.df$MEAN_EXTR_MRK - abs(cr.rsb.df$nonABS_mean_extr_mrk) # check to see the results are identical
-cr.xpe.df <- mutate(cr.xpe.df, nonABS_mean_extr_mrk = extr.mrk.stats$xpe.mean, stat_sign = if_else(nonABS_mean_extr_mrk > 0, "pos", "neg"))
-cr.xpe.df$MEAN_EXTR_MRK - abs(cr.xpe.df$nonABS_mean_extr_mrk) # check to see the results are identical
-
-# updates the names of the ext.rsb and ext.xpe list items indicating whether the stat value is +ve or -ve
-names(ext.rsb) <- str_c(cr.rsb.df$stat_sign, cr.rsb.df$CHR, cr.rsb.df$Category, cr.rsb.df$START/1e6, cr.rsb.df$END/1e6, sep = "_")
-names(ext.xpe) <- str_c(cr.xpe.df$stat_sign, cr.xpe.df$CHR, cr.xpe.df$Category, cr.xpe.df$START/1e6, cr.xpe.df$END/1e6, sep = "_")
-
-# copy to the right folders
-dir.name <- "rsb"
-dir.create(dir.name)
-map_chr(.x = names(ext.rsb), .f = ~ dir.create(str_c(dir.name, "/", .x)) ) # by using map_chr, the warnings will be in one line instead of multiple lines.
-list.of.file.name.vectors <- map(.x = ext.rsb, .f = ~ str_c("./images/", .x[["SNPid"]], ".png")) # create file name vectors to use for copying next
-for(i in 1:length(list.of.file.name.vectors)){
-  file.copy(from = list.of.file.name.vectors[[i]], # double square brackets to get to the vector of characters instead of a list
-            to   = str_c("./", dir.name, "/", names(list.of.file.name.vectors[i]) ) )
-  }
-# repeat for xpehh
-rm(dir.name)
-dir.name <- "xpe"
-dir.create(dir.name)
-map_chr(.x = names(ext.rsb), .f = ~ dir.create(str_c(dir.name, "/", .x)) ) # by using map_chr, the warnings will be in one line instead of multiple lines.
-list.of.file.name.vectors <- map(.x = ext.rsb, .f = ~ str_c("./images/", .x[["SNPid"]], ".png")) # create file name vectors to use for copying next
-for(i in 1:length(list.of.file.name.vectors)){
-  file.copy(from = list.of.file.name.vectors[[i]], # double square brackets to get to the vector of characters instead of a list
-            to   = str_c("./", dir.name, "/", names(list.of.file.name.vectors[i]) ) )
-  }
-```
-
-
-# Manhattan plots were here
-# END of the script
-```{r manhattan plots}
-manhattanplot(rsb$win.win2)
-
-fst.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_fst_snp(pop1 = .x) )
-names(fst.mkr) <- pop.pairs$pop1
-rsb.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_rsb_snp(pop1 = .x) )
-names(rsb.mrk) <- pop.pairs$pop1
-xpe.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_xpehh_snp(pop1 = .x))
-names(xpe.mrk) <- pop.pairs$pop1
-
-manhattanplot(fst.id$both.all2, threshold = quantile.threshold[["both.all2"]], cr = cr.fst$both.all2, mrk = fst.mrk[["both.all2"]])
-
-# write the manhattan plots to a pdf file
-pdf(file = "output/manhattanplots.pdf", width = 10, height = 8)
-map(.x = pop.pairs$pop1, .f = ~ custom_manhattan(pop1 = .x))
-dev.off()
-
-
-
-
-```

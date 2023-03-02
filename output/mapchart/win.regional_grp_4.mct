@@ -1,18 +1,12 @@
 group 4A  
 F 0.745526  C1
-105_nor_win_xpEHH_7/7 102  C4
-547_nor_win_Rsb_7/7 543.5  C3
-547_nor_win_xpEHH_7/7 543.5  C4
-586.5_nor_win_Fst_8/10 584  C2
-587_nor_win_xpEHH_10/10 584  C4
 L 744.310552  C1
 group 4B  
 F 0.622299  C1
-19.5_pnw_win_xpEHH_21/27 12.5 S12 C4
+" 19.5_pnw_W_xpe_2.42_21/27" 12.5 S12 C4
 Lox_B1*** 27.249814  C1
 Rht_B1*** 30.860705  C1
 Rht_B1*** 30.861544  C1
-550.5_gpl_win_Fst_7/8 547  C2
 L 672.23642  C1
 group 4D  
 F 1.876347  C1

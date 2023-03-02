@@ -161,31 +161,32 @@ calc_allele_freq <- function(pop.name){
 }
 
 consolidate_results <- function(pop1, pop2){
-  matrix.column.names <- c(str_c("N_", pop1), str_c("N_", pop2),
+  matrix.column.names <- c(str_c("N_", pop1), str_c("N_", pop2), str_c("PIC_", pop1), str_c("PIC_", pop2),
                            str_c("A_", pop1), str_c("C_", pop1), str_c("G_", pop1), str_c("T_", pop1),
                            str_c("A_", pop2), str_c("C_", pop2), str_c("G_", pop2), str_c("T_", pop2),
                            "FST", "RSB", "XPEHH" )
   out <- matrix(data = NA, nrow = nrow(geno$nuc), ncol = length(matrix.column.names))
   out[,1] <- allele.freq[[pop1]][["N"]]
   out[,2] <- allele.freq[[pop2]][["N"]]
-  out[,3] <- allele.freq[[pop1]][["frq.A"]]
-  out[,4] <- allele.freq[[pop1]][["frq.C"]]
-  out[,5] <- allele.freq[[pop1]][["frq.G"]]
-  out[,6] <- allele.freq[[pop1]][["frq.T"]]
-  out[,7] <- allele.freq[[pop2]][["frq.A"]]
-  out[,8] <- allele.freq[[pop2]][["frq.C"]]
-  out[,9] <- allele.freq[[pop2]][["frq.G"]]
-  out[,10] <- allele.freq[[pop2]][["frq.T"]]
-  out[,11] <- fst.id[[pop1]][["FST"]]
-  out[,12] <- rsb.id[[pop1]][["RSB"]]
-  out[,13] <- xpe.id[[pop1]][["XPEHH"]]
+  out[,3] <- allele.freq[[pop1]][["pic"]]
+  out[,4] <- allele.freq[[pop2]][["pic"]]
+  out[,5] <- allele.freq[[pop1]][["frq.A"]]
+  out[,6] <- allele.freq[[pop1]][["frq.C"]]
+  out[,7] <- allele.freq[[pop1]][["frq.G"]]
+  out[,8] <- allele.freq[[pop1]][["frq.T"]]
+  out[,9] <- allele.freq[[pop2]][["frq.A"]]
+  out[,10] <- allele.freq[[pop2]][["frq.C"]]
+  out[,11] <- allele.freq[[pop2]][["frq.G"]]
+  out[,12] <- allele.freq[[pop2]][["frq.T"]]
+  out[,13] <- fst.id[[pop1]][["FST"]]
+  out[,14] <- rsb.id[[pop1]][["RSB"]]
+  out[,15] <- xpe.id[[pop1]][["XPEHH"]]
   colnames(out) <- matrix.column.names
   out <- as_tibble(out)
   # add SNPid, cM, Chrm, Position
   out <- cbind(tibble(SNPid = geno$nuc$SNPid,
-                      cM    = geno$nuc$cM,
                       CHR   = geno$nuc$Chrom,
-                      POSITION = geno$nuc$pos),
+                      POS = geno$nuc$pos),
                out)
   return(out)
 }
@@ -278,7 +279,7 @@ create_map_file_by_category <- function(cr, kim = kim, chr.beg = chr.beg, chr.en
   return(map)
 }
 
-write_mapchart_files <- function(inp, category.name = NULL){
+write_mapchart_files <- function(inp, category.name = NULL, output.path = "output/mapchart/"){
   grp <- list(one   = c("1A", "1B", "1D"), two  = c("2A", "2B", "2D"), three = c("3A", "3B", "3D"),
               four  = c("4A", "4B", "4D"), five = c("5A", "5B", "5D"), six   = c("6A", "6B", "6D"),
               seven = c("7A", "7B", "7D"))
@@ -292,7 +293,7 @@ write_mapchart_files <- function(inp, category.name = NULL){
                                    Habit = "", Stat = "", Genome = ""))
     # combine the filtered tibbles based on matching column names.
     out <- map2_df(.x = df.labels, .y = df, .f = ~ rbind(.x, .y))
-    out[2:5] %>% write_delim(str_c("output/mapchart/", category.name, "_grp_", i, ".mct"), delim = " ", col_names = FALSE)
+    out[2:5] %>% write_delim(str_c(output.path, category.name, "_grp_", i, ".mct"), delim = " ", col_names = FALSE)
     rm(df, df.labels, out)
   }
 }

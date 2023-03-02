@@ -1,13 +1,9 @@
 group 7A  
 F 0.653898  C1
-102.5_nor2_spr_Rsb_6/6 100  C3
-102.5_nor2_spr_xpEHH_5/6 100  C4
-131_nor2_spr_Rsb_12/13 126.5  C3
-131_nor2_spr_xpEHH_13/13 126.5  C4
 L 736.690219  C1
 group 7B  
 F 1.254524  C1
-331_spr2_spr_Rsb_7/7 327  C3
+331.0_spr2_S_rsb_2.26_7/7 327  C3
 Psy_B1*** 739.444462  C1
 L 750.605911  C1
 group 7D  

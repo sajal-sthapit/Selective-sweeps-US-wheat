@@ -1,30 +1,14 @@
 group 5A  
 F 0.010437  C1
-440.5_nor2_both_Fst_6/7 438  C2
-440.5_all2_both_xpEHH_6/7 438  C4
-453_nor2_both_xpEHH_9/9 448.5  C4
-482.5_nor2_both_Rsb_131/135 455 S20 C3
-482.5_nor2_both_xpEHH_135/135 455 S20 C4
-463_nor2_both_Fst_15/16 459.5  C2
-471.5_nor2_both_Fst_38/44 465.5 S12 C2
-490.5_nor2_both_Rsb_11/11 486  C3
-490.5_nor2_both_xpEHH_11/11 486  C4
-490.5_pnw2_both_xpEHH_8/10 486.5  C4
-507_nor2_both_Rsb_14/15 501.5 S12 C3
-567_pac2_both_Rsb_6/6 563.5  C3
-570.5_pac2_both_xpEHH_22/22 563.5 S12 C4
+490.5_pnw2_B_xpe_2.22_8/10 486.5  C4
 Vrn_A1b*** 587.423377  C1
 L 706.240291  C1
 group 5B  
 F 2.559379  C1
-21_pac2_both_Fst_7/8 18  C2
 Vrn_B1b*** 70.400386  C1
-433_gpl2_both_xpEHH_5/6 430.5  C4
-479_pac2_both_xpEHH_11/11 474.5  C4
-490.5_gpl2_both_xpEHH_13/14 486  C4
-541.5_gpl2_both_xpEHH_7/7 537  C4
-546.5_gpl2_both_xpEHH_9/9 543.5  C4
-559_pac2_both_xpEHH_11/14 555  C4
+490.5_gpl2_B_xpe_2.26_13/14 486  C4
+541.5_gpl2_B_xpe_2.19_7/7 537  C4
+546.5_gpl2_B_xpe_2.02_9/9 543.5  C4
 Vrn_B1c*** 573.815126  C1
 L 712.69712  C1
 group 5D  

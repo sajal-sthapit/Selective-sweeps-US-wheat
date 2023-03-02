@@ -1,0 +1,30 @@
+group 7A  
+F 0.653898  C1
+24_pnw_both_xpEHH_9/11 21.5  C4
+102.5_pac_both_xpEHH_5/6 100  C4
+541_eas_both_xpEHH_5/6 538.5  C4
+647_eas_both_Rsb_6/8 643  C3
+647.5_eas_both_xpEHH_9/10 643  C4
+647.5_nor_both_xpEHH_6/6 645  C4
+L 736.690219  C1
+group 7B  
+F 1.254524  C1
+37_eas_both_Fst_5/6 34  C2
+197_eas_both_Fst_5/6 194.5  C2
+331_gpl_both_Rsb_5/7 327  C3
+493.5_gpl_both_Rsb_12/12 487.5 S12 C3
+493.5_gpl_both_xpEHH_12/12 487.5 S12 C4
+516_gpl_both_Rsb_6/6 512.5  C3
+516_gpl_both_xpEHH_6/6 512.5  C4
+570_gpl_both_xpEHH_14/15 565.5  C4
+703_pnw_both_Rsb_28/32 700  C3
+703_pnw_both_xpEHH_28/32 700  C4
+Psy_B1*** 739.444462  C1
+L 750.605911  C1
+group 7D  
+F 3.782322  C1
+Tgw_TaGS_D1*** 6.484404  C1
+Lr34*** 47.418406  C1
+Pch1*** 53.270879  C1
+L 634.592293  C1
+Psy1_D1*** 636.76975  C1

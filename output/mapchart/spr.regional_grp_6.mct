@@ -1,20 +1,17 @@
 group 6A  
 F 0.289887  C1
-36.5_pac_spr_Rsb_19/21 30.5  C3
-35.5_nor_spr_Rsb_9/11 33  C3
-35.5_pac_spr_xpEHH_10/11 33  C4
-546_pac_spr_Fst_11/13 542  C2
-575_pac_spr_Fst_6/6 572  C2
-582_pac_spr_xpEHH_5/6 579.5  C4
-585_gpl_spr_xpEHH_11/14 581  C4
-587_nor_spr_Rsb_5/6 584  C3
+" 36.5_pac_S_rsb_2.46_19/21" 30.5  C3
+" 35.5_nor_S_rsb_2.13_9/11" 33  C3
+" 35.5_pac_S_xpe_2.12_10/11" 33  C4
+582.0_pac_S_xpe_2.22_5/6 579.5  C4
+585.0_gpl_S_xpe_2.28_11/14 581  C4
+587.0_nor_S_rsb_2.59_5/6 584  C3
 L 615.88945  C1
 group 6B  
 F 0.16948  C1
-50.5_pac_spr_Fst_5/6 48  C2
 1_FEH_w3*** 57.283399  C1
 Gpc_B1*** 134.592725  C1
-636.5_pnw_spr_xpEHH_13/13 632  C4
+636.5_pnw_S_xpe_2.41_13/13 632  C4
 L 720.983827  C1
 group 6D  
 F 1.413091  C1

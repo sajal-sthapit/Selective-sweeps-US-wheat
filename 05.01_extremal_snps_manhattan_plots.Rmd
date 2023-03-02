@@ -1,0 +1,91 @@
+---
+title: "05_extra_Extremal_snps_manhattan_plots"
+author: "Sajal Sthapit"
+date: '2023-03-01'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Export SNPids within the candidate regions to text files
+The mean_extr_mrk column in the calc_candidate_regions output include mean of absolute values. However, we want to know the sign (+/-) of the statistics in order to ascertain if the selection is happening in population 1 or 2. The chunk below adds the mean_extr_mrk with sign
+```{r Export markers in the candidate regions}
+# candidate region details are CHR, START, END, Category
+ext.rsb <- map(.x = 1:nrow(cr.rsb.df),
+                  .f = ~ rsb.id[[cr.rsb.df[.x,][["Category"]]]] %>% 
+                    filter(., abs(RSB) >= 2.0, 
+                           CHR == cr.rsb.df[.x,][["CHR"]], 
+                           POSITION >= cr.rsb.df[.x,][["START"]], 
+                           POSITION <= cr.rsb.df[.x,][["END"]]))
+
+ext.xpe <- map(.x = 1:nrow(cr.xpe.df),
+                  .f = ~ xpe.id[[cr.xpe.df[.x,][["Category"]]]] %>% 
+                    filter(., abs(XPEHH) >= 2.0, 
+                           CHR == cr.xpe.df[.x,][["CHR"]], 
+                           POSITION >= cr.xpe.df[.x,][["START"]], 
+                           POSITION <= cr.xpe.df[.x,][["END"]]))
+ext.fst <- map(.x = 1:nrow(cr.fst.df),
+               .f = ~ fst.id[[cr.fst.df[.x,][["Category"]]]]) %>% 
+  filter(., abs(FST)) # need fst threshold
+
+# use ext.rsb to add mean_extr_mrk_sign column to cr.rsb.df
+extr.mrk.stats <- list(rsb.mean = map_dbl(.x = 1:nrow(cr.rsb.df), .f = ~ ext.rsb[[.x]][["RSB"]] %>% mean()),
+                       rsb.num  = map_dbl(.x = 1:nrow(cr.rsb.df), .f = ~ ext.rsb[[.x]] %>% nrow()),
+                       xpe.mean = map_dbl(.x = 1:nrow(cr.xpe.df), .f = ~ ext.xpe[[.x]][["XPEHH"]] %>% mean()),
+                       xpe.num  = map_dbl(.x = 1:nrow(cr.xpe.df), .f = ~ ext.xpe[[.x]] %>% nrow()) )
+cr.rsb.df <- mutate(cr.rsb.df, nonABS_mean_extr_mrk = extr.mrk.stats$rsb.mean, stat_sign = if_else(nonABS_mean_extr_mrk > 0, "pos", "neg"))
+cr.rsb.df$MEAN_EXTR_MRK - abs(cr.rsb.df$nonABS_mean_extr_mrk) # check to see the results are identical
+cr.xpe.df <- mutate(cr.xpe.df, nonABS_mean_extr_mrk = extr.mrk.stats$xpe.mean, stat_sign = if_else(nonABS_mean_extr_mrk > 0, "pos", "neg"))
+cr.xpe.df$MEAN_EXTR_MRK - abs(cr.xpe.df$nonABS_mean_extr_mrk) # check to see the results are identical
+
+# updates the names of the ext.rsb and ext.xpe list items indicating whether the stat value is +ve or -ve
+names(ext.rsb) <- str_c(cr.rsb.df$stat_sign, cr.rsb.df$CHR, cr.rsb.df$Category, cr.rsb.df$START/1e6, cr.rsb.df$END/1e6, sep = "_")
+names(ext.xpe) <- str_c(cr.xpe.df$stat_sign, cr.xpe.df$CHR, cr.xpe.df$Category, cr.xpe.df$START/1e6, cr.xpe.df$END/1e6, sep = "_")
+
+# copy to the right folders
+dir.name <- "rsb"
+dir.create(dir.name)
+map_chr(.x = names(ext.rsb), .f = ~ dir.create(str_c(dir.name, "/", .x)) ) # by using map_chr, the warnings will be in one line instead of multiple lines.
+list.of.file.name.vectors <- map(.x = ext.rsb, .f = ~ str_c("./images/", .x[["SNPid"]], ".png")) # create file name vectors to use for copying next
+for(i in 1:length(list.of.file.name.vectors)){
+  file.copy(from = list.of.file.name.vectors[[i]], # double square brackets to get to the vector of characters instead of a list
+            to   = str_c("./", dir.name, "/", names(list.of.file.name.vectors[i]) ) )
+  }
+# repeat for xpehh
+rm(dir.name)
+dir.name <- "xpe"
+dir.create(dir.name)
+map_chr(.x = names(ext.rsb), .f = ~ dir.create(str_c(dir.name, "/", .x)) ) # by using map_chr, the warnings will be in one line instead of multiple lines.
+list.of.file.name.vectors <- map(.x = ext.rsb, .f = ~ str_c("./images/", .x[["SNPid"]], ".png")) # create file name vectors to use for copying next
+for(i in 1:length(list.of.file.name.vectors)){
+  file.copy(from = list.of.file.name.vectors[[i]], # double square brackets to get to the vector of characters instead of a list
+            to   = str_c("./", dir.name, "/", names(list.of.file.name.vectors[i]) ) )
+  }
+```
+
+
+# Manhattan plots were here
+# END of the script
+```{r manhattan plots}
+manhattanplot(rsb$win.win2)
+
+fst.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_fst_snp(pop1 = .x) )
+names(fst.mkr) <- pop.pairs$pop1
+rsb.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_rsb_snp(pop1 = .x) )
+names(rsb.mrk) <- pop.pairs$pop1
+xpe.mrk <- map(.x = pop.pairs$pop1, .f = ~ extract_most_extreme_xpehh_snp(pop1 = .x))
+names(xpe.mrk) <- pop.pairs$pop1
+
+manhattanplot(fst.id$both.all2, threshold = quantile.threshold[["both.all2"]], cr = cr.fst$both.all2, mrk = fst.mrk[["both.all2"]])
+
+# write the manhattan plots to a pdf file
+pdf(file = "output/manhattanplots.pdf", width = 10, height = 8)
+map(.x = pop.pairs$pop1, .f = ~ custom_manhattan(pop1 = .x))
+dev.off()
+
+
+
+
+```

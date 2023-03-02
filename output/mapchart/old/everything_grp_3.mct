@@ -1,0 +1,267 @@
+group 3A  
+F 1.03109  C1
+Phs_TaPHS1*** 7.295028  C1
+48.5_TX_both_Rsb_6/7 45.5  C3
+48.5_CO_both_Fst_5/6 46  C2
+48.5_gpl_both_Fst_5/6 46  C2
+48.5_gpl_win_Fst_5/6 46  C2
+48.5_KS_both_Fst_5/6 46  C2
+48.5_KS_win_Fst_5/6 46  C2
+48.5_NE_both_Fst_5/6 46  C2
+48.5_NE_win_Fst_5/6 46  C2
+48.5_NY_win_Rsb_5/6 46  C3
+57.5_IN_both_Fst_8/9 55  C2
+58.5_NY_win_xpEHH_10/13 55  C4
+60_TX_both_xpEHH_14/15 55  C4
+60_KS_both_Rsb_6/6 57.5  C3
+60_NY_win_Rsb_6/6 57.5  C3
+60_SC_win_Rsb_6/6 57.5  C3
+60_TX_both_Rsb_6/6 57.5  C3
+479_pnw_win_Fst_6/8 475.5  C2
+479_pnw_win_xpEHH_6/8 475.5  C4
+481_pnw_win_Rsb_5/6 478  C3
+513.5_KS_both_Rsb_10/10 509  C3
+513.5_SC_win_xpEHH_9/10 509  C4
+516.5_KS_both_xpEHH_18/18 509 S12 C4
+516.5_KS_win_xpEHH_18/18 509 S12 C4
+526_gpl2_both_xpEHH_48/50 509.5 S16 C4
+515.5_pnw_win_Rsb_5/6 512.5  C3
+521.5_KS_both_Rsb_19/20 515 S12 C3
+520_KS_both_Fst_12/15 515.5  C2
+523.5_KS_win_xpEHH_10/10 520  C4
+526_KS_both_xpEHH_19/19 520 S12 C4
+537.5_gpl2_both_xpEHH_27/27 528 S12 C4
+537.5_KS_both_xpEHH_27/27 528 S12 C4
+537.5_KS_both_Rsb_20/21 530.5 S12 C3
+537.5_ID_win_xpEHH_21/21 530.5 S12 C4
+537.5_KS_win_xpEHH_21/21 530.5 S12 C4
+534_TX_both_xpEHH_7/8 531.5  C4
+536.5_TX_both_Rsb_9/11 533  C3
+537_TX_both_xpEHH_6/6 534.5  C4
+559.5_gpl2_both_xpEHH_8/11 555  C4
+563_KS_both_xpEHH_23/23 555 S12 C4
+563_KS_win_xpEHH_21/23 555 S12 C4
+561_gpl_spr_Rsb_15/17 556.5  C3
+563_KS_both_Rsb_19/22 557 S12 C3
+567_gpl2_both_xpEHH_5/6 563.5  C4
+567_KS_both_xpEHH_6/6 563.5  C4
+567_KS_win_xpEHH_5/6 563.5  C4
+627_TX_both_xpEHH_6/6 624  C4
+655.5_ND_spr_xpEHH_25/25 648 S12 C4
+655.5_nor_spr_xpEHH_25/28 648 S12 C4
+651.5_MT_both_Fst_10/12 648.5  C2
+655.5_MN_spr_xpEHH_24/25 648.5 S12 C4
+655.5_MN_spr_Rsb_11/13 651  C3
+655.5_nor_spr_Rsb_13/13 651  C3
+661.5_ND_spr_Fst_5/6 657  C2
+661.5_nor_spr_Fst_5/6 657  C2
+661.5_nor_spr_xpEHH_5/6 657  C4
+665_MN_spr_xpEHH_15/15 657 S12 C4
+665_MN_spr_Rsb_9/9 661  C3
+686.5_pnw2_win_Rsb_9/12 683  C3
+688_pnw2_win_xpEHH_5/6 685.5  C4
+688.5_all2_both_xpEHH_5/6 686  C4
+688.5_pnw2_both_xpEHH_5/6 686  C4
+689_win2_win_xpEHH_10/12 686  C4
+691_pnw2_win_Rsb_6/7 687  C3
+Ssc_Tamby10_A1*** 703.906112  C1
+L 749.404642  C1
+group 3B  
+F 0.218952  C1
+Fhb_1snp3*** 8.848636  C1
+42_SC_both_xpEHH_7/8 38  C4
+42_SC_win_xpEHH_8/8 38  C4
+42.5_gpl2_both_Rsb_10/10 38  C3
+42.5_gpl2_win_Rsb_10/10 38  C3
+42.5_KS_both_Rsb_9/10 38  C3
+42.5_KS_win_Rsb_9/10 38  C3
+42.5_nor2_both_Rsb_9/10 38  C3
+42.5_pnw2_spr_xpEHH_9/10 38  C4
+42.5_ND_spr_Rsb_6/7 38.5  C3
+42.5_ND_spr_xpEHH_6/7 38.5  C4
+42_SC_both_Rsb_6/6 39.5  C3
+42_SC_win_Rsb_6/6 39.5  C3
+42.5_ND_both_Rsb_5/6 40  C3
+42.5_nor_both_Rsb_5/6 40  C3
+42.5_win2_win_Rsb_5/6 40  C3
+44.5_MN_both_Rsb_11/11 40  C3
+44.5_MN_spr_Rsb_10/11 40  C3
+44.5_gpl2_win_xpEHH_10/11 40  C4
+44.5_MN_both_xpEHH_11/11 40  C4
+44.5_MN_spr_xpEHH_11/11 40  C4
+56_eas2_both_Rsb_6/6 53.5  C3
+56_eas2_win_Rsb_6/6 53.5  C3
+56_MN_both_Rsb_7/7 53.5  C3
+56_nor_both_Rsb_7/7 53.5  C3
+56_nor_win_Rsb_7/7 53.5  C3
+56_win2_win_Rsb_6/7 53.5  C3
+56_ID_spr_xpEHH_7/7 53.5  C4
+56_MN_both_xpEHH_7/7 53.5  C4
+56_MN_spr_xpEHH_7/7 53.5  C4
+56_ND_both_xpEHH_6/7 53.5  C4
+56_nor_both_xpEHH_7/7 53.5  C4
+60.5_nor_win_Rsb_7/8 58  C3
+62.5_gpl2_win_xpEHH_12/12 58  C4
+65.5_ID_spr_xpEHH_22/22 58 S12 C4
+67_nor_win_xpEHH_31/33 58 S12 C4
+70_all2_both_xpEHH_42/44 58 S16 C4
+70_gpl2_both_xpEHH_42/44 58 S16 C4
+71_win2_win_Rsb_44/45 58 S16 C3
+71_win2_win_xpEHH_45/45 58 S16 C4
+61.5_eas2_win_xpEHH_8/10 58.5  C4
+61.5_MN_both_xpEHH_8/10 58.5  C4
+65.5_nor_both_xpEHH_20/23 58.5 S12 C4
+71_all2_both_Rsb_41/45 58.5 S16 C3
+65.5_gpl2_both_Rsb_11/13 61  C3
+70_pnw2_both_xpEHH_19/22 64 S12 C4
+69.5_pnw2_win_xpEHH_13/15 66  C4
+70_pnw2_both_Rsb_13/17 66  C3
+70.5_gpl2_both_Rsb_15/17 66  C3
+71_gpl2_win_xpEHH_17/18 66  C4
+70.5_gpl2_win_Rsb_12/13 66.5  C3
+Dr_TaDreb_B1*** 82.053918  C1
+118.5_ID_win_xpEHH_7/8 115.5  C4
+118.5_pnw2_both_xpEHH_8/8 115.5  C4
+416.5_ID_both_xpEHH_9/9 413.5  C4
+416.5_WA_both_xpEHH_9/9 413.5  C4
+418_pnw_both_xpEHH_11/11 413.5  C4
+418_pnw_both_Rsb_6/6 415  C3
+458_ID_both_xpEHH_6/6 455.5  C4
+458_pnw_both_xpEHH_6/6 455.5  C4
+458_pnw_win_xpEHH_6/6 455.5  C4
+458_WA_both_xpEHH_6/6 455.5  C4
+468.5_ID_both_Rsb_6/6 465  C3
+468.5_ID_win_Rsb_6/6 465  C3
+468.5_pnw_both_Rsb_6/6 465  C3
+468.5_pnw_win_Rsb_6/6 465  C3
+468.5_WA_both_Rsb_6/6 465  C3
+468.5_WA_win_Rsb_6/6 465  C3
+468.5_ID_both_xpEHH_6/6 465  C4
+468.5_MN_both_xpEHH_6/6 465  C4
+468.5_OR_win_xpEHH_6/6 465  C4
+468.5_pnw_both_xpEHH_6/6 465  C4
+468.5_pnw_win_xpEHH_6/6 465  C4
+468.5_WA_both_xpEHH_6/6 465  C4
+468.5_WA_win_xpEHH_6/6 465  C4
+483_ID_both_Rsb_17/17 478  C3
+483_pnw_both_Rsb_17/17 478  C3
+483_WA_both_Rsb_16/17 478  C3
+483_ID_both_xpEHH_17/17 478  C4
+483_OR_win_xpEHH_16/17 478  C4
+483_pnw_both_xpEHH_17/17 478  C4
+483_pnw_win_xpEHH_17/17 478  C4
+483_WA_both_xpEHH_17/17 478  C4
+482_WA_win_xpEHH_6/6 479.5  C4
+500.5_gpl_spr_Fst_5/6 497  C2
+500.5_ID_both_Rsb_6/6 497  C3
+500.5_MN_both_Rsb_6/6 497  C3
+500.5_pnw_both_Rsb_6/6 497  C3
+500.5_pnw_win_Rsb_6/6 497  C3
+500.5_WA_both_Rsb_6/6 497  C3
+500.5_WA_win_Rsb_6/6 497  C3
+500.5_gpl2_win_xpEHH_6/6 497  C4
+500.5_ID_both_xpEHH_6/6 497  C4
+500.5_MN_both_xpEHH_6/6 497  C4
+500.5_OR_win_xpEHH_6/6 497  C4
+500.5_pnw_both_xpEHH_6/6 497  C4
+500.5_pnw_win_xpEHH_6/6 497  C4
+500.5_WA_both_xpEHH_6/6 497  C4
+500.5_WA_win_xpEHH_6/6 497  C4
+516_ID_both_Rsb_13/13 509 S12 C3
+516_OR_win_Rsb_13/13 509 S12 C3
+516_pnw_both_Rsb_13/13 509 S12 C3
+516_pnw_win_Rsb_13/13 509 S12 C3
+516_WA_both_Rsb_13/13 509 S12 C3
+516_WA_win_Rsb_13/13 509 S12 C3
+516_ID_both_xpEHH_13/13 509 S12 C4
+516_MN_both_xpEHH_13/13 509 S12 C4
+516_OR_win_xpEHH_13/13 509 S12 C4
+516_pnw_both_xpEHH_13/13 509 S12 C4
+516_pnw_win_xpEHH_13/13 509 S12 C4
+516_WA_both_xpEHH_13/13 509 S12 C4
+516_WA_win_xpEHH_13/13 509 S12 C4
+516_ID_win_Rsb_6/7 512  C3
+516_MN_both_Rsb_6/7 512  C3
+525.5_CO_both_Fst_8/8 521.5  C2
+525.5_ID_both_Rsb_8/8 521.5  C3
+525.5_OR_win_Rsb_8/8 521.5  C3
+525.5_pnw_both_Rsb_8/8 521.5  C3
+525.5_pnw_win_Rsb_8/8 521.5  C3
+525.5_WA_both_Rsb_8/8 521.5  C3
+525.5_WA_win_Rsb_8/8 521.5  C3
+525.5_ID_both_xpEHH_8/8 521.5  C4
+525.5_OR_win_xpEHH_8/8 521.5  C4
+525.5_pnw_both_xpEHH_8/8 521.5  C4
+525.5_pnw_win_xpEHH_8/8 521.5  C4
+525.5_WA_both_xpEHH_8/8 521.5  C4
+525.5_WA_win_xpEHH_8/8 521.5  C4
+545_MN_both_xpEHH_8/9 541.5  C4
+546_ID_both_Rsb_10/10 541.5  C3
+546_ID_win_Rsb_10/10 541.5  C3
+546_pnw_both_Rsb_10/10 541.5  C3
+546_pnw_win_Rsb_10/10 541.5  C3
+546_WA_both_Rsb_10/10 541.5  C3
+546_ID_both_xpEHH_10/10 541.5  C4
+546_OR_win_xpEHH_10/10 541.5  C4
+546_pnw_both_xpEHH_10/10 541.5  C4
+546_pnw_win_xpEHH_10/10 541.5  C4
+546_WA_both_xpEHH_10/10 541.5  C4
+546_WA_win_xpEHH_10/10 541.5  C4
+562.5_ID_both_Rsb_7/8 559.5  C3
+562.5_pnw_both_Rsb_8/8 559.5  C3
+562.5_pnw_win_Rsb_8/8 559.5  C3
+562.5_WA_both_Rsb_8/8 559.5  C3
+562.5_WA_win_Rsb_8/8 559.5  C3
+562.5_ID_both_xpEHH_8/8 559.5  C4
+562.5_ID_win_xpEHH_7/7 559.5  C4
+562.5_pnw_both_xpEHH_8/8 559.5  C4
+562.5_pnw_win_xpEHH_8/8 559.5  C4
+562.5_WA_both_xpEHH_8/8 559.5  C4
+562.5_WA_win_xpEHH_8/8 559.5  C4
+584_pnw_win_xpEHH_20/20 577.5 S12 C4
+588.5_pnw_both_Rsb_32/33 577.5 S12 C3
+588.5_pnw_both_xpEHH_33/33 577.5 S12 C4
+581_WA_spr_Rsb_5/6 578  C3
+584_WA_both_Rsb_19/19 578 S12 C3
+584_WA_both_xpEHH_19/19 578 S12 C4
+584_WA_win_Rsb_11/13 579.5  C3
+584_WA_win_xpEHH_13/13 579.5  C4
+584_pnw_win_Rsb_13/14 580  C3
+584_WA_spr_xpEHH_10/11 580  C4
+588.5_WA_both_Rsb_8/8 585  C3
+588.5_pnw_win_xpEHH_8/8 585  C4
+588.5_WA_both_xpEHH_8/8 585  C4
+588.5_WA_spr_xpEHH_7/7 586  C4
+588.5_WA_win_xpEHH_7/7 586  C4
+632.5_nor_both_xpEHH_10/12 628  C4
+632.5_pnw2_win_xpEHH_8/8 628  C4
+732.5_pnw2_win_xpEHH_12/14 728  C4
+731.5_eas2_both_xpEHH_5/6 729  C4
+731.5_gpl_win_xpEHH_5/6 729  C4
+732.5_pnw2_win_Rsb_8/8 729  C3
+732.5_WA_both_xpEHH_7/8 729  C4
+739_pnw2_win_xpEHH_13/15 734.5  C4
+739.5_pnw2_win_Rsb_15/17 734.5  C3
+739.5_win2_win_Rsb_15/17 734.5  C3
+739.5_CA_both_xpEHH_14/17 734.5  C4
+740_win2_win_xpEHH_16/18 734.5  C4
+741_gpl2_win_Rsb_18/18 734.5 S12 C3
+741_gpl2_win_xpEHH_18/18 734.5 S12 C4
+739.5_nor_both_xpEHH_13/16 735.5  C4
+741_MT_both_xpEHH_14/16 735.5  C4
+739.5_CA_both_Rsb_9/11 737  C3
+739.5_OR_win_Rsb_9/11 737  C3
+744_ID_win_Fst_5/6 740  C2
+744_ND_both_Fst_5/6 740  C2
+744_ND_spr_Fst_5/6 740  C2
+744_nor_both_Fst_5/6 740  C2
+744_ND_both_Rsb_5/6 740  C3
+744_nor_both_Rsb_5/6 740  C3
+752.5_gpl2_win_Rsb_7/7 750  C3
+752.5_gpl2_win_xpEHH_7/7 750  C4
+Scc_Tamby10_B1*** 757.919838  C1
+L 829.197895  C1
+group 3D  
+F 0.773108  C1
+Scc_Tamyb10_D1*** 570.802111  C1
+L 614.691546  C1

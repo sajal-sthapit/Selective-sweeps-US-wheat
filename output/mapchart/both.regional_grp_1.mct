@@ -1,49 +1,30 @@
 group 1A  
 F 1.235801  C1
-30.5_nor_both_Rsb_6/8 27  C3
-39_gpl_both_Rsb_23/24 27 S16 C3
-39_gpl_both_xpEHH_15/15 31 S12 C4
-49_pac_both_Rsb_16/17 45  C3
-51_eas_both_Rsb_23/25 45 S12 C3
-51_gpl_both_Rsb_23/25 45 S12 C3
-51.5_eas_both_xpEHH_24/25 45 S12 C4
-51.5_gpl_both_xpEHH_24/25 45 S12 C4
+" 30.5_nor_B_rsb_2.31_6/8" 27  C3
+" 39.0_gpl_B_rsb_3.53_23/24" 27 S16 C3
+" 39.0_gpl_B_xpe_3.25_15/15" 31 S12 C4
+" 51.0_gpl_B_rsb_2.45_23/25" 45 S12 C3
+" 51.5_gpl_B_xpe_2.91_24/25" 45 S12 C4
 1RS_1AL*** 251.589418  C1
-347.5_pnw_both_Fst_10/11 343  C2
-347.5_pnw_both_xpEHH_10/11 343  C4
-357.5_pnw_both_xpEHH_19/19 352.5  C4
-365_pnw_both_xpEHH_8/8 361.5  C4
-370_pnw_both_Fst_6/6 367.5  C2
-372.5_pnw_both_xpEHH_12/13 367.5  C4
-476_gpl_both_Rsb_7/7 472.5  C3
-476_gpl_both_xpEHH_7/7 472.5  C4
-482.5_gpl_both_Rsb_13/15 478.5  C3
-484.5_gpl_both_xpEHH_17/21 480  C4
-489.5_gpl_both_Rsb_10/11 485  C3
-505_gpl_both_xpEHH_22/25 497.5 S12 C4
-506.5_gpl_both_Rsb_31/33 497.5 S12 C3
+476.0_gpl_B_rsb_2.17_7/7 472.5  C3
+476.0_gpl_B_xpe_2.85_7/7 472.5  C4
+482.5_gpl_B_rsb_3.01_13/15 478.5  C3
+484.5_gpl_B_xpe_2.27_17/21 480  C4
+489.5_gpl_B_rsb_2.60_10/11 485  C3
+505.0_gpl_B_xpe_2.75_22/25 497.5 S12 C4
+506.5_gpl_B_rsb_3.29_31/33 497.5 S12 C3
 Glu_A1*** 508.726018  C1
-519.5_pac_both_Rsb_6/7 517  C3
-545.5_gpl_both_Rsb_11/13 542  C3
-546_eas_both_Rsb_17/19 542  C3
-548_gpl_both_xpEHH_23/24 542 S12 C4
-553.5_nor_both_Rsb_40/42 542 S16 C3
-553.5_eas_both_xpEHH_42/42 542 S16 C4
-553.5_nor_both_xpEHH_42/42 542 S16 C4
-572.5_eas_both_xpEHH_26/27 564 S12 C4
-574.5_nor_both_Rsb_30/32 564 S12 C3
-575.5_nor_both_xpEHH_35/35 564 S16 C4
+519.5_pac_B_rsb_2.11_6/7 517  C3
+546.0_eas_B_rsb_2.57_17/19 542  C3
+553.5_eas_B_xpe_2.59_42/42 542 S16 C4
+572.5_eas_B_xpe_2.39_26/27 564 S12 C4
 L 593.550634  C1
 group 1B  
 F 1.252322  C1
 1RS_1BL*** 145.453219  C1
-283.5_pac_both_Rsb_7/7 280  C3
 Glu_B1*** 555.767198  C1
 L 688.7686  C1
 group 1D  
 F 0.578891  C1
-410_eas_both_Fst_13/14 406  C2
-418.5_nor_both_Fst_37/38 406 S16 C2
 Glu_D1*** 412.16293  C1
-493.5_pac_both_Fst_58/65 482 S16 C2
 L 495.229621  C1

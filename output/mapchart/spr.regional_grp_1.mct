@@ -1,44 +1,36 @@
 group 1A  
 F 1.235801  C1
-29_nor_spr_Rsb_12/13 24.5  C3
-49_nor_spr_Fst_16/17 45  C2
-51_nor_spr_Rsb_22/25 45  C3
-51_pac_spr_Fst_21/25 45.5  C2
+" 29.0_nor_S_rsb_2.26_12/13" 24.5  C3
+" 51.0_nor_S_rsb_2.17_22/25" 45  C3
+" 50.0_pac_S_fst_0.24_10/11" 45.5  C2
 1RS_1AL*** 251.589418  C1
-484.5_gpl_spr_xpEHH_16/18 480  C4
-485_pnw_spr_xpEHH_19/21 480  C4
-503.5_pnw_spr_Rsb_6/6 501  C3
-507.5_gpl_spr_xpEHH_27/29 501 S12 C4
-509_gpl_spr_Rsb_31/32 501 S12 C3
-508.5_pnw_spr_Rsb_12/14 505.5  C3
+484.5_gpl_S_xpe_2.20_16/18 480  C4
+507.5_gpl_S_xpe_2.58_27/29 501 S12 C4
+509.0_gpl_S_rsb_2.81_31/32 501 S12 C3
 Glu_A1*** 508.726018  C1
-519.5_pac_spr_Rsb_7/8 516.5  C3
-553.5_pnw_spr_xpEHH_48/48 540.5 S20 C4
-575.5_pnw_spr_xpEHH_34/35 564 S12 C4
-574.5_pnw_spr_Rsb_6/7 572  C3
+519.5_pac_S_rsb_2.35_7/8 516.5  C3
+553.5_pnw_S_xpe_2.43_48/48 540.5 S16 C4
+575.5_pnw_S_xpe_2.35_34/35 564 S12 C4
+574.5_pnw_S_rsb_2.40_6/7 572  C3
 L 593.550634  C1
 group 1B  
 F 1.252322  C1
 1RS_1BL*** 145.453219  C1
-319_gpl_spr_xpEHH_14/14 312.5 S12 C4
-331_gpl_spr_xpEHH_16/16 325  C4
-328.5_gpl_spr_Rsb_6/7 325.5  C3
-533.5_pac_spr_Rsb_6/6 531  C3
-551_pac_spr_Rsb_40/42 538.5 S16 C3
-558_pac_spr_Rsb_6/7 555  C3
+533.5_pac_S_rsb_2.15_6/6 531  C3
+551.0_pac_S_rsb_2.78_40/42 538.5 S16 C3
+558.0_pac_S_rsb_2.40_6/7 555  C3
 Glu_B1*** 555.767198  C1
-573.5_pac_spr_xpEHH_42/45 563.5 S12 C4
-572_pac_spr_Rsb_29/32 564.5 S12 C3
-626_nor_spr_Rsb_10/11 623  C3
-630_nor_spr_xpEHH_12/13 625.5  C4
-632_nor_spr_Rsb_10/12 629.5  C3
-643_nor_spr_xpEHH_14/15 640.5  C4
-646_nor_spr_Rsb_7/7 643.5  C3
-661.5_nor_spr_xpEHH_6/7 659  C4
+573.5_pac_S_xpe_2.50_42/45 563.5 S12 C4
+572.0_pac_S_rsb_2.84_29/32 564.5 S12 C3
+626.0_nor_S_rsb_2.38_10/11 623  C3
+630.0_nor_S_xpe_2.23_12/13 625.5  C4
+632.0_nor_S_rsb_2.49_10/12 629.5  C3
+643.0_nor_S_xpe_2.32_14/15 640.5  C4
+646.0_nor_S_rsb_2.09_7/7 643.5  C3
+661.5_nor_S_xpe_2.12_6/7 659  C4
 L 688.7686  C1
 group 1D  
 F 0.578891  C1
-418.5_nor_spr_Fst_37/38 406 S16 C2
+418.5_nor_S_fst_0.34_37/38 406 S16 C2
 Glu_D1*** 412.16293  C1
-495_pac_spr_Fst_71/77 482 S20 C2
 L 495.229621  C1

@@ -1,33 +1,18 @@
 group 3A  
 F 1.03109  C1
 Phs_TaPHS1*** 7.295028  C1
-526_gpl2_both_xpEHH_48/50 509.5 S16 C4
-537.5_gpl2_both_xpEHH_27/27 528 S12 C4
-559.5_gpl2_both_xpEHH_8/11 555  C4
-567_gpl2_both_xpEHH_5/6 563.5  C4
-688.5_all2_both_xpEHH_5/6 686  C4
-688.5_pnw2_both_xpEHH_5/6 686  C4
+688.5_all2_B_xpe_2.19_5/6 686  C4
+688.5_pnw2_B_xpe_2.26_5/6 686  C4
 Ssc_Tamby10_A1*** 703.906112  C1
 L 749.404642  C1
 group 3B  
 F 0.218952  C1
 Fhb_1snp3*** 8.848636  C1
-42.5_gpl2_both_Rsb_10/10 38  C3
-42.5_nor2_both_Rsb_9/10 38  C3
-56_eas2_both_Rsb_6/6 53.5  C3
-70_all2_both_xpEHH_42/44 58 S16 C4
-70_gpl2_both_xpEHH_42/44 58 S16 C4
-71_all2_both_Rsb_41/45 58.5 S16 C3
-65.5_gpl2_both_Rsb_11/13 61  C3
-70_pnw2_both_xpEHH_19/22 64 S12 C4
-70_pnw2_both_Rsb_13/17 66  C3
-70.5_gpl2_both_Rsb_15/17 66  C3
 Dr_TaDreb_B1*** 82.053918  C1
-118.5_pnw2_both_xpEHH_8/8 115.5  C4
-731.5_eas2_both_xpEHH_5/6 729  C4
 Scc_Tamby10_B1*** 757.919838  C1
 L 829.197895  C1
 group 3D  
 F 0.773108  C1
 Scc_Tamyb10_D1*** 570.802111  C1
+616.0_eas2_B_fst_0.18_12/13 610.5 S12 C2
 L 614.691546  C1

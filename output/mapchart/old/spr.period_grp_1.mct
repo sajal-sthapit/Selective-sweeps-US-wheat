@@ -1,0 +1,29 @@
+group 1A  
+F 1.235801  C1
+1RS_1AL*** 251.589418  C1
+485_spr2_spr_xpEHH_12/13 481  C4
+501_nor2_spr_Fst_6/7 498.5  C2
+Glu_A1*** 508.726018  C1
+L 593.550634  C1
+group 1B  
+F 1.252322  C1
+1RS_1BL*** 145.453219  C1
+533.5_pnw2_spr_xpEHH_15/15 528.5 S12 C4
+551_nor2_spr_Rsb_18/20 546.5  C3
+Glu_B1*** 555.767198  C1
+569_pac2_spr_Rsb_10/12 566.5  C3
+L 688.7686  C1
+group 1D  
+F 0.578891  C1
+36_pac2_spr_Fst_8/8 33  C2
+36_spr2_spr_Fst_8/8 33  C2
+39.5_pnw2_spr_Fst_5/6 36.5  C2
+39.5_spr2_spr_Fst_5/6 36.5  C2
+44_pac2_spr_Fst_7/7 41  C2
+44_pnw2_spr_Fst_7/7 41  C2
+44_spr2_spr_Fst_7/7 41  C2
+53_pac2_spr_Fst_22/22 45.5 S12 C2
+53_pnw2_spr_Fst_22/22 45.5 S12 C2
+53_spr2_spr_Fst_22/22 45.5 S12 C2
+Glu_D1*** 412.16293  C1
+L 495.229621  C1

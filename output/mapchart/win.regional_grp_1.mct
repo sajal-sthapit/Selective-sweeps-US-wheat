@@ -1,37 +1,25 @@
 group 1A  
 F 1.235801  C1
-26_gpl_win_Rsb_6/7 23.5  C3
-39_gpl_win_Rsb_26/27 26.5 S16 C3
-39_eas_win_xpEHH_14/15 31 S12 C4
-39_gpl_win_xpEHH_15/15 31 S12 C4
-39_eas_win_Rsb_8/9 34.5  C3
-48.5_gpl_win_Rsb_10/12 45  C3
-51.5_eas_win_Rsb_24/25 45 S12 C3
-51.5_eas_win_xpEHH_24/25 45 S12 C4
-51.5_gpl_win_xpEHH_24/25 45 S12 C4
+" 26.0_gpl_W_rsb_2.54_6/7" 23.5  C3
+" 39.0_gpl_W_rsb_3.33_26/27" 26.5 S16 C3
+" 39.0_gpl_W_xpe_3.43_15/15" 31 S12 C4
+" 48.5_gpl_W_rsb_2.16_10/12" 45  C3
+" 51.5_gpl_W_xpe_2.54_24/25" 45 S12 C4
 1RS_1AL*** 251.589418  C1
-476_gpl_win_xpEHH_6/7 472.5  C4
-481.5_pnw_win_xpEHH_9/9 478.5  C4
-502_gpl_win_xpEHH_10/11 497.5  C4
-504_gpl_win_Rsb_16/17 497.5 S12 C3
+476.0_gpl_W_xpe_2.44_6/7 472.5  C4
+481.5_pnw_W_xpe_2.26_9/9 478.5  C4
+502.0_gpl_W_xpe_2.50_10/11 497.5  C4
+504.0_gpl_W_rsb_2.71_16/17 497.5 S12 C3
 Glu_A1*** 508.726018  C1
-546_eas_win_Rsb_23/25 540.5  C3
-553.5_eas_win_xpEHH_48/48 540.5 S20 C4
-548_gpl_win_Rsb_23/24 542 S12 C3
-548_gpl_win_xpEHH_23/24 542 S12 C4
-553.5_nor_win_Rsb_37/39 542 S16 C3
-553.5_nor_win_xpEHH_39/39 542 S16 C4
-553.5_gpl_win_xpEHH_9/10 550  C4
-572.5_eas_win_xpEHH_26/27 564 S12 C4
-572.5_nor_win_xpEHH_26/26 564 S12 C4
-568.5_nor_win_Rsb_6/6 566  C3
-571.5_eas_win_Rsb_8/9 568.5  C3
+546.0_eas_W_rsb_2.51_23/25 540.5  C3
+553.5_eas_W_xpe_2.51_48/48 540.5 S16 C4
+572.5_eas_W_xpe_2.16_26/27 564 S12 C4
+571.5_eas_W_rsb_2.21_8/9 568.5  C3
 L 593.550634  C1
 group 1B  
 F 1.252322  C1
-58_eas_win_Rsb_9/13 54  C3
+" 58.0_eas_W_rsb_2.06_9/13" 54  C3
 1RS_1BL*** 145.453219  C1
-329_nor_win_Rsb_12/13 325  C3
 Glu_B1*** 555.767198  C1
 L 688.7686  C1
 group 1D  

@@ -1,18 +1,16 @@
 group 4A  
 F 0.745526  C1
-30_gpl2_win_xpEHH_7/7 27  C4
-663_win2_win_xpEHH_10/11 659.5  C4
+663.0_win2_W_xpe_2.21_10/11 659.5  C4
 L 744.310552  C1
 group 4B  
 F 0.622299  C1
-19.5_gpl2_win_xpEHH_20/21 12.5 S12 C4
+" 19.5_gpl2_W_xpe_2.66_20/21" 12.5 S12 C4
 Lox_B1*** 27.249814  C1
 Rht_B1*** 30.860705  C1
 Rht_B1*** 30.861544  C1
-63_eas2_win_xpEHH_10/10 58.5  C4
-529.5_gpl2_win_Rsb_6/7 525  C3
-529.5_win2_win_Rsb_7/7 525  C3
-529.5_gpl2_win_xpEHH_7/7 525  C4
+529.5_gpl2_W_rsb_2.06_6/7 525  C3
+529.5_win2_W_rsb_2.34_7/7 525  C3
+529.5_gpl2_W_xpe_3.05_7/7 525  C4
 L 672.23642  C1
 group 4D  
 F 1.876347  C1

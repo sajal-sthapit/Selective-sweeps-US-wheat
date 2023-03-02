@@ -377,8 +377,9 @@ library(tidyverse)</code></pre>
 <pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>cr &lt;- read_csv(&quot;output/cr_consolidated.csv&quot;)</code></pre>
-<pre><code>## Rows: 1799 Columns: 16</code></pre>
+<pre class="r"><code>res &lt;- readRDS(&quot;output/raw_results_for_cr_search.RDS&quot;)
+cr &lt;- read_csv(&quot;output/cr_consolidated.csv&quot;)</code></pre>
+<pre><code>## Rows: 1229 Columns: 16</code></pre>
 <pre><code>## -- Column specification --------------------------------------------------------
 ## Delimiter: &quot;,&quot;
 ## chr (7): Genome, CHR, POP, Stat, Category, Habit, Pops
@@ -399,10 +400,13 @@ library(tidyverse)</code></pre>
 ## 2 A      1A       10    17  7000 IN (xpEHH 5.1~ xpEHH win.IN   win   IN       31
 ## # ... with 5 more variables: N_EXTR_MRK &lt;dbl&gt;, PERC_EXTR_MRK &lt;dbl&gt;,
 ## #   MEAN_MRK &lt;dbl&gt;, MAX_MRK &lt;dbl&gt;, MEAN_EXTR_MRK &lt;dbl&gt;</code></pre>
-<pre class="r"><code>cr &lt;- cr %&gt;% select(Habit, CHR, START, END, KB, N_MRK, N_EXTR_MRK, Stat, Pops, Category) %&gt;% 
+<pre class="r"><code>cr &lt;- cr %&gt;% select(Habit, CHR, START, END, KB, N_MRK, N_EXTR_MRK, MEAN_EXTR_MRK, Stat, Pops, Category) %&gt;% 
   mutate(., Pop.H = str_c(Pops, &quot;_&quot;, Habit),
-         label = str_c(END, &quot;_&quot;, Pops, &quot;_&quot;, Habit, &quot;_&quot;, Stat, &quot;_&quot;, N_EXTR_MRK, &quot;/&quot;, N_MRK))
-
+         label = str_c(format(END, nsmall = 1), &quot;_&quot;, Pops, &quot;_&quot;, 
+                       toupper(str_sub(Habit, 1, 1)), &quot;_&quot;, 
+                       tolower(str_sub(Stat, 1, 3)), &quot;_&quot;,
+                       format(round(MEAN_EXTR_MRK, digits = 2), nsmall = 2), &quot;_&quot;,
+                       N_EXTR_MRK, &quot;/&quot;, N_MRK))
 # categories
 unique(cr$Category) %&gt;% sort()</code></pre>
 <pre><code>##  [1] &quot;both.all2&quot; &quot;both.CA&quot;   &quot;both.CO&quot;   &quot;both.eas&quot;  &quot;both.eas2&quot; &quot;both.gpl&quot; 
@@ -431,7 +435,9 @@ map_chr(.x = categories, .f = ~ length(.x)) # number of populations in each cate
 ##          &quot;12&quot;           &quot;5&quot;           &quot;9&quot;           &quot;5&quot;           &quot;4&quot; 
 ##  win.regional   both.period    spr.period    win.period    everything 
 ##           &quot;4&quot;           &quot;6&quot;           &quot;4&quot;           &quot;4&quot;          &quot;53&quot;</code></pre>
-<pre class="r"><code>unique(cr$Pops) %&gt;% unique %&gt;% sort()</code></pre>
+<pre class="r"><code>saveRDS(categories, &quot;output/categories.rds&quot;)
+
+unique(cr$Pops) %&gt;% unique %&gt;% sort()</code></pre>
 <pre><code>##  [1] &quot;all2&quot; &quot;CA&quot;   &quot;CO&quot;   &quot;eas&quot;  &quot;eas2&quot; &quot;gpl&quot;  &quot;gpl2&quot; &quot;ID&quot;   &quot;IN&quot;   &quot;KS&quot;  
 ## [11] &quot;MN&quot;   &quot;MT&quot;   &quot;ND&quot;   &quot;NE&quot;   &quot;nor&quot;  &quot;nor2&quot; &quot;NY&quot;   &quot;OR&quot;   &quot;pac&quot;  &quot;pac2&quot;
 ## [21] &quot;pnw&quot;  &quot;pnw2&quot; &quot;SC&quot;   &quot;spr2&quot; &quot;TX&quot;   &quot;WA&quot;   &quot;win2&quot;</code></pre>
@@ -447,12 +453,12 @@ map_chr(.x = categories, .f = ~ length(.x)) # number of populations in each cate
 ## [49] &quot;TX_both&quot;   &quot;WA_both&quot;   &quot;WA_spr&quot;    &quot;WA_win&quot;    &quot;win2_win&quot;</code></pre>
 <pre class="r"><code>cr &lt;- arrange(cr, CHR, START, END, Stat, Pop.H)
 head(cr, 2)</code></pre>
-<pre><code>## # A tibble: 2 x 12
-##   Habit CHR   START   END    KB N_MRK N_EXTR_MRK Stat  Pops  Category Pop.H  
-##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;  
-## 1 both  1A       10    17  7000    31         31 xpEHH IN    both.IN  IN_both
-## 2 win   1A       10    17  7000    31         31 xpEHH IN    win.IN   IN_win 
-## # ... with 1 more variable: label &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 2 x 13
+##   Habit CHR   START   END    KB N_MRK N_EXTR_MRK MEAN_EXTR_MRK Stat  Pops 
+##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+## 1 both  1A       10    17  7000    31         31          3.48 xpEHH IN   
+## 2 win   1A       10    17  7000    31         31          3.64 xpEHH IN   
+## # ... with 3 more variables: Category &lt;chr&gt;, Pop.H &lt;chr&gt;, label &lt;chr&gt;</code></pre>
 <pre class="r"><code># Generate summaries
 map(.x = categories, 
     .f = ~ filter(cr, Category %in% .x) %&gt;% 
@@ -461,188 +467,178 @@ map(.x = categories,
                                  minMrk = min(N_MRK), maxMrk = max(N_MRK), 
                                  meanMrk = mean(N_MRK), medMrk = median(N_MRK),
                                  minExMrk = min(N_EXTR_MRK), maxExMrk = max(N_EXTR_MRK), 
-                                 meanExMrk = mean(N_EXTR_MRK), medExMrk = median(N_EXTR_MRK)) %&gt;% as.data.frame )</code></pre>
+                                 meanExMrk = mean(N_EXTR_MRK), medExMrk = median(N_EXTR_MRK)) %&gt;% knitr::kable()  )</code></pre>
 <pre><code>## $both.state
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 17000  3000 3778.846      6     81 12.32692    7.5        5
-## 2   Rsb  2500 17000  4000 5006.757      6     58 14.62162   10.0        5
-## 3 xpEHH  2500 22500  4500 5206.989      6     62 15.55914   12.0        5
-##   maxExMrk meanExMrk medExMrk
-## 1       77  11.01923        7
-## 2       58  13.57432        9
-## 3       62  14.77957       11
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  2500| 12500|  3500| 4117.647|      6|     38| 11.17647|      8|        5|       37|  10.35294|        8|
+## |Rsb   |  2500| 17000|  4000| 5074.627|      6|     58| 14.68657|     10|        5|       58|  13.62687|        9|
+## |xpEHH |  2500| 22500|  4500| 5268.987|      6|     62| 15.73418|     12|        5|       62|  14.95570|       11|
 ## 
 ## $spr.state
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 13000  4000 4222.222      6     77 12.55556    7.0        5
-## 2   Rsb  2500 12500  4000 4750.000      6     81 14.98387   11.5        5
-## 3 xpEHH  2500 21000  4500 5506.667      6     88 16.88000   12.0        5
-##   maxExMrk meanExMrk medExMrk
-## 1       70  11.33333        7
-## 2       69  13.64516       10
-## 3       85  16.12000       11
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  3500| 12500|  5500| 6750.000|      6|     38| 21.50000|   21.0|        5|       37|  20.25000|     19.5|
+## |Rsb   |  2500| 12500|  4500| 5009.804|      6|     81| 16.07843|   12.0|        5|       69|  14.66667|     11.0|
+## |xpEHH |  2500| 21000|  4500| 5525.000|      6|     88| 17.16667|   11.5|        6|       85|  16.33333|     11.0|
 ## 
 ## $win.state
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 18000  3500 4436.170      6     83 17.78723   10.0        5
-## 2   Rsb  2500 18500  4000 5231.707      6     80 16.01220   11.0        5
-## 3 xpEHH  2500 18000  4500 5246.154      6     91 16.20000   12.5        5
-##   maxExMrk meanExMrk medExMrk
-## 1       76  15.63830        8
-## 2       70  14.73171        9
-## 3       91  15.29231       12
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  2500| 12500|  4000| 4705.882|      6|     79| 16.00000|      8|        5|       72|  14.76471|        7|
+## |Rsb   |  2500| 18500|  4500| 5535.211|      6|     80| 16.83099|     11|        5|       70|  15.53521|       10|
+## |xpEHH |  2500| 18000|  4500| 5543.689|      6|     91| 17.09709|     13|        5|       91|  16.24272|       12|
 ## 
 ## $both.regional
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 17000  3500 5250.000      6     81 20.95000    9.5        5
-## 2   Rsb  2500 16500  4000 5235.294      6     58 16.61765   11.5        5
-## 3 xpEHH  2500 14500  4500 5175.325      6     58 15.87013   12.0        5
-##   maxExMrk meanExMrk medExMrk
-## 1       77  19.00000      8.5
-## 2       58  15.10294     10.5
-## 3       58  15.05195     12.0
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  3500|  3500|  3500| 3500.000|      6|      6|  6.00000|      6|        5|        5|   5.00000|        5|
+## |Rsb   |  2500| 16500|  4000| 5172.414|      6|     58| 16.05172|     11|        5|       58|  14.63793|       10|
+## |xpEHH |  2500| 14500|  4500| 5218.182|      6|     58| 16.01818|     13|        5|       58|  15.25455|       12|
 ## 
 ## $spr.regional
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 13000  3750 4777.778      6     77 15.66667      9        5
-## 2   Rsb  2500 12500  4000 4908.163      6     42 15.38776     12        5
-## 3 xpEHH  2500 14500  4500 5720.339      6     49 17.59322     13        5
-##   maxExMrk meanExMrk medExMrk
-## 1       71  14.22222      7.5
-## 2       40  14.14286     10.0
-## 3       48  16.61017     13.0
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  3500| 12500|  4250| 6125.000|      8|     38| 17.75000|   12.5|        8|       37|  16.75000|     11.0|
+## |Rsb   |  2500| 12500|  4000| 5102.941|      6|     42| 16.41176|   12.5|        5|       40|  15.08824|     11.5|
+## |xpEHH |  2500| 14500|  4500| 5536.585|      6|     49| 17.14634|   13.0|        5|       48|  16.17073|     12.0|
 ## 
 ## $win.regional
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 12500  3500 4391.304      6     81 17.95652    9.0        5
-## 2   Rsb  2500 16000  4250 4982.759      6     54 16.20690   12.5        5
-## 3 xpEHH  2500 13000  4500 5109.375      6     48 16.54688   11.5        5
-##   maxExMrk meanExMrk medExMrk
-## 1       77  16.00000      8.0
-## 2       53  14.79310     10.5
-## 3       48  15.51562     10.0
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  3000|  7500|  4000| 4400.000|      7|     44| 15.40000|      9|        6|       40|  14.00000|        8|
+## |Rsb   |  2500| 16000|  4000| 4883.721|      6|     54| 15.69767|     12|        5|       53|  14.34884|       10|
+## |xpEHH |  2500| 13000|  4500| 5267.442|      6|     48| 17.13953|     12|        5|       48|  16.02326|       11|
 ## 
 ## $both.period
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 12500  3500 4200.000      6     44 12.97143      8        5
-## 2   Rsb  2500 27500  4500 5354.545      6    135 17.67273     11        5
-## 3 xpEHH  2500 27500  4500 5231.132      6    135 16.25472     10        5
-##   maxExMrk meanExMrk medExMrk
-## 1       38  12.02857        8
-## 2      131  16.45455       11
-## 3      135  15.45283       10
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  3000|  7500|  4000| 4437.500|      6|     22| 10.50000|      8|        5|       22|   9.75000|      7.5|
+## |Rsb   |  2500| 14500|  4500| 5078.947|      6|     58| 16.18421|     11|        5|       56|  15.02632|     10.0|
+## |xpEHH |  2500| 14500|  4000| 4964.789|      6|     58| 15.07042|     10|        5|       58|  14.35211|      9.0|
 ## 
 ## $spr.period
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 12500  3000 4189.655      6     81 13.41379      7        5
-## 2   Rsb  2500 23000  4500 5715.686      6    124 19.62745     11        5
-## 3 xpEHH  2500 25500  4500 5687.500      6    131 18.45312     12        5
-##   maxExMrk meanExMrk medExMrk
-## 1       77  12.58621        7
-## 2      120  18.64706       11
-## 3      130  17.92188       11
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  2500|  7500|  3500| 4277.778|      6|     23| 11.11111|    7.0|        5|       22|  10.44444|        7|
+## |Rsb   |  2500| 15500|  4500| 5447.368|      6|     60| 17.10526|   11.0|        5|       59|  16.52632|       11|
+## |xpEHH |  2500| 15500|  4500| 5597.826|      6|     59| 17.45652|   11.5|        6|       58|  17.00000|       11|
 ## 
 ## $win.period
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 12500  3500 5461.538      6     81 20.53846     11        5
-## 2   Rsb  2500 24000  4000 5288.462      6    121 17.11538     11        5
-## 3 xpEHH  2500 24000  4500 5091.549      6    121 15.88732     11        5
-##   maxExMrk meanExMrk medExMrk
-## 1       73  18.61538      9.0
-## 2      120  15.98077      9.5
-## 3      121  15.12676     11.0
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  3000|  4000|  3500| 3500.000|      7|     11|  9.00000|      9|        7|        9|   8.00000|        8|
+## |Rsb   |  2500| 24000|  4250| 5652.778|      6|    121| 18.69444|     11|        5|      120|  17.38889|        9|
+## |xpEHH |  2500| 24000|  4500| 5569.767|      6|    121| 17.79070|     13|        5|      121|  17.04651|       11|
 ## 
 ## $everything
-##    Stat minKB maxKB medKB   meanKB minMrk maxMrk  meanMrk medMrk minExMrk
-## 1   Fst  2500 18000  3500 4357.955      6     83 15.30303      8        5
-## 2   Rsb  2500 27500  4000 5137.600      6    135 16.14880     11        5
-## 3 xpEHH  2500 27500  4500 5296.274      6    135 16.36659     12        5
-##   maxExMrk meanExMrk medExMrk
-## 1       77  13.81061        8
-## 2      131  14.92480       10
-## 3      135  15.54928       11</code></pre>
+## 
+## 
+## |Stat  | minKB| maxKB| medKB|   meanKB| minMrk| maxMrk|  meanMrk| medMrk| minExMrk| maxExMrk| meanExMrk| medExMrk|
+## |:-----|-----:|-----:|-----:|--------:|------:|------:|--------:|------:|--------:|--------:|---------:|--------:|
+## |Fst   |  2500| 12500|  4000| 4580.882|      6|     79| 13.42647|      8|        5|       72|  12.44118|        8|
+## |Rsb   |  2500| 24000|  4500| 5199.801|      6|    121| 16.07356|     11|        5|      120|  14.87276|       10|
+## |xpEHH |  2500| 24000|  4500| 5362.903|      6|    121| 16.50968|     12|        5|      121|  15.71129|       11|</code></pre>
 <pre class="r"><code># Quantiles of candidate region sizes in KB
 map(.x = categories, .f = ~ filter(cr, Category %in% .x) %&gt;% .[[&quot;KB&quot;]] %&gt;% quantile(c(.5, .75, .875, .9375, .96875, .984375, .9921875 )))</code></pre>
 <pre><code>## $both.state
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   4000.00   5500.00   7000.00  11000.00  13484.38  16500.00  17000.00 
+##      4500      6000      7500     12125     13875     16500     17000 
 ## 
 ## $spr.state
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   4000.00   6000.00   8000.00  10812.50  12453.12  13000.00  14089.84 
+##   4500.00   6500.00   8500.00  12000.00  12500.00  13328.12  15210.94 
 ## 
 ## $win.state
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   4000.00   5750.00   7500.00  12000.00  14437.50  16468.75  17992.19 
+##   4500.00   6000.00   8250.00  12500.00  14562.50  16531.25  17757.81 
 ## 
 ## $both.regional
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##    4000.0    6000.0    9500.0   11500.0   12437.5   14500.0   15937.5 
+##   4000.00   6000.00   8937.50  11000.00  12234.38  14500.00  14734.38 
 ## 
 ## $spr.regional
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   4500.00   6500.00   8875.00  12000.00  12546.88  13000.00  13035.16 
+##   4500.00   6500.00   8750.00  11625.00  12781.25  13000.00  13585.94 
 ## 
 ## $win.regional
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##    4000.0    6000.0    8000.0   10500.0   12250.0   12500.0   12937.5 
+##   4000.00   6250.00   8000.00   9562.50  12500.00  12796.88  13890.62 
 ## 
 ## $both.period
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   4500.00   5500.00   7000.00  11406.25  14312.50  14500.00  21742.19 
+##      4500      5500      7000     11000     13250     14500     14500 
 ## 
 ## $spr.period
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   4500.00   5000.00   8000.00  14000.00  15031.25  16265.62  22238.28 
+##    4500.0    5000.0    8000.0   14000.0   14500.0   15062.5   15500.0 
 ## 
 ## $win.period
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   4500.00   5500.00   7687.50  12500.00  13000.00  16281.25  23589.84 
+##   4500.00   6000.00   9437.50  12500.00  15437.50  22007.81  24000.00 
 ## 
 ## $everything
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##      4000      6000      8000     12000     13000     15500     17000</code></pre>
+##   4500.00   6000.00   8500.00  12000.00  14406.25  15500.00  16851.56</code></pre>
 <pre class="r"><code># Quantiles of number of extremal markers in the candidate regions
 map(.x = categories, .f = ~ filter(cr, Category %in% .x) %&gt;% .[[&quot;N_EXTR_MRK&quot;]] %&gt;% quantile(c(.5, .75, .875, .9375, .96875, .984375, .9921875 )))</code></pre>
 <pre><code>## $both.state
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##  10.00000  17.00000  23.00000  35.87500  41.00000  57.96875  58.00000 
+##    10.000    18.000    24.000    36.750    42.500    56.375    58.000 
 ## 
 ## $spr.state
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##  10.00000  17.25000  24.00000  36.00000  44.53125  56.42188  69.72656 
+##  11.00000  19.00000  28.25000  37.00000  45.00000  51.03125  70.75000 
 ## 
 ## $win.state
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##  10.00000  18.00000  26.00000  41.00000  54.75000  71.93750  74.95312 
+##  11.00000  18.00000  28.25000  41.25000  55.06250  65.15625  71.03125 
 ## 
 ## $both.regional
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   11.0000   19.0000   30.0000   38.5000   51.6250   58.0000   68.0625 
+##  11.50000  18.75000  28.00000  34.87500  40.93750  54.17188  58.00000 
 ## 
 ## $spr.regional
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##  11.50000  19.75000  31.37500  35.00000  40.18750  46.09375  48.53906 
+##  12.00000  20.00000  31.25000  35.25000  41.12500  45.12500  46.78125 
 ## 
 ## $win.regional
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##    10.000    20.000    27.000    37.000    45.000    52.500    69.625 
+##  10.00000  20.50000  27.50000  37.50000  42.31250  49.78125  51.59375 
 ## 
 ## $both.period
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##  10.00000  17.00000  27.00000  37.81250  47.43750  57.90625  92.78906 
+##     9.000    18.000    26.500    32.750    46.875    56.375    58.000 
 ## 
 ## $spr.period
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##  11.00000  17.00000  25.75000  58.00000  58.53125  76.29688 114.96094 
+##  11.00000  17.00000  27.50000  54.25000  58.00000  58.00000  58.28125 
 ## 
 ## $win.period
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##  10.00000  17.00000  26.25000  40.56250  50.90625  71.14062 117.42969 
+##   10.0000   20.0000   29.7500   40.9375   53.8750  103.0000  120.3672 
 ## 
 ## $everything
 ##       50%       75%     87.5%    93.75%   96.875%  98.4375% 99.21875% 
-##   10.0000   18.0000   27.0000   39.0000   51.2500   58.1250   74.5625</code></pre>
+##  10.00000  19.00000  27.25000  40.00000  51.00000  58.00000  58.70312</code></pre>
 <pre class="r"><code># Create Known Informative Markers data frame ----
 kim &lt;- read.delim(&quot;data/KIM-positions-simplified-051721.txt&quot;, header = TRUE, sep = &quot;\t&quot;)
 kim &lt;- filter(kim, Prop &gt;= 0.95) %&gt;%  mutate(., Pos = Start/1000000) %&gt;% select(., Chromosome, Marker, Pos)
@@ -672,13 +668,6 @@ g.pos &lt;- read_delim(&quot;data/genotype_AB_format_10391_loci_imputed.txt&quot
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>head(map)</code></pre>
-<pre><code>##                                                         
-## 1 function (.x, .f, ...)                                
-## 2 {                                                     
-## 3     .f &lt;- as_mapper(.f, ...)                          
-## 4     .Call(map_impl, environment(), &quot;.x&quot;, &quot;.f&quot;, &quot;list&quot;)
-## 5 }</code></pre>
 <pre class="r"><code>chr.beg &lt;- g.pos %&gt;% group_by(Chrom) %&gt;% 
   summarize(Tag = &quot;F&quot;, Pos = min(pos)/1000000, 
             Color = &quot;C1&quot;, Habit = &quot;inc&quot;, Stat = &quot;inc&quot;, Size = &quot;&quot;)
@@ -689,15 +678,58 @@ rm(g.pos)
 # Create input map files for each category for Mapchart plotting ----
 map.inputs &lt;- map(.x = categories, 
                   .f = ~ create_map_file_by_category(cr = filter(cr, Category %in% .x), kim = kim, chr.beg = chr.beg, chr.end = chr.end) )
-names(map.inputs) &lt;- names(categories)</code></pre>
+names(map.inputs) &lt;- names(categories)
+
+# for less dense plotting use 99th percentile (2.5 for Rsb and xpEHH, and population specific Fst threshold)
+head(res$quantile.threshold.99)</code></pre>
+<pre><code>## both.all2   both.CA   both.CO  both.eas both.eas2  both.gpl 
+## 0.1077280 0.4575323 0.2346230 0.3059064 0.2298768 0.2107294</code></pre>
+<pre class="r"><code>qt &lt;- tibble(Category = names(res$quantile.threshold.99), threshold.99 = res$quantile.threshold.99)
+cr.fst &lt;- filter(cr, Stat == &quot;Fst&quot;) %&gt;% left_join(., qt, by = &quot;Category&quot;)
+cr.ehh &lt;- filter(cr, Stat %in% c(&quot;Rsb&quot;, &quot;xpEHH&quot;)) %&gt;% mutate(., threshold.99 = 2.5)
+cr.99 &lt;- rbind(cr.fst, cr.ehh) %&gt;% arrange(., CHR, START, END, Stat, Pop.H) %&gt;% filter(., MEAN_EXTR_MRK &gt;= threshold.99)
+# create input map files using 2.5 SD threshold
+map.inputs.2 &lt;- map(.x = categories, 
+                  .f = ~ create_map_file_by_category(cr = filter(cr.99, Category %in% .x), kim = kim, chr.beg = chr.beg, chr.end = chr.end) )
+names(map.inputs.2) &lt;- names(categories)</code></pre>
 </div>
 <div id="generate-output-by-chromosome-group" class="section level1">
 <h1>Generate output by Chromosome Group</h1>
 <p>1A, 1B, 1D will be in one file and so on for total 7 files for 7
 groups. Then, I can adjust the heights specifically for the groups.
 Still testing</p>
-<pre class="r"><code>map2(.x = map.inputs, .y = names(map.inputs),
-    .f = ~ write_mapchart_files(inp = .x, category.name = .y))</code></pre>
+<pre class="r"><code>write_csv(cr.99, &quot;output/cr_99_consolidated.csv&quot;)
+map2(.x = map.inputs, .y = names(map.inputs), .f = ~ write_mapchart_files(inp = .x, category.name = .y))</code></pre>
+<pre><code>## $both.state
+## NULL
+## 
+## $spr.state
+## NULL
+## 
+## $win.state
+## NULL
+## 
+## $both.regional
+## NULL
+## 
+## $spr.regional
+## NULL
+## 
+## $win.regional
+## NULL
+## 
+## $both.period
+## NULL
+## 
+## $spr.period
+## NULL
+## 
+## $win.period
+## NULL
+## 
+## $everything
+## NULL</code></pre>
+<pre class="r"><code>map2(.x = map.inputs.2, .y = names(map.inputs.2), .f = ~ write_mapchart_files(inp = .x, category.name = .y, output.path = &quot;output/mapchart_sd2.5/&quot;)) # input files with threshold of 2.5 SD</code></pre>
 <pre><code>## $both.state
 ## NULL
 ## 

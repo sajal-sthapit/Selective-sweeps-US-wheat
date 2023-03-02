@@ -1,0 +1,29 @@
+group 7A  
+F 0.653898  C1
+22.5_pnw_win_Rsb_12/14 20  C3
+25_pnw_win_xpEHH_22/25 20  C4
+613.5_nor_win_xpEHH_5/6 611  C4
+645_nor_win_xpEHH_6/6 642.5  C4
+L 736.690219  C1
+group 7B  
+F 1.254524  C1
+493.5_eas_win_xpEHH_6/7 489.5  C4
+531_pnw_win_Fst_8/9 526.5  C2
+590_nor_win_Rsb_22/22 582 S12 C3
+595.5_eas_win_Rsb_5/6 592  C3
+611_nor_win_Rsb_8/8 606.5  C3
+611_nor_win_xpEHH_8/8 606.5  C4
+645.5_nor_win_Rsb_28/34 636.5 S12 C3
+703.5_pnw_win_xpEHH_35/39 700  C4
+706.5_pnw_win_Rsb_51/54 700 S12 C3
+707_nor_win_Rsb_10/12 704.5  C3
+Psy_B1*** 739.444462  C1
+L 750.605911  C1
+group 7D  
+F 3.782322  C1
+Tgw_TaGS_D1*** 6.484404  C1
+Lr34*** 47.418406  C1
+Pch1*** 53.270879  C1
+103_gpl_win_xpEHH_6/6 100.5  C4
+L 634.592293  C1
+Psy1_D1*** 636.76975  C1

@@ -1,55 +1,36 @@
 group 4A  
 F 0.745526  C1
-30_gpl2_win_xpEHH_7/7 27  C4
-105_MT_both_xpEHH_7/7 102  C4
-105_nor_win_xpEHH_7/7 102  C4
-547_MT_both_Rsb_7/7 543.5  C3
-547_nor_win_Rsb_7/7 543.5  C3
-547_MT_both_xpEHH_7/7 543.5  C4
-547_nor_win_xpEHH_7/7 543.5  C4
-585_ND_both_Fst_11/13 581.5  C2
-587_MT_both_xpEHH_14/15 582  C4
-586.5_nor_win_Fst_8/10 584  C2
-587_nor_win_xpEHH_10/10 584  C4
-599_ND_spr_xpEHH_13/15 594  C4
-616.5_ND_spr_xpEHH_6/6 614  C4
-663_win2_win_xpEHH_10/11 659.5  C4
-669.5_MN_spr_xpEHH_5/6 667  C4
-716_eas_both_xpEHH_9/11 713  C4
+599.0_ND_S_xpe_2.19_13/15 594  C4
+616.5_ND_S_xpe_2.23_6/6 614  C4
+627.5_pnw_B_fst_0.11_5/6 624  C2
+663.0_win2_W_xpe_2.21_10/11 659.5  C4
+739.5_CO_B_fst_0.16_5/6 736.5  C2
 L 744.310552  C1
 group 4B  
 F 0.622299  C1
-16.5_KS_both_xpEHH_14/15 12.5  C4
-16.5_WA_both_xpEHH_15/17 12.5  C4
-19.5_gpl2_win_xpEHH_20/21 12.5 S12 C4
-19.5_pnw_win_xpEHH_21/27 12.5 S12 C4
-19.5_WA_win_xpEHH_21/21 12.5 S12 C4
-18_pnw_both_Rsb_5/6 15.5  C3
-18_WA_both_Rsb_5/6 15.5  C3
+" 16.5_KS_B_xpe_2.90_14/15" 12.5  C4
+" 16.5_WA_B_xpe_2.35_15/17" 12.5  C4
+" 19.5_gpl2_W_xpe_2.66_20/21" 12.5 S12 C4
+" 19.5_pnw_W_xpe_2.42_21/27" 12.5 S12 C4
+" 19.5_WA_W_xpe_2.51_21/21" 12.5 S12 C4
+" 18.0_pnw_B_rsb_2.41_5/6" 15.5  C3
+" 18.0_WA_B_rsb_2.78_5/6" 15.5  C3
 Lox_B1*** 27.249814  C1
 Rht_B1*** 30.860705  C1
 Rht_B1*** 30.861544  C1
-63_gpl_spr_Fst_10/10 58.5  C2
-63_eas2_both_xpEHH_10/10 58.5  C4
-63_eas2_win_xpEHH_10/10 58.5  C4
-529.5_ID_spr_Fst_6/7 525  C2
-529.5_all2_both_Rsb_6/7 525  C3
-529.5_gpl2_win_Rsb_6/7 525  C3
-529.5_win2_win_Rsb_7/7 525  C3
-529.5_gpl2_both_xpEHH_7/7 525  C4
-529.5_gpl2_win_xpEHH_7/7 525  C4
-539_MT_both_Fst_14/17 535  C2
-545_MT_both_Fst_6/6 542.5  C2
-545_nor_spr_Fst_6/6 542.5  C2
-545_pnw_spr_Fst_6/6 542.5  C2
-550.5_gpl_win_Fst_7/8 547  C2
-550.5_NY_win_Fst_7/8 547  C2
-558_MT_both_Fst_7/7 554  C2
-592.5_SC_win_Fst_7/8 588.5  C2
-592.5_ID_win_xpEHH_8/8 588.5  C4
-592.5_ID_win_Rsb_5/6 589.5  C3
-623.5_OR_win_Fst_6/7 620.5  C2
-651.5_nor_spr_xpEHH_10/11 647.5  C4
+430.0_TX_B_fst_0.16_7/7 425.5  C2
+529.5_all2_B_rsb_2.03_6/7 525  C3
+529.5_gpl2_W_rsb_2.06_6/7 525  C3
+529.5_win2_W_rsb_2.34_7/7 525  C3
+529.5_gpl2_B_xpe_2.78_7/7 525  C4
+529.5_gpl2_W_xpe_3.05_7/7 525  C4
+539.0_MT_B_fst_0.33_12/12 534.5  C2
+545.0_MT_B_fst_0.31_6/6 542.5  C2
+550.5_MT_B_fst_0.23_8/8 547  C2
+550.5_NY_W_fst_0.58_7/8 547  C2
+647.5_SC_B_fst_0.79_5/6 643  C2
+647.5_SC_W_fst_0.76_5/6 643  C2
+651.5_nor_S_xpe_2.21_10/11 647.5  C4
 L 672.23642  C1
 group 4D  
 F 1.876347  C1

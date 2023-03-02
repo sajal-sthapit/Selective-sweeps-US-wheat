@@ -1,12 +1,11 @@
 group 7A  
 F 0.653898  C1
-711_win2_win_Rsb_6/6 708.5  C3
-711.5_win2_win_xpEHH_6/7 708.5  C4
+711.0_win2_W_rsb_2.73_6/6 708.5  C3
+711.5_win2_W_xpe_3.27_6/7 708.5  C4
 L 736.690219  C1
 group 7B  
 F 1.254524  C1
-62_win2_win_xpEHH_11/13 57.5  C4
-493.5_eas2_win_Fst_6/7 489.5  C2
+" 62.0_win2_W_xpe_2.34_11/13" 57.5  C4
 Psy_B1*** 739.444462  C1
 L 750.605911  C1
 group 7D  

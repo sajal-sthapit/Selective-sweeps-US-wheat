@@ -1,385 +1,338 @@
 group 6A  
 F 0.289887  C1
-35.5_OR_win_Rsb_70/80 18 S20 C3
-33_pac2_both_Fst_25/27 27.5  C2
-33_pac2_spr_Fst_25/27 27.5  C2
-36.5_pac_spr_Rsb_19/21 30.5 S12 C3
-36.5_nor2_both_xpEHH_20/22 30.5 S12 C4
-35.5_CA_both_Rsb_8/10 32  C3
-35.5_CA_spr_xpEHH_12/15 32  C4
-35.5_ND_both_xpEHH_12/14 32.5  C4
-39_ND_spr_xpEHH_24/24 32.5 S12 C4
-35.5_nor_both_Rsb_9/11 33  C3
-35.5_nor_spr_Rsb_9/11 33  C3
-35.5_nor_win_Rsb_9/11 33  C3
-35.5_pac_both_Rsb_10/11 33  C3
-35.5_gpl2_win_xpEHH_10/11 33  C4
-35.5_pac_spr_xpEHH_10/11 33  C4
-37_gpl2_win_Rsb_15/16 33  C3
-38_gpl2_both_Rsb_19/21 33  C3
-40.5_gpl2_both_xpEHH_30/30 33 S12 C4
-37.5_ND_spr_Rsb_5/6 35  C3
-40.5_gpl2_win_xpEHH_14/17 36  C4
-40.5_SC_both_Fst_10/11 37.5  C2
-40.5_SC_win_Fst_9/11 37.5  C2
-63.5_eas_both_xpEHH_17/17 58.5  C4
-63.5_eas_win_xpEHH_17/17 58.5  C4
-63.5_IN_both_Fst_11/12 60.5  C2
-63.5_SC_both_Fst_11/12 60.5  C2
-83_KS_win_Fst_8/8 80.5  C2
-455_eas2_both_xpEHH_5/6 452.5  C4
-455_eas2_win_xpEHH_5/6 452.5  C4
-455_win2_win_xpEHH_5/6 452.5  C4
-535.5_pac2_both_Fst_15/16 529 S12 C2
-535.5_pac2_spr_Fst_6/7 532.5  C2
-535.5_pnw2_both_Fst_7/7 532.5  C2
-535.5_pnw2_spr_Fst_7/7 532.5  C2
-545_CA_both_Fst_6/6 542  C2
-546_CA_spr_Fst_11/13 542  C2
-546_pac_both_Fst_11/13 542  C2
-546_pac_spr_Fst_11/13 542  C2
-553_eas2_win_xpEHH_15/15 548.5  C4
-570_pnw2_spr_Rsb_11/11 566.5  C3
-570_eas2_both_xpEHH_11/11 566.5  C4
-570_eas2_win_xpEHH_11/11 566.5  C4
-575_CA_both_Fst_6/6 572  C2
-575_CA_spr_Fst_6/6 572  C2
-575_pac_spr_Fst_6/6 572  C2
-581_ND_spr_Rsb_5/6 578.5  C3
-582_pac_spr_xpEHH_5/6 579.5  C4
-585_gpl_spr_xpEHH_11/14 581  C4
-585_ND_spr_xpEHH_7/9 582  C4
-585.5_ND_spr_Rsb_10/10 582  C3
-585.5_ND_both_Rsb_8/8 582.5  C3
-585.5_pnw2_win_xpEHH_8/8 582.5  C4
-587_nor_spr_Rsb_5/6 584  C3
-596.5_gpl2_win_Rsb_7/8 594  C3
+" 35.5_OR_W_rsb_2.40_70/80" 18 S20 C3
+" 33.0_ND_B_fst_0.34_21/22" 27.5  C2
+" 33.0_ND_S_fst_0.30_21/23" 27.5  C2
+" 36.5_pac_S_rsb_2.46_19/21" 30.5 S12 C3
+" 35.5_CA_B_rsb_2.72_8/10" 32  C3
+" 35.5_CA_S_xpe_2.19_12/15" 32  C4
+" 35.5_ND_B_xpe_2.28_12/14" 32.5  C4
+" 39.0_ND_S_xpe_2.55_24/24" 32.5 S12 C4
+" 35.5_nor_B_rsb_2.64_9/11" 33  C3
+" 35.5_nor_S_rsb_2.13_9/11" 33  C3
+" 35.5_nor_W_rsb_2.98_9/11" 33  C3
+" 35.5_pac_B_rsb_2.47_10/11" 33  C3
+" 35.5_pac_S_xpe_2.12_10/11" 33  C4
+" 37.5_ND_S_rsb_2.72_5/6" 35  C3
+570.0_pnw2_S_rsb_2.07_11/11 566.5  C3
+571.0_KS_B_fst_0.16_11/11 566.5  C2
+581.0_ND_S_rsb_2.97_5/6 578.5  C3
+582.0_pac_S_xpe_2.22_5/6 579.5  C4
+585.0_gpl_S_xpe_2.28_11/14 581  C4
+585.0_ND_S_xpe_2.68_7/9 582  C4
+585.5_ND_S_rsb_3.07_10/10 582  C3
+585.5_ND_B_rsb_2.75_8/8 582.5  C3
+587.0_nor_S_rsb_2.59_5/6 584  C3
+615.0_pac2_B_fst_0.43_10/13 611  C2
+618.0_NY_W_fst_0.44_8/9 615.5  C2
 L 615.88945  C1
 group 6B  
 F 0.16948  C1
-17_gpl2_both_Fst_9/11 13  C2
-17_TX_both_Fst_9/11 13  C2
-20_gpl2_win_Fst_7/8 16.5  C2
-41.5_eas2_win_xpEHH_5/6 39  C4
-44_eas2_both_xpEHH_14/17 39  C4
-44_IN_win_xpEHH_17/17 39  C4
-52_IN_win_xpEHH_12/13 46 S12 C4
-50.5_CA_spr_Fst_5/6 48  C2
-50.5_pac_spr_Fst_5/6 48  C2
+" 17.0_gpl2_B_fst_0.15_7/8" 13  C2
+" 41.5_eas2_W_xpe_2.28_5/6" 39  C4
+" 44.0_eas2_B_xpe_2.36_14/17" 39  C4
+" 44.0_IN_W_xpe_2.14_17/17" 39  C4
+" 52.0_IN_W_xpe_2.16_12/13" 46 S12 C4
 1_FEH_w3*** 57.283399  C1
-130_IN_win_xpEHH_48/57 119 S12 C4
-134.5_pnw2_spr_Rsb_59/59 119 S16 C3
-134.5_pnw2_spr_xpEHH_58/59 119 S16 C4
-123.5_WA_spr_Rsb_10/11 119.5  C3
-124_pac_both_Rsb_15/19 120  C3
-126_pac2_spr_xpEHH_16/17 120 S12 C4
-130_IN_both_xpEHH_45/54 120.5 S12 C4
-124_SC_win_Rsb_12/15 121.5  C3
-126_TX_both_Rsb_9/10 122.5  C3
-135.5_spr2_spr_Rsb_58/60 122.5 S16 C3
-126_CA_both_Rsb_6/7 123  C3
-126_pnw2_both_xpEHH_9/9 123  C4
-135.5_spr2_spr_xpEHH_42/48 125.5 S12 C4
-130_ID_win_Fst_19/24 126.5  C2
-130_pac2_both_xpEHH_19/23 126.5  C4
-133.5_WA_spr_Rsb_26/31 126.5 S12 C3
-134.5_ID_spr_xpEHH_32/34 126.5 S12 C4
-134.5_pac2_spr_xpEHH_31/32 126.5 S12 C4
-135.5_ID_both_Rsb_31/37 126.5 S12 C3
-135.5_pnw2_both_Rsb_30/37 126.5 S12 C3
-133_nor2_both_Rsb_6/7 130  C3
-133_nor2_spr_Rsb_6/6 130  C3
-133.5_SC_both_Rsb_7/8 130  C3
-134.5_ID_spr_Rsb_9/10 130  C3
-134.5_SC_win_Rsb_9/9 130  C3
-135.5_MN_both_Rsb_11/13 130  C3
-135.5_pac_both_Rsb_12/13 130  C3
-134.5_IN_both_xpEHH_8/9 130.5  C4
+130.0_IN_W_xpe_2.50_48/57 119 S12 C4
+134.5_pnw2_S_rsb_2.96_59/59 119 S16 C3
+134.5_pnw2_S_xpe_3.29_58/59 119 S16 C4
+123.5_WA_S_rsb_2.28_10/11 119.5  C3
+124.0_pac_B_rsb_2.48_15/19 120  C3
+126.0_pac2_S_xpe_2.09_16/17 120 S12 C4
+130.0_IN_B_xpe_2.24_45/54 120.5 S12 C4
+124.0_SC_W_rsb_2.43_12/15 121.5  C3
+126.0_TX_B_rsb_2.47_9/10 122.5  C3
+135.5_spr2_S_rsb_2.61_58/60 122.5 S16 C3
+126.0_CA_B_rsb_2.74_6/7 123  C3
+126.0_pnw2_B_xpe_2.42_9/9 123  C4
+135.5_spr2_S_xpe_2.58_42/48 125.5 S12 C4
+130.0_pnw2_S_fst_0.32_19/23 126.5  C2
+130.0_pac2_B_xpe_2.04_19/23 126.5  C4
+133.5_WA_S_rsb_2.12_26/31 126.5 S12 C3
+134.5_ID_S_xpe_2.39_32/34 126.5 S12 C4
+134.5_pac2_S_xpe_2.24_31/32 126.5 S12 C4
+135.5_ID_B_rsb_2.69_31/37 126.5 S12 C3
+135.5_pnw2_B_rsb_2.56_30/37 126.5 S12 C3
+133.0_nor2_B_rsb_2.67_6/7 130  C3
+133.0_nor2_S_rsb_2.63_6/6 130  C3
+133.5_SC_B_rsb_2.60_7/8 130  C3
+134.5_ID_S_rsb_2.34_9/10 130  C3
+134.5_SC_W_rsb_2.63_9/9 130  C3
+135.5_MN_B_rsb_2.56_11/13 130  C3
+135.5_pac_B_rsb_2.79_12/13 130  C3
+134.5_IN_B_xpe_2.15_8/9 130.5  C4
 Gpc_B1*** 134.592725  C1
-151.5_all2_both_Rsb_26/30 145.5 S12 C3
-151.5_nor2_both_xpEHH_28/30 145.5 S12 C4
-153.5_IN_both_Rsb_28/31 145.5 S12 C3
-153.5_SC_win_xpEHH_29/30 145.5 S12 C4
-157_pac2_spr_Rsb_46/48 145.5 S12 C3
-159_ID_win_Rsb_55/55 145.5 S16 C3
-159.5_pnw2_spr_Rsb_53/53 145.5 S16 C3
-159.5_pnw2_spr_xpEHH_53/53 145.5 S16 C4
-160_eas2_both_Rsb_56/58 145.5 S16 C3
-160_eas2_win_Rsb_56/58 145.5 S16 C3
-160_ID_both_Rsb_58/58 145.5 S16 C3
-160_IN_win_Rsb_58/58 145.5 S16 C3
-160_MN_both_Rsb_58/58 145.5 S16 C3
-160_pac_both_Rsb_58/58 145.5 S16 C3
-160_pnw2_both_Rsb_55/58 145.5 S16 C3
-160_spr2_spr_Rsb_58/58 145.5 S16 C3
-160_ID_both_xpEHH_58/58 145.5 S16 C4
-160_IN_win_xpEHH_56/58 145.5 S16 C4
-160_MN_both_xpEHH_58/58 145.5 S16 C4
-160_pac_both_xpEHH_58/58 145.5 S16 C4
-160_pac2_both_xpEHH_58/58 145.5 S16 C4
-160_pac2_spr_xpEHH_58/58 145.5 S16 C4
-160_pnw2_both_xpEHH_58/58 145.5 S16 C4
-160_spr2_spr_xpEHH_58/58 145.5 S16 C4
-152_pnw_win_Rsb_15/16 148  C3
-157_pac2_both_Rsb_33/35 148 S12 C3
-158.5_ND_both_Rsb_37/41 148 S12 C3
-159_CA_both_Rsb_39/41 148 S12 C3
-153.5_pnw_both_Rsb_14/17 149  C3
-160_nor_both_Rsb_39/44 149 S12 C3
-153.5_IN_both_xpEHH_6/7 150  C4
-159_ID_win_xpEHH_28/31 150 S12 C4
-160_CA_both_xpEHH_34/34 150 S12 C4
-158.5_ID_spr_xpEHH_22/24 153.5  C4
-159.5_SC_win_Rsb_26/26 153.5 S12 C3
-160_all2_both_Rsb_27/27 153.5 S12 C3
-160_eas2_both_xpEHH_26/27 153.5 S12 C4
-160_eas2_win_xpEHH_26/27 153.5 S12 C4
-157.5_KS_win_Rsb_15/18 154  C3
-158.5_MT_both_Rsb_18/21 154  C3
-158.5_TX_both_xpEHH_15/19 154  C4
-159_ND_both_xpEHH_21/21 154  C4
-159_NY_win_xpEHH_21/21 154  C4
-159_pnw2_win_xpEHH_20/21 154  C4
-159.5_SC_both_xpEHH_23/23 154  C4
-159.5_SC_win_xpEHH_23/23 154  C4
-160_IN_both_xpEHH_24/24 154 S12 C4
-159_eas_win_Rsb_17/21 154.5  C3
-159_IN_both_Rsb_18/21 154.5  C3
-159.5_SC_both_Rsb_20/23 154.5  C3
-159_win2_win_Rsb_17/20 155  C3
-159_all2_both_xpEHH_16/19 155.5  C4
-158.5_NE_win_xpEHH_12/15 156  C4
-158.5_nor_both_xpEHH_12/15 156  C4
-159_pnw_both_Rsb_12/15 156  C3
-160_nor2_both_xpEHH_17/18 156  C4
-159_CO_both_Rsb_6/7 156.5  C3
-159_CO_win_Rsb_7/7 156.5  C3
-159_eas_both_Rsb_6/7 156.5  C3
-159_NY_win_Rsb_6/7 156.5  C3
-159_CO_win_xpEHH_6/7 156.5  C4
-160_pac2_both_Rsb_5/6 157.5  C3
-160_pac2_spr_Rsb_5/6 157.5  C3
-177_pac2_spr_Fst_8/9 173.5  C2
-177_all2_both_Rsb_9/9 173.5  C3
-177_ID_both_Rsb_8/9 173.5  C3
-177_pnw2_both_Rsb_9/9 173.5  C3
-177_pnw2_spr_Rsb_9/9 173.5  C3
-177_spr2_spr_Rsb_9/9 173.5  C3
-177_pnw2_both_xpEHH_9/9 173.5  C4
-177_pnw2_spr_xpEHH_9/9 173.5  C4
-177_spr2_spr_xpEHH_9/9 173.5  C4
-233.5_all2_both_Rsb_7/7 229.5  C3
-233.5_ID_both_Rsb_7/7 229.5  C3
-233.5_spr2_spr_Rsb_7/7 229.5  C3
-233.5_all2_both_xpEHH_7/7 229.5  C4
-233.5_ID_both_xpEHH_7/7 229.5  C4
-233.5_pnw2_both_xpEHH_7/7 229.5  C4
-233.5_spr2_spr_xpEHH_7/7 229.5  C4
-263_pnw2_spr_Fst_15/15 256 S12 C2
-441_spr2_spr_Rsb_7/7 437  C3
-441_pnw2_both_xpEHH_6/7 437  C4
-441_spr2_spr_xpEHH_7/7 437  C4
-441_pac2_both_xpEHH_6/6 438.5  C4
-441_pac2_spr_xpEHH_6/6 438.5  C4
-464.5_all2_both_Rsb_7/7 460  C3
-464.5_eas2_both_Rsb_6/7 460  C3
-464.5_eas2_win_Rsb_6/7 460  C3
-464.5_ID_both_Rsb_7/7 460  C3
-464.5_MN_both_Rsb_6/7 460  C3
-464.5_pnw_both_Rsb_7/7 460  C3
-464.5_pnw2_both_Rsb_7/7 460  C3
-464.5_pnw2_spr_Rsb_7/7 460  C3
-464.5_spr2_spr_Rsb_7/7 460  C3
-464.5_WA_both_Rsb_6/7 460  C3
-464.5_all2_both_xpEHH_7/7 460  C4
-464.5_eas2_both_xpEHH_7/7 460  C4
-464.5_eas2_win_xpEHH_7/7 460  C4
-464.5_ID_both_xpEHH_7/7 460  C4
-464.5_MN_both_xpEHH_7/7 460  C4
-464.5_MT_both_xpEHH_7/7 460  C4
-464.5_ND_both_xpEHH_7/7 460  C4
-464.5_nor_both_xpEHH_7/7 460  C4
-464.5_pac_both_xpEHH_7/7 460  C4
-464.5_pnw_both_xpEHH_7/7 460  C4
-464.5_pnw_win_xpEHH_7/7 460  C4
-464.5_pnw2_both_xpEHH_7/7 460  C4
-464.5_pnw2_spr_xpEHH_7/7 460  C4
-464.5_spr2_spr_xpEHH_7/7 460  C4
-464.5_WA_both_xpEHH_7/7 460  C4
-464.5_WA_win_xpEHH_7/7 460  C4
-464.5_IN_win_Rsb_5/6 461.5  C3
-464.5_WA_win_Rsb_5/6 461.5  C3
-464.5_NE_win_xpEHH_5/6 461.5  C4
-470_nor_both_Rsb_5/6 467  C3
-471_gpl_win_xpEHH_12/15 467  C4
-471_NE_both_xpEHH_12/15 467  C4
-473_all2_both_Rsb_20/20 467 S12 C3
-473_eas2_both_Rsb_19/20 467 S12 C3
-473_eas2_win_Rsb_19/20 467 S12 C3
-473_ID_both_Rsb_20/20 467 S12 C3
-473_MN_both_Rsb_18/20 467 S12 C3
-473_pnw2_both_Rsb_20/20 467 S12 C3
-473_spr2_spr_Rsb_20/20 467 S12 C3
-473_all2_both_xpEHH_20/20 467 S12 C4
-473_eas2_both_xpEHH_20/20 467 S12 C4
-473_eas2_win_xpEHH_20/20 467 S12 C4
-473_ID_both_xpEHH_20/20 467 S12 C4
-473_IN_win_xpEHH_19/20 467 S12 C4
-473_KS_win_xpEHH_18/20 467 S12 C4
-473_MN_both_xpEHH_20/20 467 S12 C4
-473_MT_both_xpEHH_20/20 467 S12 C4
-473_ND_both_xpEHH_20/20 467 S12 C4
-473_NE_win_xpEHH_18/20 467 S12 C4
-473_nor_both_xpEHH_20/20 467 S12 C4
-473_pac_both_xpEHH_20/20 467 S12 C4
-473_pnw_both_xpEHH_20/20 467 S12 C4
-473_pnw_win_xpEHH_18/20 467 S12 C4
-473_pnw2_both_xpEHH_20/20 467 S12 C4
-473_SC_win_xpEHH_20/20 467 S12 C4
-473_spr2_spr_xpEHH_20/20 467 S12 C4
-473_WA_both_xpEHH_20/20 467 S12 C4
-473_WA_win_xpEHH_20/20 467 S12 C4
-473_pnw2_spr_Rsb_14/16 468  C3
-473_CA_both_xpEHH_17/17 468  C4
-473_OR_win_xpEHH_16/17 468  C4
-473_pac2_both_xpEHH_17/17 468  C4
-473_pac2_spr_xpEHH_17/17 468  C4
-473_pnw2_spr_xpEHH_16/16 468  C4
-473_pnw_both_Rsb_9/11 470.5  C3
-476.5_all2_both_Rsb_6/6 474  C3
-476.5_pnw2_both_Rsb_6/6 474  C3
-476.5_spr2_spr_Rsb_6/6 474  C3
-476.5_all2_both_xpEHH_6/6 474  C4
-476.5_eas2_both_xpEHH_5/6 474  C4
-476.5_eas2_win_xpEHH_5/6 474  C4
-476.5_ID_both_xpEHH_6/6 474  C4
-476.5_MN_both_xpEHH_6/6 474  C4
-476.5_nor_both_xpEHH_6/6 474  C4
-476.5_pac_both_xpEHH_5/6 474  C4
-476.5_pac2_both_xpEHH_6/6 474  C4
-476.5_pac2_spr_xpEHH_6/6 474  C4
-476.5_pnw_both_xpEHH_5/6 474  C4
-476.5_pnw2_both_xpEHH_6/6 474  C4
-476.5_pnw2_spr_xpEHH_6/6 474  C4
-476.5_spr2_spr_xpEHH_6/6 474  C4
-529_all2_both_Rsb_11/11 524.5  C3
-529_pnw2_spr_Rsb_11/11 524.5  C3
-529_spr2_spr_Rsb_11/11 524.5  C3
-529_all2_both_xpEHH_11/11 524.5  C4
-529_nor2_both_xpEHH_11/11 524.5  C4
-529_pac2_both_xpEHH_11/11 524.5  C4
-529_pac2_spr_xpEHH_11/11 524.5  C4
-529_pnw2_spr_xpEHH_11/11 524.5  C4
-529_spr2_spr_xpEHH_11/11 524.5  C4
-532.5_pac2_both_xpEHH_6/6 529.5  C4
-532.5_pac2_spr_xpEHH_6/6 529.5  C4
-533_all2_both_Rsb_7/7 529.5  C3
-533_pnw2_spr_Rsb_7/7 529.5  C3
-533_spr2_spr_Rsb_7/7 529.5  C3
-533_all2_both_xpEHH_7/7 529.5  C4
-533_nor2_both_xpEHH_7/7 529.5  C4
-533_pnw2_spr_xpEHH_7/7 529.5  C4
-533_spr2_spr_xpEHH_7/7 529.5  C4
-533_MN_both_xpEHH_5/6 530.5  C4
-562.5_MN_both_xpEHH_12/12 557  C4
-565_pnw2_spr_Rsb_24/24 557 S12 C3
-565_spr2_spr_Rsb_24/24 557 S12 C3
-565_pac2_both_xpEHH_24/24 557 S12 C4
-565_pac2_spr_xpEHH_24/24 557 S12 C4
-565_pnw2_both_xpEHH_23/24 557 S12 C4
-565_pnw2_spr_xpEHH_24/24 557 S12 C4
-565_spr2_spr_xpEHH_24/24 557 S12 C4
-565_WA_spr_xpEHH_24/24 557 S12 C4
-565_pnw2_spr_Fst_15/18 561  C2
-565_WA_spr_Rsb_15/18 561  C3
-565_all2_both_Rsb_11/12 561.5  C3
-570_spr2_spr_Rsb_6/6 567  C3
-570_WA_spr_Rsb_6/6 567  C3
-570_pac2_both_xpEHH_6/6 567  C4
-570_pac2_spr_xpEHH_6/6 567  C4
-570_pnw2_both_xpEHH_6/6 567  C4
-570_pnw2_spr_xpEHH_6/6 567  C4
-570_spr2_spr_xpEHH_6/6 567  C4
-570_WA_spr_xpEHH_6/6 567  C4
-579_WA_spr_Rsb_17/18 574  C3
-579_pac2_both_xpEHH_18/19 574  C4
-579_pac2_spr_xpEHH_18/19 574  C4
-579_pnw2_both_xpEHH_18/19 574  C4
-579_pnw2_spr_xpEHH_17/18 574  C4
-579_spr2_spr_xpEHH_18/19 574  C4
-579_WA_spr_xpEHH_18/18 574  C4
-579_pnw2_both_Rsb_14/17 574.5  C3
-579_pnw2_spr_Rsb_16/16 574.5  C3
-579_spr2_spr_Rsb_16/17 574.5  C3
-578.5_pac2_both_Rsb_5/6 575  C3
-578.5_pac2_spr_Rsb_5/6 575  C3
-597.5_CO_win_Fst_12/13 593  C2
-597.5_pnw2_spr_Fst_13/13 593  C2
-597.5_pnw2_both_Rsb_12/13 593  C3
-597.5_pnw2_spr_Rsb_12/13 593  C3
-597.5_WA_spr_Rsb_12/13 593  C3
-597.5_WA_spr_xpEHH_13/13 593  C4
-606.5_nor2_spr_Fst_6/7 604  C2
-606.5_pnw2_spr_Fst_6/7 604  C2
-606.5_pnw2_spr_Rsb_7/7 604  C3
-606.5_spr2_spr_Rsb_6/7 604  C3
-606.5_WA_spr_Rsb_6/7 604  C3
-606.5_WA_spr_xpEHH_7/7 604  C4
-636_pnw2_both_xpEHH_10/12 632  C4
-636_spr2_spr_xpEHH_10/12 632  C4
-636.5_pnw2_both_Rsb_13/13 632  C3
-636.5_pnw2_spr_Rsb_13/13 632  C3
-636.5_spr2_spr_Rsb_11/13 632  C3
-636.5_WA_spr_Rsb_12/13 632  C3
-636.5_pnw_spr_xpEHH_13/13 632  C4
-636.5_pnw2_spr_xpEHH_13/13 632  C4
-636.5_WA_spr_xpEHH_13/13 632  C4
-641.5_TX_both_xpEHH_5/6 639  C4
-643_SC_both_Rsb_7/8 639  C3
-647.5_gpl_both_Rsb_21/22 639 S12 C3
-647.5_NE_both_Rsb_21/22 639 S12 C3
-647.5_WA_spr_Rsb_22/22 639 S12 C3
-647.5_WA_spr_xpEHH_22/22 639 S12 C4
-643.5_eas2_win_Rsb_5/6 641  C3
-647.5_eas2_both_Rsb_16/19 641 S12 C3
-647.5_gpl_both_xpEHH_19/19 641 S12 C4
-647.5_gpl_win_xpEHH_18/19 641 S12 C4
-647.5_NE_both_xpEHH_19/19 641 S12 C4
-646_pnw2_win_Rsb_9/11 642  C3
-646.5_KS_both_xpEHH_11/13 642  C4
-646.5_TX_both_xpEHH_11/13 642  C4
-647.5_gpl_win_Rsb_13/13 642  C3
-647.5_KS_both_Rsb_12/13 642  C3
-647.5_KS_win_Rsb_11/13 642  C3
-647.5_NE_win_Rsb_12/13 642  C3
-647.5_TX_both_Rsb_12/13 642  C3
-647.5_NE_win_xpEHH_13/13 642  C4
-647.5_eas2_both_xpEHH_11/13 643.5  C4
-647.5_eas2_win_xpEHH_11/13 643.5  C4
-647.5_WA_win_xpEHH_11/13 643.5  C4
-647.5_eas2_win_Rsb_10/12 644  C3
-647.5_win2_win_Rsb_7/7 644.5  C3
-647.5_all2_both_xpEHH_6/7 644.5  C4
-647.5_pnw2_win_xpEHH_7/7 644.5  C4
-647.5_SC_both_xpEHH_6/7 644.5  C4
-647.5_SC_win_xpEHH_6/7 644.5  C4
-647.5_win2_win_xpEHH_6/7 644.5  C4
-664_WA_spr_Rsb_14/14 659  C3
-664_WA_spr_xpEHH_7/8 661.5  C4
-669_NE_win_Rsb_6/7 666.5  C3
-707.5_nor2_both_xpEHH_8/9 704.5  C4
-712.5_pnw2_both_xpEHH_16/19 709  C4
+151.5_all2_B_rsb_2.71_26/30 145.5 S12 C3
+151.5_nor2_B_xpe_2.49_28/30 145.5 S12 C4
+153.5_IN_B_rsb_2.38_28/31 145.5 S12 C3
+153.5_SC_W_xpe_2.18_29/30 145.5 S12 C4
+157.0_pac2_S_rsb_2.68_46/48 145.5 S12 C3
+159.0_ID_W_rsb_3.14_55/55 145.5 S16 C3
+159.5_pnw2_S_rsb_2.97_53/53 145.5 S16 C3
+159.5_pnw2_S_xpe_3.79_53/53 145.5 S16 C4
+160.0_eas2_B_rsb_3.30_56/58 145.5 S16 C3
+160.0_eas2_W_rsb_3.31_56/58 145.5 S16 C3
+160.0_ID_B_rsb_3.65_58/58 145.5 S16 C3
+160.0_IN_W_rsb_3.14_58/58 145.5 S16 C3
+160.0_MN_B_rsb_2.98_58/58 145.5 S16 C3
+160.0_pac_B_rsb_3.06_58/58 145.5 S16 C3
+160.0_pnw2_B_rsb_3.27_55/58 145.5 S16 C3
+160.0_spr2_S_rsb_3.15_58/58 145.5 S16 C3
+160.0_ID_B_xpe_3.10_58/58 145.5 S16 C4
+160.0_IN_W_xpe_2.46_56/58 145.5 S16 C4
+160.0_MN_B_xpe_2.82_58/58 145.5 S16 C4
+160.0_pac_B_xpe_3.08_58/58 145.5 S16 C4
+160.0_pac2_B_xpe_3.12_58/58 145.5 S16 C4
+160.0_pac2_S_xpe_3.33_58/58 145.5 S16 C4
+160.0_pnw2_B_xpe_3.66_58/58 145.5 S16 C4
+160.0_spr2_S_xpe_3.80_58/58 145.5 S16 C4
+152.0_pnw_W_rsb_2.52_15/16 148  C3
+157.0_pac2_B_rsb_2.76_33/35 148 S12 C3
+158.5_ND_B_rsb_2.78_37/41 148 S12 C3
+159.0_CA_B_rsb_2.84_39/41 148 S12 C3
+153.5_pnw_B_rsb_2.40_14/17 149  C3
+160.0_nor_B_rsb_3.03_39/44 149 S12 C3
+153.5_IN_B_xpe_2.26_6/7 150  C4
+159.0_ID_W_xpe_2.63_28/31 150 S12 C4
+160.0_CA_B_xpe_2.78_34/34 150 S12 C4
+158.5_ID_S_xpe_2.22_22/24 153.5  C4
+159.5_SC_W_rsb_3.23_26/26 153.5 S12 C3
+160.0_all2_B_rsb_4.71_27/27 153.5 S12 C3
+160.0_eas2_B_xpe_4.23_26/27 153.5 S12 C4
+160.0_eas2_W_xpe_4.30_26/27 153.5 S12 C4
+157.5_KS_W_rsb_2.92_15/18 154  C3
+158.5_MT_B_rsb_2.71_18/21 154  C3
+158.5_TX_B_xpe_2.42_15/19 154  C4
+159.0_ND_B_xpe_2.66_21/21 154  C4
+159.0_NY_W_xpe_2.36_21/21 154  C4
+159.0_pnw2_W_xpe_2.35_20/21 154  C4
+159.5_SC_B_xpe_3.43_23/23 154  C4
+159.5_SC_W_xpe_3.38_23/23 154  C4
+160.0_IN_B_xpe_2.47_24/24 154 S12 C4
+159.0_eas_W_rsb_2.99_17/21 154.5  C3
+159.0_IN_B_rsb_2.88_18/21 154.5  C3
+159.5_SC_B_rsb_3.00_20/23 154.5  C3
+159.0_win2_W_rsb_2.55_17/20 155  C3
+159.0_all2_B_xpe_2.55_16/19 155.5  C4
+158.5_NE_W_xpe_2.42_12/15 156  C4
+158.5_nor_B_xpe_2.17_12/15 156  C4
+159.0_pnw_B_rsb_3.08_12/15 156  C3
+160.0_nor2_B_xpe_2.09_17/18 156  C4
+159.0_CO_B_rsb_2.76_6/7 156.5  C3
+159.0_CO_W_rsb_2.41_7/7 156.5  C3
+159.0_eas_B_rsb_2.69_6/7 156.5  C3
+159.0_NY_W_rsb_2.86_6/7 156.5  C3
+159.0_CO_W_xpe_2.49_6/7 156.5  C4
+160.0_pac2_B_rsb_2.40_5/6 157.5  C3
+160.0_pac2_S_rsb_2.43_5/6 157.5  C3
+177.0_all2_B_rsb_3.13_9/9 173.5  C3
+177.0_ID_B_rsb_3.08_8/9 173.5  C3
+177.0_pnw2_B_rsb_3.25_9/9 173.5  C3
+177.0_pnw2_S_rsb_2.26_9/9 173.5  C3
+177.0_spr2_S_rsb_2.80_9/9 173.5  C3
+177.0_pnw2_B_xpe_2.33_9/9 173.5  C4
+177.0_pnw2_S_xpe_2.92_9/9 173.5  C4
+177.0_spr2_S_xpe_2.95_9/9 173.5  C4
+233.5_all2_B_rsb_2.58_7/7 229.5  C3
+233.5_ID_B_rsb_2.18_7/7 229.5  C3
+233.5_spr2_S_rsb_2.60_7/7 229.5  C3
+233.5_all2_B_xpe_2.21_7/7 229.5  C4
+233.5_ID_B_xpe_2.41_7/7 229.5  C4
+233.5_pnw2_B_xpe_3.17_7/7 229.5  C4
+233.5_spr2_S_xpe_2.78_7/7 229.5  C4
+263.0_pnw2_S_fst_0.52_15/15 256 S12 C2
+441.0_spr2_S_rsb_2.61_7/7 437  C3
+441.0_pnw2_B_xpe_2.79_6/7 437  C4
+441.0_spr2_S_xpe_2.87_7/7 437  C4
+441.0_pac2_B_xpe_2.32_6/6 438.5  C4
+441.0_pac2_S_xpe_2.39_6/6 438.5  C4
+464.5_all2_B_rsb_4.42_7/7 460  C3
+464.5_eas2_B_rsb_2.71_6/7 460  C3
+464.5_eas2_W_rsb_2.69_6/7 460  C3
+464.5_ID_B_rsb_2.50_7/7 460  C3
+464.5_MN_B_rsb_2.24_6/7 460  C3
+464.5_pnw_B_rsb_2.69_7/7 460  C3
+464.5_pnw2_B_rsb_2.86_7/7 460  C3
+464.5_pnw2_S_rsb_3.32_7/7 460  C3
+464.5_spr2_S_rsb_3.19_7/7 460  C3
+464.5_WA_B_rsb_2.81_6/7 460  C3
+464.5_all2_B_xpe_5.97_7/7 460  C4
+464.5_eas2_B_xpe_3.50_7/7 460  C4
+464.5_eas2_W_xpe_3.44_7/7 460  C4
+464.5_ID_B_xpe_3.55_7/7 460  C4
+464.5_MN_B_xpe_2.85_7/7 460  C4
+464.5_MT_B_xpe_2.37_7/7 460  C4
+464.5_ND_B_xpe_2.33_7/7 460  C4
+464.5_nor_B_xpe_3.18_7/7 460  C4
+464.5_pac_B_xpe_2.41_7/7 460  C4
+464.5_pnw_B_xpe_2.96_7/7 460  C4
+464.5_pnw_W_xpe_2.26_7/7 460  C4
+464.5_pnw2_B_xpe_4.03_7/7 460  C4
+464.5_pnw2_S_xpe_3.47_7/7 460  C4
+464.5_spr2_S_xpe_3.21_7/7 460  C4
+464.5_WA_B_xpe_2.62_7/7 460  C4
+464.5_WA_W_xpe_2.43_7/7 460  C4
+464.5_IN_W_rsb_2.08_5/6 461.5  C3
+464.5_WA_W_rsb_2.45_5/6 461.5  C3
+464.5_NE_W_xpe_2.07_5/6 461.5  C4
+470.0_nor_B_rsb_2.85_5/6 467  C3
+471.0_gpl_W_xpe_2.11_12/15 467  C4
+471.0_NE_B_xpe_2.06_12/15 467  C4
+473.0_all2_B_rsb_5.37_20/20 467 S12 C3
+473.0_eas2_B_rsb_3.25_19/20 467 S12 C3
+473.0_eas2_W_rsb_3.14_19/20 467 S12 C3
+473.0_ID_B_rsb_2.90_20/20 467 S12 C3
+473.0_MN_B_rsb_2.46_18/20 467 S12 C3
+473.0_pnw2_B_rsb_3.04_20/20 467 S12 C3
+473.0_spr2_S_rsb_3.09_20/20 467 S12 C3
+473.0_all2_B_xpe_6.35_20/20 467 S12 C4
+473.0_eas2_B_xpe_4.38_20/20 467 S12 C4
+473.0_eas2_W_xpe_4.29_20/20 467 S12 C4
+473.0_ID_B_xpe_3.98_20/20 467 S12 C4
+473.0_IN_W_xpe_2.13_19/20 467 S12 C4
+473.0_KS_W_xpe_2.18_18/20 467 S12 C4
+473.0_MN_B_xpe_3.14_20/20 467 S12 C4
+473.0_MT_B_xpe_2.79_20/20 467 S12 C4
+473.0_ND_B_xpe_2.62_20/20 467 S12 C4
+473.0_NE_W_xpe_2.26_18/20 467 S12 C4
+473.0_nor_B_xpe_3.36_20/20 467 S12 C4
+473.0_pac_B_xpe_2.91_20/20 467 S12 C4
+473.0_pnw_B_xpe_3.56_20/20 467 S12 C4
+473.0_pnw_W_xpe_2.53_18/20 467 S12 C4
+473.0_pnw2_B_xpe_3.59_20/20 467 S12 C4
+473.0_SC_W_xpe_2.17_20/20 467 S12 C4
+473.0_spr2_S_xpe_3.11_20/20 467 S12 C4
+473.0_WA_B_xpe_3.06_20/20 467 S12 C4
+473.0_WA_W_xpe_2.64_20/20 467 S12 C4
+473.0_pnw2_S_rsb_2.50_14/16 468  C3
+473.0_CA_B_xpe_2.52_17/17 468  C4
+473.0_OR_W_xpe_2.16_16/17 468  C4
+473.0_pac2_B_xpe_2.24_17/17 468  C4
+473.0_pac2_S_xpe_2.28_17/17 468  C4
+473.0_pnw2_S_xpe_2.79_16/16 468  C4
+473.0_pnw_B_rsb_2.96_9/11 470.5  C3
+476.5_all2_B_rsb_3.99_6/6 474  C3
+476.5_pnw2_B_rsb_2.25_6/6 474  C3
+476.5_spr2_S_rsb_2.84_6/6 474  C3
+476.5_all2_B_xpe_4.27_6/6 474  C4
+476.5_eas2_B_xpe_2.55_5/6 474  C4
+476.5_eas2_W_xpe_2.50_5/6 474  C4
+476.5_ID_B_xpe_2.85_6/6 474  C4
+476.5_MN_B_xpe_2.50_6/6 474  C4
+476.5_nor_B_xpe_2.45_6/6 474  C4
+476.5_pac_B_xpe_2.24_5/6 474  C4
+476.5_pac2_B_xpe_2.36_6/6 474  C4
+476.5_pac2_S_xpe_2.39_6/6 474  C4
+476.5_pnw_B_xpe_2.22_5/6 474  C4
+476.5_pnw2_B_xpe_2.93_6/6 474  C4
+476.5_pnw2_S_xpe_2.71_6/6 474  C4
+476.5_spr2_S_xpe_3.02_6/6 474  C4
+529.0_all2_B_rsb_2.35_11/11 524.5  C3
+529.0_pnw2_S_rsb_2.54_11/11 524.5  C3
+529.0_spr2_S_rsb_2.45_11/11 524.5  C3
+529.0_all2_B_xpe_2.02_11/11 524.5  C4
+529.0_nor2_B_xpe_2.12_11/11 524.5  C4
+529.0_pac2_B_xpe_2.44_11/11 524.5  C4
+529.0_pac2_S_xpe_2.49_11/11 524.5  C4
+529.0_pnw2_S_xpe_2.61_11/11 524.5  C4
+529.0_spr2_S_xpe_2.99_11/11 524.5  C4
+532.5_pac2_B_xpe_2.43_6/6 529.5  C4
+532.5_pac2_S_xpe_2.49_6/6 529.5  C4
+533.0_all2_B_rsb_2.22_7/7 529.5  C3
+533.0_pnw2_S_rsb_2.53_7/7 529.5  C3
+533.0_spr2_S_rsb_2.58_7/7 529.5  C3
+533.0_all2_B_xpe_2.06_7/7 529.5  C4
+533.0_nor2_B_xpe_2.14_7/7 529.5  C4
+533.0_pnw2_S_xpe_2.67_7/7 529.5  C4
+533.0_spr2_S_xpe_3.05_7/7 529.5  C4
+533.0_MN_B_xpe_2.03_5/6 530.5  C4
+562.5_MN_B_xpe_2.05_12/12 557  C4
+565.0_pnw2_S_rsb_2.53_24/24 557 S12 C3
+565.0_spr2_S_rsb_2.68_24/24 557 S12 C3
+565.0_pac2_B_xpe_2.50_24/24 557 S12 C4
+565.0_pac2_S_xpe_2.54_24/24 557 S12 C4
+565.0_pnw2_B_xpe_2.25_23/24 557 S12 C4
+565.0_pnw2_S_xpe_2.71_24/24 557 S12 C4
+565.0_spr2_S_xpe_2.90_24/24 557 S12 C4
+565.0_WA_S_xpe_2.50_24/24 557 S12 C4
+565.0_WA_S_rsb_2.29_15/18 561  C3
+565.0_all2_B_rsb_2.45_11/12 561.5  C3
+570.0_spr2_S_rsb_2.44_6/6 567  C3
+570.0_WA_S_rsb_2.67_6/6 567  C3
+570.0_pac2_B_xpe_2.56_6/6 567  C4
+570.0_pac2_S_xpe_2.47_6/6 567  C4
+570.0_pnw2_B_xpe_2.60_6/6 567  C4
+570.0_pnw2_S_xpe_2.79_6/6 567  C4
+570.0_spr2_S_xpe_2.99_6/6 567  C4
+570.0_WA_S_xpe_2.53_6/6 567  C4
+579.0_WA_S_rsb_2.53_17/18 574  C3
+579.0_pac2_B_xpe_2.46_18/19 574  C4
+579.0_pac2_S_xpe_2.39_18/19 574  C4
+579.0_pnw2_B_xpe_2.51_18/19 574  C4
+579.0_pnw2_S_xpe_2.63_17/18 574  C4
+579.0_spr2_S_xpe_2.72_18/19 574  C4
+579.0_WA_S_xpe_2.59_18/18 574  C4
+579.0_pnw2_B_rsb_3.21_14/17 574.5  C3
+579.0_pnw2_S_rsb_2.97_16/16 574.5  C3
+579.0_spr2_S_rsb_2.67_16/17 574.5  C3
+578.5_pac2_B_rsb_2.89_5/6 575  C3
+578.5_pac2_S_rsb_2.72_5/6 575  C3
+597.5_pnw2_B_rsb_2.54_12/13 593  C3
+597.5_pnw2_S_rsb_2.50_12/13 593  C3
+597.5_WA_S_rsb_2.26_12/13 593  C3
+597.5_WA_S_xpe_2.18_13/13 593  C4
+606.5_pnw2_S_rsb_2.45_7/7 604  C3
+606.5_spr2_S_rsb_2.19_6/7 604  C3
+606.5_WA_S_rsb_2.31_6/7 604  C3
+606.5_WA_S_xpe_2.26_7/7 604  C4
+636.0_pnw2_B_xpe_2.44_10/12 632  C4
+636.0_spr2_S_xpe_2.26_10/12 632  C4
+636.5_pnw2_B_rsb_2.56_13/13 632  C3
+636.5_pnw2_S_rsb_2.59_13/13 632  C3
+636.5_spr2_S_rsb_2.32_11/13 632  C3
+636.5_WA_S_rsb_2.76_12/13 632  C3
+636.5_pnw_S_xpe_2.41_13/13 632  C4
+636.5_pnw2_S_xpe_2.31_13/13 632  C4
+636.5_WA_S_xpe_3.19_13/13 632  C4
+641.5_TX_B_xpe_2.47_5/6 639  C4
+643.0_SC_B_rsb_2.21_7/8 639  C3
+647.5_gpl_B_rsb_2.95_21/22 639 S12 C3
+647.5_NE_B_rsb_2.73_21/22 639 S12 C3
+647.5_WA_S_rsb_3.20_22/22 639 S12 C3
+647.5_WA_S_xpe_3.28_22/22 639 S12 C4
+643.5_eas2_W_rsb_2.19_5/6 641  C3
+647.5_eas2_B_rsb_2.75_16/19 641 S12 C3
+647.5_gpl_B_xpe_2.86_19/19 641 S12 C4
+647.5_gpl_W_xpe_2.72_18/19 641 S12 C4
+647.5_NE_B_xpe_2.82_19/19 641 S12 C4
+646.0_pnw2_W_rsb_2.47_9/11 642  C3
+646.5_KS_B_xpe_2.41_11/13 642  C4
+646.5_TX_B_xpe_2.77_11/13 642  C4
+647.5_gpl_W_rsb_3.09_13/13 642  C3
+647.5_KS_B_rsb_2.76_12/13 642  C3
+647.5_KS_W_rsb_2.64_11/13 642  C3
+647.5_NE_W_rsb_2.86_12/13 642  C3
+647.5_TX_B_rsb_2.65_12/13 642  C3
+647.5_NE_W_xpe_2.91_13/13 642  C4
+647.5_eas2_B_xpe_2.54_11/13 643.5  C4
+647.5_eas2_W_xpe_2.53_11/13 643.5  C4
+647.5_WA_W_xpe_2.43_11/13 643.5  C4
+647.5_eas2_W_rsb_2.98_10/12 644  C3
+647.5_win2_W_rsb_2.83_7/7 644.5  C3
+647.5_all2_B_xpe_2.95_6/7 644.5  C4
+647.5_pnw2_W_xpe_2.60_7/7 644.5  C4
+647.5_SC_B_xpe_2.94_6/7 644.5  C4
+647.5_SC_W_xpe_2.54_6/7 644.5  C4
+647.5_win2_W_xpe_3.19_6/7 644.5  C4
+663.5_spr2_S_fst_0.17_7/7 659  C2
+664.0_WA_S_rsb_2.64_14/14 659  C3
+664.0_WA_S_xpe_2.13_7/8 661.5  C4
+669.0_NE_W_rsb_2.11_6/7 666.5  C3
 L 720.983827  C1
 group 6D  
 F 1.413091  C1
-457.5_SC_both_Fst_7/7 453.5  C2
-457.5_WA_spr_Fst_7/7 453.5  C2
-460.5_gpl_win_Fst_8/9 456.5  C2
-460.5_KS_both_Fst_8/9 456.5  C2
-460.5_KS_win_Fst_8/9 456.5  C2
-465_TX_both_Fst_21/24 461  C2
-467.5_OR_win_Fst_10/10 464  C2
-467.5_pnw_win_Fst_10/10 464  C2
-467.5_WA_both_Fst_10/10 464  C2
-467.5_WA_win_Fst_10/10 464  C2
+457.5_gpl2_B_fst_0.13_7/7 453.5  C2
+457.5_gpl2_W_fst_0.13_7/7 453.5  C2
+461.0_OR_W_fst_0.24_6/6 457  C2
 L 472.889959  C1
